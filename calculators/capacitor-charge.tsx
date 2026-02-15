@@ -29,7 +29,10 @@ function C() {
         <Result label="Time to target" value={`${fmt(out.t, 9)} s`} />
       </div>
       <Hr />
-      <SmallNote>Charging curve: V(t)=Vf(1-e^{-t/RC}).</SmallNote>
+      <SmallNote>
+  <code>{"Charging curve: V(t)=Vf(1 - e^(-t/RC))."}</code>
+</SmallNote>
+
     </Card>
   );
 }
