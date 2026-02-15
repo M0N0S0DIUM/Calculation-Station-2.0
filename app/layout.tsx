@@ -1,5 +1,6 @@
 import "./globals.css";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
   title: "Calculation Station",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
         </div>
+        <Analytics />
       </body>
     </html>
   );
