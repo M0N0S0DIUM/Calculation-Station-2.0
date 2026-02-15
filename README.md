@@ -1,6 +1,6 @@
-# Calculation Station (50 calculators)
+# Calculation Station
 
-This is a Next.js (App Router) project with **50 modular calculators**.
+This is a Next.js (App Router) project.
 
 ## Quick start
 
