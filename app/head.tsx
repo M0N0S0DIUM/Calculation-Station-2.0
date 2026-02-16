@@ -1,0 +1,12 @@
+export default function Head() {
+  return (
+    <>
+      <script
+        src="https://quge5.com/88/tag.min.js"
+        data-zone="211776"
+        async
+        data-cfasync="false"
+      ></script>
+    </>
+  );
+}

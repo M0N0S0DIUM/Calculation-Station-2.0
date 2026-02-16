@@ -74,23 +74,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* ✅ Propeller Multitag (rendered directly in <head> for their installation checker) */}
-        <script
-          src="https://quge5.com/88/tag.min.js"
-          data-zone="211776"
-          async
-          data-cfasync="false"
-        ></script>
-
-        {/* Google AdSense */}
-        <Script
-          async
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8679343864914295"
-          crossOrigin="anonymous"
-        />
-      </head>
 
       <body>
         <div className="min-h-screen">
