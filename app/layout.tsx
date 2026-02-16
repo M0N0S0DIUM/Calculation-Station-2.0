@@ -12,9 +12,7 @@ export const metadata: Metadata = {
   description:
     "50 modular calculators: basic, finance, health, conversion, electronics, time.",
   metadataBase: new URL("https://calculationstation.org"),
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "https://calculationstation.org",
@@ -23,12 +21,7 @@ export const metadata: Metadata = {
       "Fast modular calculators for everyday math, finance, health estimates, conversions, and electronics.",
     siteName: "Calculation Station",
     images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "Calculation Station",
-      },
+      { url: "/og.png", width: 1200, height: 630, alt: "Calculation Station" },
     ],
   },
   twitter: {
@@ -43,13 +36,7 @@ export const metadata: Metadata = {
   },
 };
 
-function NavLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <a
       href={href}
@@ -69,13 +56,7 @@ function LogoMark() {
                  group-hover:border-neutral-700 group-hover:bg-neutral-900/60 overflow-hidden"
       aria-hidden="true"
     >
-      <Image
-        src="/icon.svg"
-        alt="Calculation Station logo"
-        width={22}
-        height={22}
-        priority
-      />
+      <Image src="/icon.svg" alt="" width={22} height={22} priority />
     </div>
   );
 }
@@ -88,6 +69,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Propeller Multitag <head> */}
+        <Script
+          id="propeller-multitag"
+          src="https://quge5.com/88/tag.min.js"
+          strategy="afterInteractive"
+          data-zone="211776"
+          data-cfasync="false"
+        />
+
         {/* Google AdSense */}
         <Script
           async
@@ -139,9 +129,9 @@ export default function RootLayout({
                     Terms
                   </a>
                 </div>
-
                 <div className="text-xs text-neutral-500">
-                  © {new Date().getFullYear()} Calculation Station • Built for speed • Results may be approximate
+                  © {new Date().getFullYear()} Calculation Station • Built for speed • Results may
+                  be approximate
                 </div>
               </div>
             </div>
