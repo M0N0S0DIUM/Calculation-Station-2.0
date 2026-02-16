@@ -103,6 +103,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </footer>
         </div>
 
+        {/* ✅ PropellerAds Multitag Script */}
+        <script
+          src="https://quge5.com/88/tag.min.js"
+          data-zone="211776"
+          async
+          data-cfasync="false"
+        ></script>
+
         <Analytics />
       </body>
     </html>
