@@ -1,6 +1,7 @@
 import "./globals.css";
 import Script from "next/script";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
@@ -38,13 +39,7 @@ export const metadata: Metadata = {
     images: ["/og.png"],
   },
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
 };
 
@@ -71,24 +66,16 @@ function LogoMark() {
     <div
       className="flex h-9 w-9 items-center justify-center rounded-xl border border-neutral-800
                  bg-neutral-900/40 shadow-sm transition
-                 group-hover:border-neutral-700 group-hover:bg-neutral-900/60"
+                 group-hover:border-neutral-700 group-hover:bg-neutral-900/60 overflow-hidden"
       aria-hidden="true"
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          className="text-white"
-        />
-        <path
-          d="M8 8h8M8 12h3M13 12h3M8 16h3M13 16h3"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          className="text-white"
-        />
-      </svg>
+      <Image
+        src="/icon.svg"
+        alt="Calculation Station logo"
+        width={22}
+        height={22}
+        priority
+      />
     </div>
   );
 }
@@ -101,7 +88,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google AdSense (Auto ads) */}
+        {/* Google AdSense */}
         <Script
           async
           strategy="afterInteractive"
@@ -112,7 +99,6 @@ export default function RootLayout({
 
       <body>
         <div className="min-h-screen">
-          {/* subtle background (premium, not loud) */}
           <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.035),transparent_60%)]" />
 
           <header className="sticky top-0 z-30 border-b border-neutral-900 bg-neutral-950/70 backdrop-blur">
