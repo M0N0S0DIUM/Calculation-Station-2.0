@@ -36,7 +36,13 @@ export const metadata: Metadata = {
   },
 };
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
     <a
       href={href}
@@ -69,14 +75,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Propeller Multitag <head> */}
-        <Script
-          id="propeller-multitag"
+        {/* ✅ Propeller Multitag (rendered directly in <head> for their installation checker) */}
+        <script
           src="https://quge5.com/88/tag.min.js"
-          strategy="afterInteractive"
           data-zone="211776"
+          async
           data-cfasync="false"
-        />
+        ></script>
 
         {/* Google AdSense */}
         <Script
