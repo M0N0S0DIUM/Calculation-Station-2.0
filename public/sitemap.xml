@@ -4,260 +4,277 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
 
 <url>
   <loc>https://www.calculationstation.org/</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
+  <loc>https://www.calculationstation.org/about</loc>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.calculationstation.org/privacy</loc>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>https://www.calculationstation.org/c/angle-deg-rad</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/energy-convert</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/length-convert</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/mass-convert</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/pressure-convert</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/speed-convert</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/temp-convert</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/volume-convert</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/apr-to-apy</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/break-even</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/compound-interest</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/credit-card-payoff</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/future-value</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/loan</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/margin-markup</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/mortgage</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/present-value</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/roi</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/sales-tax</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/simple-interest</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/tip</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/area-circle</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/area-rectangle</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/average-stats</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/basic</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/fraction-simplifier</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/gcd-lcm</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/percentage</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/power-root</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/prime-check</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/ratio-proportion</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/rounding</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/unit-price</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/battery-runtime</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/capacitor-charge</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/led-resistor</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/ohms-law</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/rc-cutoff</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/resistor-divider</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/bmi</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/bmr-tdee</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/body-fat-navy</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/calories-met</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/heart-rate-zones</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/macros</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/one-rep-max</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/running-pace</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/water-intake</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/date-diff</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.calculationstation.org/c/epoch-converter</loc>
-  <lastmod>2026-02-16T04:46:42+00:00</lastmod>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.calculationstation.org/terms</loc>
+  <lastmod>2026-02-16T14:55:45+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 
