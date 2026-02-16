@@ -104,7 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* ✅ PropellerAds Multitag Script */}
-
+<script src="https://3nbf4.com/act/files/tag.min.js?z=10618095" data-cfasync="false" async></script>
         <Analytics />
       </body>
     </html>
