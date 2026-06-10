@@ -1,7 +1,8 @@
 "use client";
-import { useMemo, useState } from "react";
+
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule } from "@/lib/types";
-import { Card, Grid, NumberField, SelectField, Result, Hr } from "@/components/ui";
+import { Card, Grid, NumberField, SelectField, Result, Hr, ShareButton } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
 function C() {
@@ -10,6 +11,22 @@ function C() {
   const [inch, setInch] = useState(70);
   const [kg, setKg] = useState(82);
   const [cm, setCm] = useState(178);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const u = params.get("units");
+    const w = params.get("weight");
+    const h = params.get("height");
+    if (u) setUnits(u);
+    if (w) {
+      if (units === "us") setLbs(Number(w));
+      else setKg(Number(w));
+    }
+    if (h) {
+      if (units === "us") setInch(Number(h));
+      else setCm(Number(h));
+    }
+  }, []);
 
   const r = useMemo(() => {
     const bmi = units === "us" ? (lbs/(inch*inch))*703 : kg/Math.pow(cm/100,2);
@@ -23,8 +40,18 @@ function C() {
     return { bmi, cat };
   }, [units, lbs, inch, kg, cm]);
 
+  const shareParams = useMemo(() => ({
+    units,
+    weight: units === "us" ? lbs : kg,
+    height: units === "us" ? inch : cm,
+  }), [units, lbs, inch, kg, cm]);
+
   return (
     <Card>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold">BMI Calculator</h3>
+        <ShareButton slug="bmi" params={shareParams} />
+      </div>
       <SelectField
         label="Units"
         value={units}
@@ -45,7 +72,7 @@ function C() {
       )}
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="BMI" value={fmt(r.bmi, 2)} />
+        <Result label="BMI" value={fmt(r.bmi, 2)} copyValue={Number.isFinite(r.bmi) ? String(r.bmi) : undefined} />
         <Result label="Category" value={r.cat} />
       </div>
     </Card>

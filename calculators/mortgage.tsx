@@ -1,7 +1,8 @@
 "use client";
-import { useMemo, useState } from "react";
+
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule } from "@/lib/types";
-import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
+import { Card, Grid, NumberField, Result, Hr, SmallNote, ShareButton } from "@/components/ui";
 import { fmtMoney } from "@/lib/math";
 
 function C() {
@@ -12,6 +13,24 @@ function C() {
   const [tax, setTax] = useState(250);
   const [ins, setIns] = useState(120);
   const [hoa, setHoa] = useState(0);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const h = params.get("home");
+    const d = params.get("downPct");
+    const a = params.get("apr");
+    const y = params.get("years");
+    const t = params.get("tax");
+    const i = params.get("ins");
+    const o = params.get("hoa");
+    if (h) setHome(Number(h));
+    if (d) setDownPct(Number(d));
+    if (a) setApr(Number(a));
+    if (y) setYears(Number(y));
+    if (t) setTax(Number(t));
+    if (i) setIns(Number(i));
+    if (o) setHoa(Number(o));
+  }, []);
 
   const r = useMemo(() => {
     const down = home * downPct/100;
@@ -24,8 +43,22 @@ function C() {
     return { down, loan: P, pi, total };
   }, [home, downPct, apr, years, tax, ins, hoa]);
 
+  const shareParams = useMemo(() => ({
+    home,
+    downPct,
+    apr,
+    years,
+    tax,
+    ins,
+    hoa,
+  }), [home, downPct, apr, years, tax, ins, hoa]);
+
   return (
     <Card>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold">Mortgage Calculator</h3>
+        <ShareButton slug="mortgage" params={shareParams} />
+      </div>
       <Grid>
         <NumberField label="Home price" value={home} onChange={setHome} step={1000} />
         <NumberField label="Down %" value={downPct} onChange={setDownPct} step={0.5} suffix="%" />
@@ -37,10 +70,10 @@ function C() {
       </Grid>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="Down payment" value={fmtMoney(r?.down ?? NaN)} />
-        <Result label="Loan amount" value={fmtMoney(r?.loan ?? NaN)} />
-        <Result label="P&I payment" value={fmtMoney(r?.pi ?? NaN)} />
-        <Result label="Total monthly" value={fmtMoney(r?.total ?? NaN)} />
+        <Result label="Down payment" value={fmtMoney(r?.down ?? NaN)} copyValue={r?.down ? String(r.down) : undefined} />
+        <Result label="Loan amount" value={fmtMoney(r?.loan ?? NaN)} copyValue={r?.loan ? String(r.loan) : undefined} />
+        <Result label="P&I payment" value={fmtMoney(r?.pi ?? NaN)} copyValue={r?.pi ? String(r.pi) : undefined} />
+        <Result label="Total monthly" value={fmtMoney(r?.total ?? NaN)} copyValue={r?.total ? String(r.total) : undefined} />
       </div>
       <Hr />
       <SmallNote>PMI varies; put it into HOA/PMI if needed.</SmallNote>

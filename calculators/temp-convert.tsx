@@ -24,9 +24,9 @@ function C() {
       </Grid>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="Celsius" value={`${fmt(r.C, 2)} °C`} />
-        <Result label="Fahrenheit" value={`${fmt(r.F, 2)} °F`} />
-        <Result label="Kelvin" value={`${fmt(r.K, 2)} K`} />
+        <Result label="Celsius" value={`${fmt(r.C, 2)} °C`} copyValue={Number.isFinite(r.C) ? String(r.C) : undefined} />
+        <Result label="Fahrenheit" value={`${fmt(r.F, 2)} °F`} copyValue={Number.isFinite(r.F) ? String(r.F) : undefined} />
+        <Result label="Kelvin" value={`${fmt(r.K, 2)} K`} copyValue={Number.isFinite(r.K) ? String(r.K) : undefined} />
       </div>
     </Card>
   );

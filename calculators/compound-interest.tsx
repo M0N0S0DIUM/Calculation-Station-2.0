@@ -1,7 +1,8 @@
 "use client";
-import { useMemo, useState } from "react";
+
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule } from "@/lib/types";
-import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
+import { Card, Grid, NumberField, Result, Hr, ShareButton, createShareUrl } from "@/components/ui";
 import { fmtMoney } from "@/lib/math";
 
 function C() {
@@ -9,6 +10,19 @@ function C() {
   const [monthly, setMonthly] = useState(200);
   const [apr, setApr] = useState(7);
   const [years, setYears] = useState(20);
+
+  // Read initial values from URL query params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const p = params.get("principal");
+    const m = params.get("monthly");
+    const a = params.get("apr");
+    const y = params.get("years");
+    if (p) setPrincipal(Number(p));
+    if (m) setMonthly(Number(m));
+    if (a) setApr(Number(a));
+    if (y) setYears(Number(y));
+  }, []);
 
   const r = useMemo(() => {
     const rm = (apr/100)/12;
@@ -21,8 +35,19 @@ function C() {
     return { fv, invested, gain: fv - invested };
   }, [principal, monthly, apr, years]);
 
+  const shareParams = useMemo(() => ({
+    principal,
+    monthly,
+    apr,
+    years,
+  }), [principal, monthly, apr, years]);
+
   return (
     <Card>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold">Compound Interest</h3>
+        <ShareButton slug="compound-interest" params={shareParams} />
+      </div>
       <Grid>
         <NumberField label="Starting principal" value={principal} onChange={setPrincipal} step={100} />
         <NumberField label="Monthly contribution" value={monthly} onChange={setMonthly} step={10} />
@@ -31,9 +56,9 @@ function C() {
       </Grid>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="Future value" value={fmtMoney(r.fv)} />
-        <Result label="Total contributed" value={fmtMoney(r.invested)} />
-        <Result label="Gain" value={fmtMoney(r.gain)} />
+        <Result label="Future value" value={fmtMoney(r.fv)} copyValue={String(r.fv)} />
+        <Result label="Total contributed" value={fmtMoney(r.invested)} copyValue={String(r.invested)} />
+        <Result label="Gain" value={fmtMoney(r.gain)} copyValue={String(r.gain)} />
       </div>
     </Card>
   );
