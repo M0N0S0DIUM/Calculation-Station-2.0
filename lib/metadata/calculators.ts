@@ -1,4 +1,3 @@
-import React from "react";
 export type Category =
   | "Basic"
   | "Financial"
@@ -17,7 +16,7 @@ export type CalculatorMeta = {
 
 export type CalculatorModule = {
   meta: CalculatorMeta;
-  Calculator: React.ComponentType;
+  Calculator: any;
 };
 
 const calculators: CalculatorModule[] = [
