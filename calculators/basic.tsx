@@ -34,6 +34,6 @@ function C() {
 }
 
 export const basic: CalculatorModule = {
-  meta: { slug: "basic", title: "Basic Calculator", category: "Basic", description: "Add/subtract/multiply/divide/powers." },
+  meta: { slug: "basic", title: "Basic Calculator", category: "Basic", description: "Add/subtract/multiply/divide/powers.", keywords: ["add", "subtract", "multiply", "divide", "power", "arithmetic", "math"] },
   Calculator: C,
 };

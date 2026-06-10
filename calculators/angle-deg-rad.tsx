@@ -30,6 +30,6 @@ function C() {
 }
 
 export const angleDegRad: CalculatorModule = {
-  meta: { slug: "angle-deg-rad", title: "Angle Converter", category: "Conversion", description: "Degrees ↔ radians." },
+  meta: { slug: "angle-deg-rad", title: "Angle Converter", category: "Conversion", description: "Degrees ↔ radians.", keywords: ["angle", "degrees", "radians", "deg", "rad", "convert", "π", "pi", "trigonometry", "geometry"] },
   Calculator: C,
 };

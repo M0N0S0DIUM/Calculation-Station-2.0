@@ -39,6 +39,6 @@ function C() {
 }
 
 export const resistorDivider: CalculatorModule = {
-  meta: { slug: "resistor-divider", title: "Resistor Divider", category: "Electronics", description: "Vout, current, resistor power." },
+  meta: { slug: "resistor-divider", title: "Resistor Divider", category: "Electronics", description: "Vout, current, resistor power.", keywords: ["resistor divider", "voltage divider", "vout", "vin", "resistor", "current", "power", "top", "bottom", "circuit", "ohms law"] },
   Calculator: C,
 };

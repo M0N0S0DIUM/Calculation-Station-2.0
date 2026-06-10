@@ -28,6 +28,6 @@ function C() {
 }
 
 export const oneRepMax: CalculatorModule = {
-  meta: { slug: "one-rep-max", title: "One-Rep Max (Epley)", category: "Health", description: "Estimate 1RM from weight and reps." },
+  meta: { slug: "one-rep-max", title: "One-Rep Max (Epley)", category: "Health", description: "Estimate 1RM from weight and reps.", keywords: ["one rep max", "1rm", "epley", "weight lifting", "strength", "reps", "weight", "powerlifting", "bodybuilding", "max lift"] },
   Calculator: C,
 };

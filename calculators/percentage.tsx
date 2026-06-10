@@ -36,6 +36,6 @@ function C() {
 }
 
 export const percentage: CalculatorModule = {
-  meta: { slug: "percentage", title: "Percentage Calculator", category: "Basic", description: "Percent of, what percent, increase/decrease." },
+  meta: { slug: "percentage", title: "Percentage Calculator", category: "Basic", description: "Percent of, what percent, increase/decrease.", keywords: ["percent", "percentage", "increase", "decrease", "percent of", "what percent", "ratio"] },
   Calculator: C,
 };

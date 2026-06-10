@@ -32,6 +32,6 @@ function C() {
 }
 
 export const salesTax: CalculatorModule = {
-  meta: { slug: "sales-tax", title: "Sales Tax", category: "Financial", description: "Add/remove sales tax." },
+  meta: { slug: "sales-tax", title: "Sales Tax", category: "Financial", description: "Add/remove sales tax.", keywords: ["sales tax", "tax", "vat", "gst", "add tax", "remove tax", "pre-tax", "post-tax", "total"] },
   Calculator: C,
 };

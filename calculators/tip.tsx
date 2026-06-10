@@ -34,6 +34,6 @@ function C() {
 }
 
 export const tip: CalculatorModule = {
-  meta: { slug: "tip", title: "Tip Calculator", category: "Financial", description: "Tip amount and total bill." },
+  meta: { slug: "tip", title: "Tip Calculator", category: "Financial", description: "Tip amount and total bill.", keywords: ["tip", "gratuity", "bill", "split", "per person", "restaurant", "dining"] },
   Calculator: C,
 };

@@ -34,6 +34,6 @@ function C() {
 }
 
 export const caloriesMet: CalculatorModule = {
-  meta: { slug: "calories-met", title: "Calories Burned (MET)", category: "Health", description: "Calories burned from MET, weight, minutes." },
+  meta: { slug: "calories-met", title: "Calories Burned (MET)", category: "Health", description: "Calories burned from MET, weight, minutes.", keywords: ["calories", "burned", "met", "metabolic equivalent", "exercise", "activity", "weight", "minutes", "energy expenditure", "workout"] },
   Calculator: C,
 };

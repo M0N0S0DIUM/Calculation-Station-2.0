@@ -26,6 +26,6 @@ function C() {
 }
 
 export const presentValue: CalculatorModule = {
-  meta: { slug: "present-value", title: "Present Value", category: "Financial", description: "PV of a future amount with discount rate." },
+  meta: { slug: "present-value", title: "Present Value", category: "Financial", description: "PV of a future amount with discount rate.", keywords: ["present value", "pv", "future value", "discount rate", "time value of money", "discounting", "net present value"] },
   Calculator: C,
 };

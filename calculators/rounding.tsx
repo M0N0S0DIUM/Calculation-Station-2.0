@@ -22,6 +22,6 @@ function C() {
 }
 
 export const rounding: CalculatorModule = {
-  meta: { slug: "rounding", title: "Rounding", category: "Basic", description: "Round a number to N decimals." },
+  meta: { slug: "rounding", title: "Rounding", category: "Basic", description: "Round a number to N decimals.", keywords: ["round", "rounding", "decimal", "decimals", "precision", "number", "truncate", "math", "significant figures"] },
   Calculator: C,
 };

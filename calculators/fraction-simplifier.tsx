@@ -37,6 +37,6 @@ function C() {
 }
 
 export const fractionSimplifier: CalculatorModule = {
-  meta: { slug: "fraction-simplifier", title: "Fraction Simplifier", category: "Basic", description: "Reduce a fraction + mixed number + decimal." },
+  meta: { slug: "fraction-simplifier", title: "Fraction Simplifier", category: "Basic", description: "Reduce a fraction + mixed number + decimal.", keywords: ["fraction", "simplify", "reduce", "mixed number", "decimal", "numerator", "denominator", "gcd"] },
   Calculator: C,
 };

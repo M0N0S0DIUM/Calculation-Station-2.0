@@ -53,6 +53,6 @@ function C() {
 }
 
 export const bmi: CalculatorModule = {
-  meta: { slug: "bmi", title: "BMI Calculator", category: "Health", description: "Body mass index (US/Metric)." },
+  meta: { slug: "bmi", title: "BMI Calculator", category: "Health", description: "Body mass index (US/Metric).", keywords: ["bmi", "body mass index", "weight", "height", "health", "body fat", "obesity", "underweight", "normal weight", "overweight"] },
   Calculator: C,
 };

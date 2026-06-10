@@ -40,6 +40,6 @@ function C() {
 }
 
 export const ohmsLaw: CalculatorModule = {
-  meta: { slug: "ohms-law", title: "Ohm’s Law", category: "Electronics", description: "V/I/R + power." },
+  meta: { slug: "ohms-law", title: "Ohm's Law", category: "Electronics", description: "V/I/R + power.", keywords: ["ohm's law", "ohms law", "voltage", "current", "resistance", "power", "v", "i", "r", "watt", "amp", "volt", "ohm", "circuit"] },
   Calculator: C,
 };

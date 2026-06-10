@@ -36,6 +36,6 @@ function C() {
 }
 
 export const breakEven: CalculatorModule = {
-  meta: { slug: "break-even", title: "Break-even Point", category: "Financial", description: "Units to break even: fixed / (price - variable)." },
+  meta: { slug: "break-even", title: "Break-even Point", category: "Financial", description: "Units to break even: fixed / (price - variable).", keywords: ["break even", "break-even", "fixed cost", "variable cost", "price", "units", "contribution margin", "cvp", "cost volume profit"] },
   Calculator: C,
 };

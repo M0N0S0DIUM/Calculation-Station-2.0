@@ -40,6 +40,6 @@ function C() {
 }
 
 export const dateDiff: CalculatorModule = {
-  meta: { slug: "date-diff", title: "Date Difference", category: "Time", description: "Days/weeks between two dates." },
+  meta: { slug: "date-diff", title: "Date Difference", category: "Time", description: "Days/weeks between two dates.", keywords: ["date", "difference", "days", "weeks", "between", "duration", "interval", "start", "end", "calendar"] },
   Calculator: C,
 };

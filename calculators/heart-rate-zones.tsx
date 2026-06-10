@@ -35,6 +35,6 @@ function C() {
 }
 
 export const heartRateZones: CalculatorModule = {
-  meta: { slug: "heart-rate-zones", title: "Heart Rate Zones", category: "Health", description: "Karvonen zones from age + resting HR." },
+  meta: { slug: "heart-rate-zones", title: "Heart Rate Zones", category: "Health", description: "Karvonen zones from age + resting HR.", keywords: ["heart rate", "hr", "zones", "karvonen", "training zones", "max heart rate", "resting heart rate", "cardio", "fitness", "exercise intensity"] },
   Calculator: C,
 };

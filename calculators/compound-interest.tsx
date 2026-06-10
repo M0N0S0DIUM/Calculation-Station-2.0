@@ -40,6 +40,6 @@ function C() {
 }
 
 export const compoundInterest: CalculatorModule = {
-  meta: { slug: "compound-interest", title: "Compound Interest", category: "Financial", description: "Future value with monthly contributions." },
+  meta: { slug: "compound-interest", title: "Compound Interest", category: "Financial", description: "Future value with monthly contributions.", keywords: ["compound interest", "future value", "fv", "investment", "savings", "monthly contribution", "apr", "compounding", "time value of money"] },
   Calculator: C,
 };

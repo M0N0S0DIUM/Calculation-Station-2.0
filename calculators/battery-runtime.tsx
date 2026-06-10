@@ -37,6 +37,6 @@ function C() {
 }
 
 export const batteryRuntime: CalculatorModule = {
-  meta: { slug: "battery-runtime", title: "Battery Runtime", category: "Electronics", description: "Runtime from capacity and load current." },
+  meta: { slug: "battery-runtime", title: "Battery Runtime", category: "Electronics", description: "Runtime from capacity and load current.", keywords: ["battery", "runtime", "capacity", "mah", "ah", "current", "load", "discharge", "hours", "estimate"] },
   Calculator: C,
 };

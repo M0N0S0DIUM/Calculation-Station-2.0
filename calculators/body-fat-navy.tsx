@@ -42,6 +42,6 @@ function C() {
 }
 
 export const bodyFatNavy: CalculatorModule = {
-  meta: { slug: "body-fat-navy", title: "Body Fat (Navy Method)", category: "Health", description: "Estimate body fat % from measurements." },
+  meta: { slug: "body-fat-navy", title: "Body Fat (Navy Method)", category: "Health", description: "Estimate body fat % from measurements.", keywords: ["body fat", "navy method", "body fat percentage", "measurements", "neck", "waist", "hip", "height", "military", "fitness"] },
   Calculator: C,
 };

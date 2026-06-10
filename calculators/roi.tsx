@@ -29,6 +29,6 @@ function C() {
 }
 
 export const roi: CalculatorModule = {
-  meta: { slug: "roi", title: "ROI Calculator", category: "Financial", description: "Return on investment (%)." },
+  meta: { slug: "roi", title: "ROI Calculator", category: "Financial", description: "Return on investment (%).", keywords: ["roi", "return on investment", "profit", "cost", "investment", "return", "percentage", "gain"] },
   Calculator: C,
 };

@@ -35,6 +35,6 @@ function C() {
 }
 
 export const waterIntake: CalculatorModule = {
-  meta: { slug: "water-intake", title: "Water Intake", category: "Health", description: "Simple daily water estimate by body weight." },
+  meta: { slug: "water-intake", title: "Water Intake", category: "Health", description: "Simple daily water estimate by body weight.", keywords: ["water", "hydration", "daily water", "water intake", "body weight", "oz", "liters", "drink water"] },
   Calculator: C,
 };

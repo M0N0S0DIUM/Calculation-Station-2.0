@@ -45,6 +45,6 @@ function C() {
 }
 
 export const runningPace: CalculatorModule = {
-  meta: { slug: "running-pace", title: "Running Pace", category: "Health", description: "Convert distance/time to pace and speed." },
+  meta: { slug: "running-pace", title: "Running Pace", category: "Health", description: "Convert distance/time to pace and speed.", keywords: ["running", "pace", "speed", "distance", "time", "min/km", "min/mi", "km/h", "mph", "jogging", "marathon", "5k", "10k"] },
   Calculator: C,
 };

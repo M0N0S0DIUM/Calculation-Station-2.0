@@ -30,6 +30,6 @@ function C() {
 }
 
 export const ratioProportion: CalculatorModule = {
-  meta: { slug: "ratio-proportion", title: "Ratio / Proportion", category: "Basic", description: "Solve a:b = c:d for missing value." },
+  meta: { slug: "ratio-proportion", title: "Ratio / Proportion", category: "Basic", description: "Solve a:b = c:d for missing value.", keywords: ["ratio", "proportion", "cross multiply", "a:b=c:d", "proportional", "scale"] },
   Calculator: C,
 };

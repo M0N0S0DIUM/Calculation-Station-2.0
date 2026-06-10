@@ -33,6 +33,6 @@ function C() {
 }
 
 export const epochConverter: CalculatorModule = {
-  meta: { slug: "epoch-converter", title: "Epoch Converter", category: "Time", description: "Unix seconds ↔ ISO date/time (local)." },
+  meta: { slug: "epoch-converter", title: "Epoch Converter", category: "Time", description: "Unix seconds ↔ ISO date/time (local).", keywords: ["epoch", "unix", "timestamp", "iso", "date", "time", "seconds", "milliseconds", "convert", "unix time"] },
   Calculator: C,
 };

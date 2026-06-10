@@ -31,6 +31,6 @@ function C() {
 }
 
 export const marginMarkup: CalculatorModule = {
-  meta: { slug: "margin-markup", title: "Margin / Markup", category: "Financial", description: "Compute margin% and markup% from cost and price." },
+  meta: { slug: "margin-markup", title: "Margin / Markup", category: "Financial", description: "Compute margin% and markup% from cost and price.", keywords: ["margin", "markup", "profit margin", "cost", "price", "profit", "business", "pricing", "wholesale", "retail"] },
   Calculator: C,
 };

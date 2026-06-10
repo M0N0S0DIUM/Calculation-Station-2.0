@@ -26,6 +26,6 @@ function C() {
 }
 
 export const futureValue: CalculatorModule = {
-  meta: { slug: "future-value", title: "Future Value", category: "Financial", description: "FV from present value with rate." },
+  meta: { slug: "future-value", title: "Future Value", category: "Financial", description: "FV from present value with rate.", keywords: ["future value", "fv", "present value", "rate", "years", "compounding", "growth", "investment"] },
   Calculator: C,
 };

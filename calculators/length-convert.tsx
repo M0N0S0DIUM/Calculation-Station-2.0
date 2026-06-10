@@ -43,6 +43,6 @@ function C() {
 }
 
 export const lengthconvert: CalculatorModule = {
-  meta: { slug: "length-convert", title: "Length Converter", category: "Conversion", description: "Convert mm/cm/m/km/in/ft/yd/mi." },
+  meta: { slug: "length-convert", title: "Length Converter", category: "Conversion", description: "Convert mm/cm/m/km/in/ft/yd/mi.", keywords: ["length", "convert", "mm", "cm", "meter", "km", "inch", "foot", "yard", "mile", "distance", "unit conversion"] },
   Calculator: C,
 };

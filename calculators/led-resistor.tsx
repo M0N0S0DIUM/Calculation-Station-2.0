@@ -37,6 +37,6 @@ function C() {
 }
 
 export const ledResistor: CalculatorModule = {
-  meta: { slug: "led-resistor", title: "LED Resistor", category: "Electronics", description: "Series resistor and power for an LED." },
+  meta: { slug: "led-resistor", title: "LED Resistor", category: "Electronics", description: "Series resistor and power for an LED.", keywords: ["led", "resistor", "series", "forward voltage", "vf", "current", "ma", "ohm", "power", "watt", "circuit"] },
   Calculator: C,
 };

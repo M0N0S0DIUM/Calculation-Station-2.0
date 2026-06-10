@@ -29,6 +29,6 @@ function C() {
 }
 
 export const powerRoot: CalculatorModule = {
-  meta: { slug: "power-root", title: "Power & Root", category: "Basic", description: "Compute x^n and n-th root of x." },
+  meta: { slug: "power-root", title: "Power & Root", category: "Basic", description: "Compute x^n and n-th root of x.", keywords: ["power", "exponent", "root", "nth root", "x^n", "radical", "exponentiation"] },
   Calculator: C,
 };

@@ -29,6 +29,6 @@ function C() {
 }
 
 export const simpleInterest: CalculatorModule = {
-  meta: { slug: "simple-interest", title: "Simple Interest", category: "Financial", description: "Total = P + P·r·t." },
+  meta: { slug: "simple-interest", title: "Simple Interest", category: "Financial", description: "Total = P + P·r·t.", keywords: ["simple interest", "principal", "rate", "time", "interest", "total", "p+r+t", "basic interest"] },
   Calculator: C,
 };

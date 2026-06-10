@@ -51,6 +51,6 @@ function C() {
 }
 
 export const creditCardPayoff: CalculatorModule = {
-  meta: { slug: "credit-card-payoff", title: "Credit Card Payoff", category: "Financial", description: "Estimate months to payoff with fixed monthly payment." },
+  meta: { slug: "credit-card-payoff", title: "Credit Card Payoff", category: "Financial", description: "Estimate months to payoff with fixed monthly payment.", keywords: ["credit card", "payoff", "debt", "balance", "apr", "monthly payment", "interest", "pay off", "credit card debt"] },
   Calculator: C,
 };

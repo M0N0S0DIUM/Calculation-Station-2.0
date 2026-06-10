@@ -40,6 +40,6 @@ function C() {
 }
 
 export const macros: CalculatorModule = {
-  meta: { slug: "macros", title: "Macro Split", category: "Health", description: "Convert macro % to grams/day." },
+  meta: { slug: "macros", title: "Macro Split", category: "Health", description: "Convert macro % to grams/day.", keywords: ["macros", "macronutrients", "protein", "carbs", "carbohydrates", "fat", "grams", "percentage", "split", "diet", "nutrition"] },
   Calculator: C,
 };

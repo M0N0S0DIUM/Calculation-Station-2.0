@@ -42,6 +42,6 @@ function C() {
 }
 
 export const energyconvert: CalculatorModule = {
-  meta: { slug: "energy-convert", title: "Energy Converter", category: "Conversion", description: "Convert J/kJ/Wh/kWh/cal/kcal/BTU." },
+  meta: { slug: "energy-convert", title: "Energy Converter", category: "Conversion", description: "Convert J/kJ/Wh/kWh/cal/kcal/BTU.", keywords: ["energy", "convert", "joule", "j", "kj", "wh", "kwh", "calorie", "kcal", "btu", "unit conversion"] },
   Calculator: C,
 };

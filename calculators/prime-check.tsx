@@ -29,6 +29,6 @@ function C() {
 }
 
 export const primeCheck: CalculatorModule = {
-  meta: { slug: "prime-check", title: "Prime Checker", category: "Basic", description: "Check if an integer is prime." },
+  meta: { slug: "prime-check", title: "Prime Checker", category: "Basic", description: "Check if an integer is prime.", keywords: ["prime", "prime number", "check", "is prime", "prime test", "factor", "divisible", "integer", "math", "number theory"] },
   Calculator: C,
 };

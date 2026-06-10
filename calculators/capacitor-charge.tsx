@@ -38,6 +38,6 @@ function C() {
 }
 
 export const capacitorCharge: CalculatorModule = {
-  meta: { slug: "capacitor-charge", title: "Capacitor Charge Time", category: "Electronics", description: "Time to reach a target % of final voltage in RC." },
+  meta: { slug: "capacitor-charge", title: "Capacitor Charge Time", category: "Electronics", description: "Time to reach a target % of final voltage in RC.", keywords: ["capacitor", "charge", "rc", "time constant", "tau", "voltage", "exponential", "charging curve", "percent", "final voltage"] },
   Calculator: C,
 };

@@ -42,6 +42,6 @@ function C() {
 }
 
 export const loan: CalculatorModule = {
-  meta: { slug: "loan", title: "Loan Calculator", category: "Financial", description: "Monthly payment + total interest." },
+  meta: { slug: "loan", title: "Loan Calculator", category: "Financial", description: "Monthly payment + total interest.", keywords: ["loan", "monthly payment", "amortization", "principal", "interest", "term", "apr", "installment"] },
   Calculator: C,
 };

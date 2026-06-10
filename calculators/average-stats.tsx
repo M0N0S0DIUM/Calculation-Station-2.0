@@ -31,6 +31,6 @@ function C() {
 }
 
 export const averageStats: CalculatorModule = {
-  meta: { slug: "average-stats", title: "Average / Quick Stats", category: "Basic", description: "Average, sum, min, max from a list." },
+  meta: { slug: "average-stats", title: "Average / Quick Stats", category: "Basic", description: "Average, sum, min, max from a list.", keywords: ["average", "mean", "sum", "min", "max", "statistics", "stats", "numbers", "list"] },
   Calculator: C,
 };

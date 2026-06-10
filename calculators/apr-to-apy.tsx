@@ -25,6 +25,6 @@ function C() {
 }
 
 export const aprToApy: CalculatorModule = {
-  meta: { slug: "apr-to-apy", title: "APR → APY", category: "Financial", description: "Convert APR to APY with compounding." },
+  meta: { slug: "apr-to-apy", title: "APR → APY", category: "Financial", description: "Convert APR to APY with compounding.", keywords: ["apr", "apy", "annual percentage rate", "annual percentage yield", "compounding", "convert", "effective rate", "nominal rate"] },
   Calculator: C,
 };

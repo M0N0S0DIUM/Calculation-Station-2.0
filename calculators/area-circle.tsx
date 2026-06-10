@@ -24,6 +24,6 @@ function C() {
 }
 
 export const areaCircle: CalculatorModule = {
-  meta: { slug: "area-circle", title: "Area of a Circle", category: "Basic", description: "Area and circumference from radius." },
+  meta: { slug: "area-circle", title: "Area of a Circle", category: "Basic", description: "Area and circumference from radius.", keywords: ["circle", "area", "circumference", "radius", "pi", "geometry", "π"] },
   Calculator: C,
 };

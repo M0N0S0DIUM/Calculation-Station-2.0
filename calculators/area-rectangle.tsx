@@ -23,6 +23,6 @@ function C() {
 }
 
 export const areaRectangle: CalculatorModule = {
-  meta: { slug: "area-rectangle", title: "Area of a Rectangle", category: "Basic", description: "Area and perimeter from width/height." },
+  meta: { slug: "area-rectangle", title: "Area of a Rectangle", category: "Basic", description: "Area and perimeter from width/height.", keywords: ["rectangle", "area", "perimeter", "width", "height", "geometry", "rectangular"] },
   Calculator: C,
 };

@@ -29,6 +29,6 @@ function C() {
 }
 
 export const rcCutoff: CalculatorModule = {
-  meta: { slug: "rc-cutoff", title: "RC Cutoff", category: "Electronics", description: "RC time constant and cutoff frequency." },
+  meta: { slug: "rc-cutoff", title: "RC Cutoff", category: "Electronics", description: "RC time constant and cutoff frequency.", keywords: ["rc", "cutoff", "frequency", "time constant", "tau", "resistor", "capacitor", "filter", "low pass", "high pass", "hertz", "hz"] },
   Calculator: C,
 };

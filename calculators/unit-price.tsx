@@ -30,6 +30,6 @@ function C() {
 }
 
 export const unitPrice: CalculatorModule = {
-  meta: { slug: "unit-price", title: "Unit Price", category: "Basic", description: "Cost per item or per unit." },
+  meta: { slug: "unit-price", title: "Unit Price", category: "Basic", description: "Cost per item or per unit.", keywords: ["unit price", "cost per item", "price per unit", "comparison", "shopping", "value"] },
   Calculator: C,
 };

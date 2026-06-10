@@ -39,6 +39,6 @@ function C() {
 }
 
 export const speedconvert: CalculatorModule = {
-  meta: { slug: "speed-convert", title: "Speed Converter", category: "Conversion", description: "Convert m/s, km/h, mph, knots." },
+  meta: { slug: "speed-convert", title: "Speed Converter", category: "Conversion", description: "Convert m/s, km/h, mph, knots.", keywords: ["speed", "convert", "m/s", "km/h", "mph", "knots", "velocity", "meter per second", "kilometer per hour", "miles per hour", "nautical", "unit conversion"] },
   Calculator: C,
 };

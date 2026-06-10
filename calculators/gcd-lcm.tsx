@@ -25,6 +25,6 @@ function C() {
 }
 
 export const gcdLcm: CalculatorModule = {
-  meta: { slug: "gcd-lcm", title: "GCD / LCM", category: "Basic", description: "Greatest common divisor and least common multiple." },
+  meta: { slug: "gcd-lcm", title: "GCD / LCM", category: "Basic", description: "Greatest common divisor and least common multiple.", keywords: ["gcd", "greatest common divisor", "lcm", "least common multiple", "factor", "multiple", "euclid"] },
   Calculator: C,
 };

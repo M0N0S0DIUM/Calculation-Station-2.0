@@ -33,6 +33,6 @@ function C() {
 }
 
 export const tempConvert: CalculatorModule = {
-  meta: { slug: "temp-convert", title: "Temperature Converter", category: "Conversion", description: "Convert °C, °F, K." },
+  meta: { slug: "temp-convert", title: "Temperature Converter", category: "Conversion", description: "Convert °C, °F, K.", keywords: ["temperature", "convert", "celsius", "fahrenheit", "kelvin", "c", "f", "k", "degrees", "temp", "unit conversion"] },
   Calculator: C,
 };
