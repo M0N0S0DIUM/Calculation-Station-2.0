@@ -39,7 +39,7 @@ function C() {
   );
 }
 
-export const massconvert: CalculatorModule = {
+export const massConvert: CalculatorModule = {
   meta: { slug: "mass-convert", title: "Mass Converter", category: "Conversion", description: "Convert mg/g/kg/oz/lb.", keywords: ["mass", "convert", "weight", "mg", "g", "kg", "oz", "lb", "ounce", "pound", "gram", "kilogram", "unit conversion"] },
   Calculator: C,
 };

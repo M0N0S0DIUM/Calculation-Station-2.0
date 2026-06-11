@@ -34,12 +34,12 @@ import { runningPace } from "@/calculators/running-pace";
 import { caloriesMet } from "@/calculators/calories-met";
 import { oneRepMax } from "@/calculators/one-rep-max";
 import { tempConvert } from "@/calculators/temp-convert";
-import { lengthconvert } from "@/calculators/length-convert";
-import { massconvert } from "@/calculators/mass-convert";
-import { speedconvert } from "@/calculators/speed-convert";
-import { pressureconvert } from "@/calculators/pressure-convert";
-import { volumeconvert } from "@/calculators/volume-convert";
-import { energyconvert } from "@/calculators/energy-convert";
+import { lengthConvert } from "@/calculators/length-convert";
+import { massConvert } from "@/calculators/mass-convert";
+import { speedConvert } from "@/calculators/speed-convert";
+import { pressureConvert } from "@/calculators/pressure-convert";
+import { volumeConvert } from "@/calculators/volume-convert";
+import { energyConvert } from "@/calculators/energy-convert";
 import { angleDegRad } from "@/calculators/angle-deg-rad";
 import { ohmsLaw } from "@/calculators/ohms-law";
 import { resistorDivider } from "@/calculators/resistor-divider";
@@ -86,12 +86,12 @@ export const CALCULATORS: CalculatorModule[] = [
   caloriesMet,
   oneRepMax,
   tempConvert,
-  lengthconvert,
-  massconvert,
-  speedconvert,
-  pressureconvert,
-  volumeconvert,
-  energyconvert,
+  lengthConvert,
+  massConvert,
+  speedConvert,
+  pressureConvert,
+  volumeConvert,
+  energyConvert,
   angleDegRad,
   ohmsLaw,
   resistorDivider,
