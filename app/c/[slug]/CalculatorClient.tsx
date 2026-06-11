@@ -1,41 +1,37 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import type { CalculatorModule } from "@/lib/types";
 import { ShareButton } from "@/components/ui";
+import { loadCalculator } from "@/lib/client-calculator-registry";
 
 interface CalculatorClientProps {
   slug: string;
+  meta: {
+    title: string;
+    description: string;
+    category: string;
+    keywords?: string[];
+  };
 }
 
-function slugToExportName(slug: string): string {
-  return slug
-    .split("-")
-    .map((part, i) => (i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)))
-    .join("");
-}
-
-export default function CalculatorClient({ slug }: CalculatorClientProps) {
-  const [mod, setMod] = useState<CalculatorModule | null>(null);
+export default function CalculatorClient({ slug, meta }: CalculatorClientProps) {
+  const [CalculatorComponent, setCalculatorComponent] = useState<React.ComponentType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const exportName = useMemo(() => slugToExportName(slug), [slug]);
 
   useEffect(() => {
     let cancelled = false;
     
-    async function loadCalculator() {
+    async function loadCalc() {
       try {
         setLoading(true);
-        // Try with .tsx extension
-        const module = await import(`@/calculators/${slug}.tsx`);
-        const calculator = module[exportName];
+        const mod = await loadCalculator(slug);
         if (!cancelled) {
-          if (calculator) {
-            setMod(calculator);
+          if (mod) {
+            setCalculatorComponent(mod.Calculator);
           } else {
-            setError(`Calculator "${slug}" not found (tried export "${exportName}")`);
+            setError(`Calculator "${slug}" not found`);
           }
         }
       } catch (err) {
@@ -49,12 +45,12 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
       }
     }
     
-    loadCalculator();
+    loadCalc();
     
     return () => {
       cancelled = true;
     };
-  }, [slug, exportName]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -68,9 +64,7 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
     return <div className="text-center py-12 text-neutral-400">{error}</div>;
   }
 
-  if (!mod) return null;
-
-  const shareParams = useMemo(() => ({}), [slug]);
+  if (!CalculatorComponent) return null;
 
   return (
     <div>
@@ -80,10 +74,10 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
         </a>
         <ShareButton slug={slug} params={{}} />
       </div>
-      <h2 className="mt-2 text-2xl font-semibold tracking-tight">{mod.meta.title}</h2>
-      <p className="mt-1 text-neutral-400">{mod.meta.description}</p>
+      <h2 className="mt-2 text-2xl font-semibold tracking-tight">{meta.title}</h2>
+      <p className="mt-1 text-neutral-400">{meta.description}</p>
       <div className="mt-6">
-        <mod.Calculator />
+        <CalculatorComponent />
       </div>
     </div>
   );

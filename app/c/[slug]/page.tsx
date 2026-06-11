@@ -46,5 +46,5 @@ export default async function CalculatorPage({ params }: { params: Promise<{ slu
   const meta = getCalculatorMeta(slug);
   if (!meta) return <div>Calculator not found.</div>;
 
-  return <CalculatorClient slug={slug} />;
+  return <CalculatorClient slug={slug} meta={meta} />;
 }
