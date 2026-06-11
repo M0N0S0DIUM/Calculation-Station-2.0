@@ -8,21 +8,30 @@ interface CalculatorClientProps {
   slug: string;
 }
 
+function slugToExportName(slug: string): string {
+  return slug
+    .split("-")
+    .map((part, i) => (i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)))
+    .join("");
+}
+
 export default function CalculatorClient({ slug }: CalculatorClientProps) {
   const [mod, setMod] = useState<CalculatorModule | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const exportName = useMemo(() => slugToExportName(slug), [slug]);
 
   useEffect(() => {
     async function loadCalculator() {
       try {
         setLoading(true);
         const module = await import(`@/calculators/${slug}`);
-        const calculator = module[slug];
+        const calculator = module[exportName];
         if (calculator) {
           setMod(calculator);
         } else {
-          setError("Calculator not found");
+          setError(`Calculator "${slug}" not found (tried export "${exportName}")`);
         }
       } catch {
         setError("Failed to load calculator");
@@ -31,7 +40,7 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
       }
     }
     loadCalculator();
-  }, [slug]);
+  }, [slug, exportName]);
 
   if (loading) {
     return (
@@ -55,7 +64,7 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
         <a href="/" className="inline-block mb-4 text-sm text-neutral-400 hover:text-white transition">
           ← Back
         </a>
-        <ShareButton slug={slug} params={shareParams} />
+        <ShareButton slug={slug} params={{}} />
       </div>
       <h2 className="mt-2 text-2xl font-semibold tracking-tight">{mod.meta.title}</h2>
       <p className="mt-1 text-neutral-400">{mod.meta.description}</p>
