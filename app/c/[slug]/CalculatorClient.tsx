@@ -32,17 +32,17 @@ export default function CalculatorClient({ slug, meta }: CalculatorClientProps) 
       try {
         setLoading(true);
         
-        // Import the module
+        // Import the module using the correct path
         const module = await import(`@/calculators/${slug}`);
         const exportName = slugToExportName(slug);
         
-        const calculator = module[slugToExportName(slug)];
+        const calculator = module[exportName];
         
         if (!cancelled) {
           if (calculator) {
             setCalculatorComponent(calculator.Calculator);
           } else {
-            setError(`Calculator "${slug}" not found (tried export "${slugToExportName(slug)}")`);
+            setError(`Calculator "${slug}" not found (tried export "${exportName}")`);
           }
         }
       } catch (err) {
