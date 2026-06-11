@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CalculatorClient from "./CalculatorClient";
+import { getCalculatorMeta } from "@/lib/metadata/calculators";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +10,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   
   const slug = rawSlug.split("?")[0];
   
-  const { getCalculatorMeta } = await import("@/lib/metadata/calculators");
   const meta = getCalculatorMeta(slug);
   if (!meta) return { title: "Calculator Not Found" };
 
@@ -43,5 +43,15 @@ export default async function CalculatorPage({ params }: { params: Promise<{ slu
   
   const slug = rawSlug.split("?")[0];
   
-  return <CalculatorClient slug={slug} />;
+  const meta = getCalculatorMeta(slug);
+  if (!meta) return <div>Calculator not found.</div>;
+
+  // Dynamically import the calculator component
+  const { default: calculatorModule } = await import(`@/calculators/${slug}`);
+  const exportName = slug.split("-").map((part, i) => i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)).join("");
+  const Calculator = calculatorModule[exportName];
+  
+  if (!Calculator) return <div>Calculator not found.</div>;
+
+  return <CalculatorClient Calculator={Calculator} meta={meta} slug={slug} />;
 }
