@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import CalculatorClient from "./CalculatorClient";
-import { getCalculatorMeta } from "@/lib/metadata/calculators";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   
   const slug = rawSlug.split("?")[0];
   
+  const { getCalculatorMeta } = await import("@/lib/metadata/calculators");
   const meta = getCalculatorMeta(slug);
   if (!meta) return { title: "Calculator Not Found" };
 
@@ -43,8 +43,5 @@ export default async function CalculatorPage({ params }: { params: Promise<{ slu
   
   const slug = rawSlug.split("?")[0];
   
-  const meta = getCalculatorMeta(slug);
-  if (!meta) return <div>Calculator not found.</div>;
-
-  return <CalculatorClient mod={{ meta, Calculator: () => null }} />;
+  return <CalculatorClient slug={slug} />;
 }
