@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { ShareButton } from "@/components/ui";
 
 interface CalculatorClientProps {
@@ -32,10 +33,10 @@ export default function CalculatorClient({ slug, meta }: CalculatorClientProps) 
       try {
         setLoading(true);
         
-        // Import the module using the correct path
-        const module = await import(`@/calculators/${slug}`);
         const exportName = slugToExportName(slug);
         
+        // Use dynamic import directly
+        const module = await import(`@/calculators/${slug}`);
         const calculator = module[exportName];
         
         if (!cancelled) {
