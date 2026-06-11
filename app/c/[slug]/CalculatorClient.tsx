@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import { ShareButton } from "@/components/ui";
 
 interface CalculatorClientProps {
@@ -12,6 +11,13 @@ interface CalculatorClientProps {
     category: string;
     keywords?: string[];
   };
+}
+
+function slugToExportName(slug: string): string {
+  return slug
+    .split("-")
+    .map((part, i) => i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
 }
 
 export default function CalculatorClient({ slug, meta }: CalculatorClientProps) {
@@ -26,20 +32,17 @@ export default function CalculatorClient({ slug, meta }: CalculatorClientProps) 
       try {
         setLoading(true);
         
-        // Import the module and get the calculator
+        // Import the module
         const module = await import(`@/calculators/${slug}`);
-        const exportName = slug
-          .split("-")
-          .map((part, i) => i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1))
-          .join("");
+        const exportName = slugToExportName(slug);
         
-        const calculator = (await import(`@/calculators/${slug}`))[exportName];
+        const calculator = module[slugToExportName(slug)];
         
         if (!cancelled) {
           if (calculator) {
-            setCalculatorComponent(() => calculator.Calculator);
+            setCalculatorComponent(calculator.Calculator);
           } else {
-            setError(`Calculator "${slug}" not found`);
+            setError(`Calculator "${slug}" not found (tried export "${slugToExportName(slug)}")`);
           }
         }
       } catch (err) {
