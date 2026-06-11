@@ -23,25 +23,37 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
   const exportName = useMemo(() => slugToExportName(slug), [slug]);
 
   useEffect(() => {
+    let cancelled = false;
+    
     async function loadCalculator() {
       try {
         setLoading(true);
-        // Import the entire calculators module and find by export name
-        const module = await import("@/lib/calculators");
-        const calculator = module.CALCULATORS.find((c) => c.meta.slug === slug);
-        if (calculator) {
-          setMod(calculator);
-        } else {
-          setError(`Calculator "${slug}" not found`);
+        const module = await import(`@/calculators/${slug}`);
+        const calculator = module[exportName];
+        if (!cancelled) {
+          if (calculator) {
+            setMod(calculator);
+          } else {
+            setError(`Calculator "${slug}" not found (tried export "${exportName}")`);
+          }
         }
-      } catch {
-        setError("Failed to load calculator");
+      } catch (err) {
+        if (!cancelled) {
+          setError(`Failed to load calculator: ${err instanceof Error ? err.message : String(err)}`);
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     }
+    
     loadCalculator();
-  }, [slug]);
+    
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, exportName]);
 
   if (loading) {
     return (

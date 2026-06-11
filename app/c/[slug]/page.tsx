@@ -46,12 +46,5 @@ export default async function CalculatorPage({ params }: { params: Promise<{ slu
   const meta = getCalculatorMeta(slug);
   if (!meta) return <div>Calculator not found.</div>;
 
-  // Dynamically import the calculator component
-  const { default: calculatorModule } = await import(`@/calculators/${slug}`);
-  const exportName = slug.split("-").map((part, i) => i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)).join("");
-  const Calculator = calculatorModule[exportName];
-  
-  if (!Calculator) return <div>Calculator not found.</div>;
-
-  return <CalculatorClient Calculator={Calculator} meta={meta} slug={slug} />;
+  return <CalculatorClient slug={slug} />;
 }
