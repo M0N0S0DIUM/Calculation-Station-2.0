@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import dynamic from "next/dynamic";
 import { ShareButton } from "@/components/ui";
-import { loadCalculator } from "@/lib/client-calculator-registry";
 
 interface CalculatorClientProps {
   slug: string;
@@ -22,14 +21,23 @@ export default function CalculatorClient({ slug, meta }: CalculatorClientProps) 
 
   useEffect(() => {
     let cancelled = false;
-    
-    async function loadCalc() {
+
+    async function loadCalculator() {
       try {
         setLoading(true);
-        const mod = await loadCalculator(slug);
+        
+        // Import the module and get the calculator
+        const module = await import(`@/calculators/${slug}`);
+        const exportName = slug
+          .split("-")
+          .map((part, i) => i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1))
+          .join("");
+        
+        const calculator = (await import(`@/calculators/${slug}`))[exportName];
+        
         if (!cancelled) {
-          if (mod) {
-            setCalculatorComponent(mod.Calculator);
+          if (calculator) {
+            setCalculatorComponent(() => calculator.Calculator);
           } else {
             setError(`Calculator "${slug}" not found`);
           }
@@ -44,9 +52,9 @@ export default function CalculatorClient({ slug, meta }: CalculatorClientProps) 
         }
       }
     }
-    
-    loadCalc();
-    
+
+    loadCalculator();
+
     return () => {
       cancelled = true;
     };
