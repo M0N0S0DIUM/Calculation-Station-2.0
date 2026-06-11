@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const rawSlug = (await params)?.slug;
-  if (!rawSlug) return { title: "Calculator | Calculation Station" };
+  if (!rawSlug || typeof rawSlug !== "string") return { title: "Calculator | Calculation Station" };
   
   const slug = rawSlug.split("?")[0];
   
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function CalculatorPage({ params }: { params: Promise<{ slug: string }> }) {
   const rawSlug = (await params)?.slug;
-  if (!rawSlug) return <div>Calculator not found.</div>;
+  if (!rawSlug || typeof rawSlug !== "string") return <div>Calculator not found.</div>;
   
   const slug = rawSlug.split("?")[0];
   
