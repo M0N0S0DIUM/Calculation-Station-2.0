@@ -26,12 +26,13 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
     async function loadCalculator() {
       try {
         setLoading(true);
-        const module = await import(`@/calculators/${slug}`);
-        const calculator = module[exportName];
+        // Import the entire calculators module and find by export name
+        const module = await import("@/lib/calculators");
+        const calculator = module.CALCULATORS.find((c) => c.meta.slug === slug);
         if (calculator) {
           setMod(calculator);
         } else {
-          setError(`Calculator "${slug}" not found (tried export "${exportName}")`);
+          setError(`Calculator "${slug}" not found`);
         }
       } catch {
         setError("Failed to load calculator");
@@ -40,7 +41,7 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
       }
     }
     loadCalculator();
-  }, [slug, exportName]);
+  }, [slug]);
 
   if (loading) {
     return (
