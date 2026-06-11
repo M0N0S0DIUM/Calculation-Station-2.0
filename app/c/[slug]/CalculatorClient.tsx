@@ -28,7 +28,8 @@ export default function CalculatorClient({ slug }: CalculatorClientProps) {
     async function loadCalculator() {
       try {
         setLoading(true);
-        const module = await import(`@/calculators/${slug}`);
+        // Try with .tsx extension
+        const module = await import(`@/calculators/${slug}.tsx`);
         const calculator = module[exportName];
         if (!cancelled) {
           if (calculator) {
