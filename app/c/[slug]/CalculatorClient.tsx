@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { ShareButton } from "@/components/ui";
-import { loadCalculator } from "@/lib/client-calculator-registry";
+import { getCalculatorModule } from "@/lib/calculator-modules";
 
 interface CalculatorClientProps {
   slug: string;
@@ -15,59 +15,27 @@ interface CalculatorClientProps {
 }
 
 export default function CalculatorClient({ slug, meta }: CalculatorClientProps) {
-  const [CalculatorComponent, setCalculatorComponent] = useState<React.ComponentType | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // Load calculator synchronously during render - no useEffect needed
+  // since getCalculatorModule is synchronous (all modules statically imported)
+  const calculatorModule = getCalculatorModule(slug);
+  const CalculatorComponent = calculatorModule?.Calculator ?? null;
+  const error = calculatorModule ? null : `Calculator "${slug}" not found`;
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadCalculatorComponent() {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        // Use the pre-built registry with static imports that Next.js can analyze
-        const calculatorModule = await loadCalculator(slug);
-        
-        if (!cancelled) {
-          if (calculatorModule) {
-            setCalculatorComponent(calculatorModule.Calculator);
-          } else {
-            setError(`Calculator "${slug}" not found`);
-          }
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setError(`Failed to load calculator: ${err instanceof Error ? err.message : String(err)}`);
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    loadCalculatorComponent();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [slug]);
-
-  if (loading) {
+  if (!CalculatorComponent) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-neutral-600 border-t-transparent" />
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <a href="/" className="inline-block mb-4 text-sm text-neutral-400 hover:text-white transition">
+            ← Back
+          </a>
+          <ShareButton slug={slug} params={{}} />
+        </div>
+        <h2 className="mt-2 text-2xl font-semibold tracking-tight">{meta.title}</h2>
+        <p className="mt-1 text-neutral-400">{meta.description}</p>
+        <div className="mt-6 text-center py-12 text-neutral-400">{error}</div>
       </div>
     );
   }
-
-  if (error) {
-    return <div className="text-center py-12 text-neutral-400">{error}</div>;
-  }
-
-  if (!CalculatorComponent) return null;
 
   return (
     <div>
