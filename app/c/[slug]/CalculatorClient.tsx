@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import { ShareButton } from "@/components/ui";
+import { loadCalculator } from "@/lib/client-calculator-registry";
 
 interface CalculatorClientProps {
   slug: string;
@@ -14,13 +14,6 @@ interface CalculatorClientProps {
   };
 }
 
-function slugToExportName(slug: string): string {
-  return slug
-    .split("-")
-    .map((part, i) => i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1))
-    .join("");
-}
-
 export default function CalculatorClient({ slug, meta }: CalculatorClientProps) {
   const [CalculatorComponent, setCalculatorComponent] = useState<React.ComponentType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,21 +22,19 @@ export default function CalculatorClient({ slug, meta }: CalculatorClientProps) 
   useEffect(() => {
     let cancelled = false;
 
-    async function loadCalculator() {
+    async function loadCalculatorComponent() {
       try {
         setLoading(true);
+        setError(null);
         
-        const exportName = slugToExportName(slug);
-        
-        // Dynamic import with proper error handling
-        const module = await import(`@/calculators/${slug}`);
-        const calculator = module[slugToExportName(slug)];
+        // Use the pre-built registry with static imports that Next.js can analyze
+        const calculatorModule = await loadCalculator(slug);
         
         if (!cancelled) {
-          if (calculator) {
-            setCalculatorComponent(calculator.Calculator);
+          if (calculatorModule) {
+            setCalculatorComponent(calculatorModule.Calculator);
           } else {
-            setError(`Calculator "${slug}" not found (tried export "${slugToExportName(slug)}")`);
+            setError(`Calculator "${slug}" not found`);
           }
         }
       } catch (err) {
@@ -57,7 +48,7 @@ export default function CalculatorClient({ slug, meta }: CalculatorClientProps) 
       }
     }
 
-    loadCalculator();
+    loadCalculatorComponent();
 
     return () => {
       cancelled = true;
