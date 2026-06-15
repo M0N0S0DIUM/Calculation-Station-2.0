@@ -1,12 +1,18 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [a, setA] = useState(() => new Date().toISOString().slice(0,10));
-  const [b, setB] = useState(() => new Date().toISOString().slice(0,10));
+interface DateDiffCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: DateDiffCalculatorProps) {
+  const [a, setA] = useState(() => String(initialParams?.a ?? new Date().toISOString().slice(0,10)));
+  const [b, setB] = useState(() => String(initialParams?.b ?? new Date().toISOString().slice(0,10)));
 
   const out = useMemo(() => {
     const da = new Date(a + "T00:00:00");
@@ -15,6 +21,9 @@ function C() {
     const days = ms / (1000*60*60*24);
     return { days, weeks: days/7 };
   }, [a,b]);
+
+  const shareParams: ShareParams = { a, b };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -30,11 +39,10 @@ function C() {
       </div>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="Days" value={fmt(out.days, 0)} />
+        <Result label="Days" value={fmt(out.days, 2)} />
         <Result label="Weeks" value={fmt(out.weeks, 2)} />
       </div>
-      <Hr />
-      <SmallNote>Positive means end date is after start date.</SmallNote>
+      <SmallNote>Time component is ignored. Negative = end before start.</SmallNote>
     </Card>
   );
 }

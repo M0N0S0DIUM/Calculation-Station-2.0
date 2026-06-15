@@ -1,17 +1,26 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [weight, setWeight] = useState(185);
-  const [reps, setReps] = useState(5);
+interface OneRepMaxCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: OneRepMaxCalculatorProps) {
+  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 185));
+  const [reps, setReps] = useState(() => Number(initialParams?.reps ?? 5));
 
   const rm = useMemo(() => {
     if (reps <= 1) return weight;
     return weight * (1 + reps/30);
   }, [weight, reps]);
+
+  const shareParams: ShareParams = { weight, reps };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

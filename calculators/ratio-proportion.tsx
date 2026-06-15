@@ -1,18 +1,26 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [a, setA] = useState(2);
-  const [b, setB] = useState(3);
-  const [c, setC] = useState(4);
+interface RatioProportionCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: RatioProportionCalculatorProps) {
+  const [a, setA] = useState(() => Number(initialParams?.a ?? 2));
+  const [b, setB] = useState(() => Number(initialParams?.b ?? 3));
+  const [c, setC] = useState(() => Number(initialParams?.c ?? 4));
   const r = useMemo(() => {
-    // a/b = c/d => d = (b*c)/a
     const d = a !== 0 ? (b*c)/a : NaN;
     return { d };
   }, [a,b,c]);
+
+  const shareParams: ShareParams = { a, b, c };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

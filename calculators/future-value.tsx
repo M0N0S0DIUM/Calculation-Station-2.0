@@ -1,15 +1,23 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result } from "@/components/ui";
 import { fmtMoney } from "@/lib/math";
 
-function C() {
-  const [pv, setPv] = useState(5000);
-  const [rate, setRate] = useState(6);
-  const [years, setYears] = useState(10);
+interface FutureValueCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
 
+function C({ onStateChange, initialParams }: FutureValueCalculatorProps) {
+  const [pv, setPv] = useState(() => Number(initialParams?.pv ?? 1000));
+  const [rate, setRate] = useState(() => Number(initialParams?.rate ?? 6));
+  const [years, setYears] = useState(() => Number(initialParams?.years ?? 10));
   const fv = useMemo(() => pv * Math.pow(1 + rate/100, years), [pv, rate, years]);
+
+  const shareParams: ShareParams = { pv, rate, years };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

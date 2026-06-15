@@ -1,13 +1,19 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmt, fmtPct } from "@/lib/math";
 
-function C() {
-  const [base, setBase] = useState(200);
-  const [pct, setPct] = useState(15);
-  const [part, setPart] = useState(30);
+interface PercentageCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: PercentageCalculatorProps) {
+  const [base, setBase] = useState(() => Number(initialParams?.base ?? 200));
+  const [pct, setPct] = useState(() => Number(initialParams?.pct ?? 15));
+  const [part, setPart] = useState(() => Number(initialParams?.part ?? 30));
 
   const r = useMemo(() => {
     const pctOf = base * (pct / 100);
@@ -16,6 +22,9 @@ function C() {
     const dec = base * (1 - pct / 100);
     return { pctOf, whatPct, inc, dec };
   }, [base, pct, part]);
+
+  const shareParams: ShareParams = { base, pct, part };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

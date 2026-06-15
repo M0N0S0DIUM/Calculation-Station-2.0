@@ -1,17 +1,26 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Result, Hr, TextField, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [list, setList] = useState("10, 20, 30, 40");
+interface AverageStatsCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: AverageStatsCalculatorProps) {
+  const [list, setList] = useState(() => String(initialParams?.list ?? "10, 20, 30, 40"));
   const r = useMemo(() => {
     const nums = list.split(/[,\s]+/).map(s => s.trim()).filter(Boolean).map(Number).filter(Number.isFinite);
     if (!nums.length) return { n: 0, sum: NaN, avg: NaN, min: NaN, max: NaN };
     const sum = nums.reduce((a,b) => a + b, 0);
     return { n: nums.length, sum, avg: sum/nums.length, min: Math.min(...nums), max: Math.max(...nums) };
   }, [list]);
+
+  const shareParams: ShareParams = { list };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

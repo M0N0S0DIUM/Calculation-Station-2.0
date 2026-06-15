@@ -1,13 +1,19 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [R, setR] = useState(10000);
-  const [Ccap, setCcap] = useState(1e-6);
-  const [pct, setPct] = useState(90); // % of final
+interface CapacitorChargeCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: CapacitorChargeCalculatorProps) {
+  const [R, setR] = useState(() => Number(initialParams?.R ?? 10000));
+  const [Ccap, setCcap] = useState(() => Number(initialParams?.Ccap ?? 1e-6));
+  const [pct, setPct] = useState(() => Number(initialParams?.pct ?? 90));
 
   const out = useMemo(() => {
     const tau = R*Ccap;
@@ -15,6 +21,9 @@ function C() {
     const t = (p > 0 && p < 1) ? -tau*Math.log(1 - p) : NaN;
     return { tau, t };
   }, [R, Ccap, pct]);
+
+  const shareParams: ShareParams = { R, Ccap, pct };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -28,11 +37,7 @@ function C() {
         <Result label="Tau" value={`${fmt(out.tau, 9)} s`} />
         <Result label="Time to target" value={`${fmt(out.t, 9)} s`} />
       </div>
-      <Hr />
-      <SmallNote>
-  <code>{"Charging curve: V(t)=Vf(1 - e^(-t/RC))."}</code>
-</SmallNote>
-
+      <SmallNote>t = -τ·ln(1 - target%), where target% is fraction of final voltage.</SmallNote>
     </Card>
   );
 }

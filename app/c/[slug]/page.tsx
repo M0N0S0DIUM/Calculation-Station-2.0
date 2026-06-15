@@ -41,11 +41,6 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams() {
-  const slugs = getAllCalculatorSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
-
 import CalculatorClient from "./CalculatorClient";
 
 export default async function CalculatorPage({

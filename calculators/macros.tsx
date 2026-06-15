@@ -1,14 +1,20 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [cal, setCal] = useState(2200);
-  const [p, setP] = useState(30);
-  const [c, setC] = useState(40);
-  const [f, setF] = useState(30);
+interface MacrosCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: MacrosCalculatorProps) {
+  const [cal, setCal] = useState(() => Number(initialParams?.cal ?? 2200));
+  const [p, setP] = useState(() => Number(initialParams?.p ?? 30));
+  const [c, setC] = useState(() => Number(initialParams?.c ?? 40));
+  const [f, setF] = useState(() => Number(initialParams?.f ?? 30));
 
   const r = useMemo(() => {
     const totalPct = p+c+f;
@@ -17,6 +23,9 @@ function C() {
     const fG = (cal*(f/100))/9;
     return { totalPct, pG, cG, fG };
   }, [cal, p, c, f]);
+
+  const shareParams: ShareParams = { cal, p, c, f };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -28,13 +37,13 @@ function C() {
       </Grid>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="Total %" value={`${fmt(r.totalPct, 0)}%`} />
-        <Result label="Protein (g/day)" value={fmt(r.pG, 0)} />
-        <Result label="Carbs (g/day)" value={fmt(r.cG, 0)} />
-        <Result label="Fat (g/day)" value={fmt(r.fG, 0)} />
+        <Result label="Total %" value={String(r.totalPct)} />
+        <Result label="Protein (g)" value={fmt(r.pG, 1)} />
+        <Result label="Carbs (g)" value={fmt(r.cG, 1)} />
+        <Result label="Fat (g)" value={fmt(r.fG, 1)} />
       </div>
       <Hr />
-      <SmallNote>Protein/carbs=4 kcal/g, fat=9 kcal/g.</SmallNote>
+      <SmallNote>Protein & carbs: 4 kcal/g. Fat: 9 kcal/g.</SmallNote>
     </Card>
   );
 }

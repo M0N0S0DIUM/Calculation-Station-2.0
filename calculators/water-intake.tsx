@@ -1,13 +1,19 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [units, setUnits] = useState("lb");
-  const [weight, setWeight] = useState(180);
-  const [mult, setMult] = useState(0.5); // oz per lb
+interface WaterIntakeCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: WaterIntakeCalculatorProps) {
+  const [units, setUnits] = useState(() => String(initialParams?.units ?? "lb"));
+  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 180));
+  const [mult, setMult] = useState(() => Number(initialParams?.mult ?? 0.5));
 
   const r = useMemo(() => {
     const lbs = units === "lb" ? weight : weight*2.2046226218;
@@ -15,6 +21,9 @@ function C() {
     const liters = oz * 0.0295735296;
     return { oz, liters };
   }, [units, weight, mult]);
+
+  const shareParams: ShareParams = { units, weight, mult };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -28,8 +37,7 @@ function C() {
         <Result label="Daily water (oz)" value={fmt(r.oz, 0)} />
         <Result label="Daily water (liters)" value={fmt(r.liters, 2)} />
       </div>
-      <Hr />
-      <SmallNote>Rule-of-thumb. Needs vary with heat/activity/health.</SmallNote>
+      <SmallNote>Common multiplier: 0.5–1.0 oz per lb body weight.</SmallNote>
     </Card>
   );
 }

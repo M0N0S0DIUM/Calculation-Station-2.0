@@ -1,12 +1,18 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
-import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
+import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { gcd, fmt } from "@/lib/math";
 
-function C() {
-  const [num, setNum] = useState(42);
-  const [den, setDen] = useState(56);
+interface FractionSimplifierCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: FractionSimplifierCalculatorProps) {
+  const [num, setNum] = useState(() => Number(initialParams?.num ?? 42));
+  const [den, setDen] = useState(() => Number(initialParams?.den ?? 56));
 
   const r = useMemo(() => {
     if (den === 0) return { simp: "—", mixed: "—", dec: NaN };
@@ -20,6 +26,9 @@ function C() {
     return { simp: `${n}/${d}`, mixed, dec: n / d };
   }, [num, den]);
 
+  const shareParams: ShareParams = { num, den };
+  if (onStateChange) onStateChange(shareParams);
+
   return (
     <Card>
       <Grid>
@@ -32,6 +41,7 @@ function C() {
         <Result label="Mixed number" value={r.mixed} />
         <Result label="Decimal" value={fmt(r.dec, 10)} />
       </div>
+      <SmallNote>Non-integers are truncated.</SmallNote>
     </Card>
   );
 }

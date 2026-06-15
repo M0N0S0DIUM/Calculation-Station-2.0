@@ -1,18 +1,27 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmtPct, fmtMoney } from "@/lib/math";
 
-function C() {
-  const [cost, setCost] = useState(50);
-  const [price, setPrice] = useState(80);
+interface MarginMarkupCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: MarginMarkupCalculatorProps) {
+  const [cost, setCost] = useState(() => Number(initialParams?.cost ?? 50));
+  const [price, setPrice] = useState(() => Number(initialParams?.price ?? 80));
   const r = useMemo(() => {
     const profit = price - cost;
     const margin = price !== 0 ? (profit/price)*100 : NaN;
     const markup = cost !== 0 ? (profit/cost)*100 : NaN;
     return { profit, margin, markup };
   }, [cost, price]);
+
+  const shareParams: ShareParams = { cost, price };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

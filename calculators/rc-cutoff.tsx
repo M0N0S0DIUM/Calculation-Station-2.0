@@ -1,17 +1,26 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [R, setR] = useState(1000);
-  const [Ccap, setCcap] = useState(1e-6);
+interface RCCutoffCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: RCCutoffCalculatorProps) {
+  const [R, setR] = useState(() => Number(initialParams?.R ?? 1000));
+  const [Ccap, setCcap] = useState(() => Number(initialParams?.Ccap ?? 1e-6));
   const out = useMemo(() => {
     const tau = R*Ccap;
     const fc = tau !== 0 ? 1/(2*Math.PI*tau) : NaN;
     return { tau, fc };
   }, [R, Ccap]);
+
+  const shareParams: ShareParams = { R, Ccap };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

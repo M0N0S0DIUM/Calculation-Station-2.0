@@ -1,13 +1,19 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result, Hr } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [dist, setDist] = useState(5);
-  const [unit, setUnit] = useState("km");
-  const [minutes, setMinutes] = useState(25);
+interface RunningPaceCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: RunningPaceCalculatorProps) {
+  const [dist, setDist] = useState(() => Number(initialParams?.dist ?? 5));
+  const [unit, setUnit] = useState(() => String(initialParams?.unit ?? "km"));
+  const [minutes, setMinutes] = useState(() => Number(initialParams?.minutes ?? 25));
 
   const r = useMemo(() => {
     const km = unit === "km" ? dist : dist*1.609344;
@@ -26,19 +32,20 @@ function C() {
     return `${mm}:${String(ss).padStart(2,"0")}`;
   };
 
+  const shareParams: ShareParams = { dist, unit, minutes };
+  if (onStateChange) onStateChange(shareParams);
+
   return (
     <Card>
       <Grid>
         <NumberField label="Distance" value={dist} onChange={setDist} step={0.01} />
         <SelectField label="Unit" value={unit} onChange={setUnit} options={[{value:"km",label:"km"},{value:"mi",label:"mi"}]} />
-        <NumberField label="Time" value={minutes} onChange={setMinutes} step={0.1} suffix="minutes" />
+        <NumberField label="Time (minutes)" value={minutes} onChange={setMinutes} step={1} />
       </Grid>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="Pace (min/km)" value={mmss(r.paceMinPerKm)} />
-        <Result label="Pace (min/mi)" value={mmss(r.paceMinPerMi)} />
-        <Result label="Speed (km/h)" value={fmt(r.kmh, 2)} />
-        <Result label="Speed (mph)" value={fmt(r.mph, 2)} />
+        <Result label="Speed" value={`${fmt(r.kmh,2)} km/h / ${fmt(r.mph,2)} mph`} />
+        <Result label="Pace" value={`${mmss(r.paceMinPerKm)} min/km / ${mmss(r.paceMinPerMi)} min/mi`} />
       </div>
     </Card>
   );

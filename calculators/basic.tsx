@@ -1,12 +1,25 @@
 "use client";
-import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+
+import { useMemo, useState, useEffect } from "react";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [a, setA] = useState(12);
-  const [b, setB] = useState(3);
+interface BasicCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: BasicCalculatorProps) {
+  const [a, setA] = useState(() => {
+    if (initialParams?.a !== undefined) return Number(initialParams.a);
+    return 12;
+  });
+  const [b, setB] = useState(() => {
+    if (initialParams?.b !== undefined) return Number(initialParams.b);
+    return 3;
+  });
+
   const r = useMemo(() => ({
     add: a + b,
     sub: a - b,
@@ -14,6 +27,9 @@ function C() {
     div: b !== 0 ? a / b : NaN,
     pow: Math.pow(a, b),
   }), [a, b]);
+
+  const shareParams: ShareParams = { a, b };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

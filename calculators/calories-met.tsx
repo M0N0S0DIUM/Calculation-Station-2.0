@@ -1,21 +1,29 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [weight, setWeight] = useState(180);
-  const [units, setUnits] = useState("lb");
-  const [met, setMet] = useState(6); // moderate
-  const [minutes, setMinutes] = useState(30);
+interface CaloriesMetCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: CaloriesMetCalculatorProps) {
+  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 180));
+  const [units, setUnits] = useState(() => String(initialParams?.units ?? "lb"));
+  const [met, setMet] = useState(() => Number(initialParams?.met ?? 6));
+  const [minutes, setMinutes] = useState(() => Number(initialParams?.minutes ?? 30));
 
   const kcal = useMemo(() => {
     const kg = units === "kg" ? weight : weight*0.45359237;
-    // kcal/min = MET * 3.5 * kg / 200
     const kcalMin = met * 3.5 * kg / 200;
     return kcalMin * minutes;
   }, [weight, units, met, minutes]);
+
+  const shareParams: ShareParams = { weight, units, met, minutes };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -28,7 +36,7 @@ function C() {
       <Hr />
       <Result label="Estimated calories burned" value={`${fmt(kcal, 0)} kcal`} />
       <Hr />
-      <SmallNote>MET varies by activity intensity; this is a standard estimate.</SmallNote>
+      <SmallNote>kcal = MET × 3.5 × weight(kg) / 200 × minutes</SmallNote>
     </Card>
   );
 }

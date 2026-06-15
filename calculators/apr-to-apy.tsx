@@ -1,16 +1,25 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmtPct } from "@/lib/math";
 
-function C() {
-  const [apr, setApr] = useState(6);
-  const [n, setN] = useState(12); // compounding periods per year
+interface APRToAPYCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: APRToAPYCalculatorProps) {
+  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 6));
+  const [n, setN] = useState(() => Number(initialParams?.n ?? 12));
   const r = useMemo(() => {
     const apy = (Math.pow(1 + (apr/100)/n, n) - 1) * 100;
     return { apy };
   }, [apr, n]);
+
+  const shareParams: ShareParams = { apr, n };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

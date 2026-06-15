@@ -1,13 +1,22 @@
 "use client";
-import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
-import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
-import { gcd, lcm, fmtInt } from "@/lib/math";
 
-function C() {
-  const [a, setA] = useState(84);
-  const [b, setB] = useState(120);
-  const r = useMemo(() => ({ g: gcd(a,b), l: lcm(a,b) }), [a,b]);
+import { useMemo, useState } from "react";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
+import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
+import { gcd, lcm, fmt } from "@/lib/math";
+
+interface GCDLCMCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: GCDLCMCalculatorProps) {
+  const [a, setA] = useState(() => Number(initialParams?.a ?? 48));
+  const [b, setB] = useState(() => Number(initialParams?.b ?? 18));
+  const r = useMemo(() => ({ gcd: gcd(a,b), lcm: lcm(a,b) }), [a,b]);
+
+  const shareParams: ShareParams = { a, b };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -17,9 +26,10 @@ function C() {
       </Grid>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="GCD" value={fmtInt(r.g)} />
-        <Result label="LCM" value={fmtInt(r.l)} />
+        <Result label="GCD" value={String(r.gcd)} />
+        <Result label="LCM" value={String(r.lcm)} />
       </div>
+      <SmallNote>Uses Euclidean algorithm.</SmallNote>
     </Card>
   );
 }

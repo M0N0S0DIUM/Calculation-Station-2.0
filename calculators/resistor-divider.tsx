@@ -1,13 +1,19 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [vin, setVin] = useState(12);
-  const [rt, setRt] = useState(10000);
-  const [rb, setRb] = useState(4700);
+interface ResistorDividerCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: ResistorDividerCalculatorProps) {
+  const [vin, setVin] = useState(() => Number(initialParams?.vin ?? 12));
+  const [rt, setRt] = useState(() => Number(initialParams?.rt ?? 10000));
+  const [rb, setRb] = useState(() => Number(initialParams?.rb ?? 4700));
 
   const out = useMemo(() => {
     const denom = rt + rb;
@@ -17,6 +23,9 @@ function C() {
     const pb = i*i*rb;
     return { vout, i, pt, pb };
   }, [vin, rt, rb]);
+
+  const shareParams: ShareParams = { vin, rt, rb };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -28,12 +37,11 @@ function C() {
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
         <Result label="Vout" value={`${fmt(out.vout, 6)} V`} />
-        <Result label="Divider current" value={`${fmt(out.i, 9)} A`} />
-        <Result label="Power (top)" value={`${fmt(out.pt, 6)} W`} />
-        <Result label="Power (bottom)" value={`${fmt(out.pb, 6)} W`} />
+        <Result label="Current" value={`${fmt(out.i, 9)} A`} />
+        <Result label="Top R power" value={`${fmt(out.pt, 9)} W`} />
+        <Result label="Bottom R power" value={`${fmt(out.pb, 9)} W`} />
       </div>
-      <Hr />
-      <SmallNote>Does not account for load at Vout.</SmallNote>
+      <SmallNote>Vout = Vin × (Rbottom / (Rtop + Rbottom))</SmallNote>
     </Card>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 
 function isPrime(n: number) {
@@ -14,9 +15,18 @@ function isPrime(n: number) {
   return true;
 }
 
-function C() {
-  const [n, setN] = useState(97);
+interface PrimeCheckCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: PrimeCheckCalculatorProps) {
+  const [n, setN] = useState(() => Number(initialParams?.n ?? 97));
   const r = useMemo(() => isPrime(n), [n]);
+
+  const shareParams: ShareParams = { n };
+  if (onStateChange) onStateChange(shareParams);
+
   return (
     <Card>
       <NumberField label="Integer" value={n} onChange={setN} step={1} />

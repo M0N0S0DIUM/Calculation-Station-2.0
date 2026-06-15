@@ -1,24 +1,19 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
-import type { CalculatorModule } from "@/lib/types";
-import { Card, Grid, NumberField, Result, Hr, ShareButton } from "@/components/ui";
+import { useMemo, useState } from "react";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
+import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmtMoney } from "@/lib/math";
 
-function C() {
-  const [principal, setPrincipal] = useState(20000);
-  const [apr, setApr] = useState(6.5);
-  const [years, setYears] = useState(5);
+interface LoanCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const p = params.get("principal");
-    const a = params.get("apr");
-    const y = params.get("years");
-    if (p) setPrincipal(Number(p));
-    if (a) setApr(Number(a));
-    if (y) setYears(Number(y));
-  }, []);
+function C({ onStateChange, initialParams }: LoanCalculatorProps) {
+  const [principal, setPrincipal] = useState(() => Number(initialParams?.principal ?? 20000));
+  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 6.5));
+  const [years, setYears] = useState(() => Number(initialParams?.years ?? 5));
 
   const r = useMemo(() => {
     const P = principal;
@@ -35,17 +30,13 @@ function C() {
     return { monthly, total, interest: total-P };
   }, [principal, apr, years]);
 
-  const shareParams = useMemo(() => ({
-    principal,
-    apr,
-    years,
-  }), [principal, apr, years]);
+  const shareParams: ShareParams = { principal, apr, years };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold">Loan Calculator</h3>
-        <ShareButton slug="loan" params={shareParams} />
       </div>
       <Grid>
         <NumberField label="Principal" value={principal} onChange={setPrincipal} step={100} />

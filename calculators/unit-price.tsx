@@ -1,17 +1,26 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmtMoney } from "@/lib/math";
 
-function C() {
-  const [price, setPrice] = useState(9.99);
-  const [qty, setQty] = useState(12);
-  const [units, setUnits] = useState(16);
+interface UnitPriceCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: UnitPriceCalculatorProps) {
+  const [price, setPrice] = useState(() => Number(initialParams?.price ?? 9.99));
+  const [qty, setQty] = useState(() => Number(initialParams?.qty ?? 12));
+  const [units, setUnits] = useState(() => Number(initialParams?.units ?? 16));
   const r = useMemo(() => ({
     perItem: qty !== 0 ? price/qty : NaN,
     perUnit: units !== 0 ? price/units : NaN
   }), [price, qty, units]);
+
+  const shareParams: ShareParams = { price, qty, units };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

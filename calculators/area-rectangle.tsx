@@ -1,13 +1,23 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [w, setW] = useState(10);
-  const [h, setH] = useState(5);
+interface AreaRectangleCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: AreaRectangleCalculatorProps) {
+  const [w, setW] = useState(() => Number(initialParams?.w ?? 10));
+  const [h, setH] = useState(() => Number(initialParams?.h ?? 5));
   const out = useMemo(() => ({ area: w*h, perim: 2*(w+h) }), [w,h]);
+
+  const shareParams: ShareParams = { w, h };
+  if (onStateChange) onStateChange(shareParams);
+
   return (
     <Card>
       <Grid>

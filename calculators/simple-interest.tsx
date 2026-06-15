@@ -1,17 +1,26 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result } from "@/components/ui";
 import { fmtMoney } from "@/lib/math";
 
-function C() {
-  const [P, setP] = useState(1000);
-  const [apr, setApr] = useState(5);
-  const [years, setYears] = useState(3);
+interface SimpleInterestCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: SimpleInterestCalculatorProps) {
+  const [P, setP] = useState(() => Number(initialParams?.P ?? 1000));
+  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 5));
+  const [years, setYears] = useState(() => Number(initialParams?.years ?? 3));
   const r = useMemo(() => {
     const interest = P*(apr/100)*years;
     return { interest, total: P + interest };
   }, [P, apr, years]);
+
+  const shareParams: ShareParams = { P, apr, years };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

@@ -1,13 +1,19 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt, fmtMoney } from "@/lib/math";
 
-function C() {
-  const [fixed, setFixed] = useState(10000);
-  const [price, setPrice] = useState(50);
-  const [variable, setVariable] = useState(20);
+interface BreakEvenCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: BreakEvenCalculatorProps) {
+  const [fixed, setFixed] = useState(() => Number(initialParams?.fixed ?? 10000));
+  const [price, setPrice] = useState(() => Number(initialParams?.price ?? 50));
+  const [variable, setVariable] = useState(() => Number(initialParams?.variable ?? 20));
 
   const r = useMemo(() => {
     const contrib = price - variable;
@@ -15,6 +21,9 @@ function C() {
     const revenue = units !== Infinity ? units * price : NaN;
     return { contrib, units, revenue };
   }, [fixed, price, variable]);
+
+  const shareParams: ShareParams = { fixed, price, variable };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -29,8 +38,7 @@ function C() {
         <Result label="Units to break even" value={r.units === Infinity ? "Never (price ≤ variable)" : fmt(r.units, 2)} />
         <Result label="Break-even revenue" value={fmtMoney(r.revenue)} />
       </div>
-      <Hr />
-      <SmallNote>Classic CVP: units = fixed / (price - variable).</SmallNote>
+      <SmallNote>Assumes constant price and variable cost per unit.</SmallNote>
     </Card>
   );
 }

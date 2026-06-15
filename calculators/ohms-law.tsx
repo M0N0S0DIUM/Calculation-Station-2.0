@@ -1,13 +1,19 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [v, setV] = useState(5);
-  const [i, setI] = useState(0.2);
-  const [r, setR] = useState(25);
+interface OhmsLawCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: OhmsLawCalculatorProps) {
+  const [v, setV] = useState(() => Number(initialParams?.v ?? 5));
+  const [i, setI] = useState(() => Number(initialParams?.i ?? 0.2));
+  const [r, setR] = useState(() => Number(initialParams?.r ?? 25));
 
   const out = useMemo(() => {
     const P_vi = v*i;
@@ -19,6 +25,9 @@ function C() {
     return { P_vi, R_vi, I_vr, V_ir, P_vr, P_ir };
   }, [v,i,r]);
 
+  const shareParams: ShareParams = { v, i, r };
+  if (onStateChange) onStateChange(shareParams);
+
   return (
     <Card>
       <Grid>
@@ -28,12 +37,12 @@ function C() {
       </Grid>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
-        <Result label="R from V/I" value={`${fmt(out.R_vi, 6)} Ω`} />
-        <Result label="I from V/R" value={`${fmt(out.I_vr, 6)} A`} />
-        <Result label="V from I·R" value={`${fmt(out.V_ir, 6)} V`} />
-        <Result label="Power (V·I)" value={`${fmt(out.P_vi, 6)} W`} />
-        <Result label="Power (V²/R)" value={`${fmt(out.P_vr, 6)} W`} />
-        <Result label="Power (I²·R)" value={`${fmt(out.P_ir, 6)} W`} />
+        <Result label="V×I (Power)" value={`${fmt(out.P_vi, 6)} W`} />
+        <Result label="V/I (Resistance)" value={`${fmt(out.R_vi, 6)} Ω`} />
+        <Result label="V/R (Current)" value={`${fmt(out.I_vr, 6)} A`} />
+        <Result label="I×R (Voltage)" value={`${fmt(out.V_ir, 6)} V`} />
+        <Result label="V²/R (Power)" value={`${fmt(out.P_vr, 6)} W`} />
+        <Result label="I²×R (Power)" value={`${fmt(out.P_ir, 6)} W`} />
       </div>
     </Card>
   );

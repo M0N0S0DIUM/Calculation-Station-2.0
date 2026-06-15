@@ -1,32 +1,30 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
 const U: Record<string, number> = {
-  "mm": 0.001,
-  "cm": 0.01,
-  "m": 1,
-  "km": 1000,
-  "in": 0.0254,
-  "ft": 0.3048,
-  "yd": 0.9144,
-  "mi": 1609.344
+  "mm": 0.001, "cm": 0.01, "m": 1, "km": 1000,
+  "in": 0.0254, "ft": 0.3048, "yd": 0.9144, "mi": 1609.344
 };
 
-function C() {
+interface LengthConvertCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: LengthConvertCalculatorProps) {
   const keys = Object.keys(U);
-  const [from, setFrom] = useState(keys[0]);
-  const [to, setTo] = useState(keys[1] ?? keys[0]);
-  const [v, setV] = useState(1);
-
-  const out = useMemo(() => {
-    const base = v * U[from];
-    return base / U[to];
-  }, [from, to, v]);
-
+  const [from, setFrom] = useState(() => String(initialParams?.from ?? keys[0]));
+  const [to, setTo] = useState(() => String(initialParams?.to ?? keys[1] ?? keys[0]));
+  const [v, setV] = useState(() => Number(initialParams?.v ?? 1));
+  const out = useMemo(() => { const base = v * U[from]; return base / U[to]; }, [from, to, v]);
   const options = keys.map((k) => ({ value: k, label: k }));
+
+  const shareParams: ShareParams = { from, to, v };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -35,9 +33,7 @@ function C() {
         <SelectField label="To" value={to} onChange={setTo} options={options} />
         <NumberField label="Value" value={v} onChange={setV} step={0.01} />
       </Grid>
-      <div style={{ marginTop: 12 }}>
-        <Result label="Result" value={`${fmt(out, 6)} ${to}`} />
-      </div>
+      <Result label={`${v} ${from}`} value={`${fmt(out, 10)} ${to}`} />
     </Card>
   );
 }

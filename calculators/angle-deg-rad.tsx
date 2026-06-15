@@ -1,18 +1,27 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
-import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
+import { Card, Grid, NumberField, SelectField, Result, Hr } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [deg, setDeg] = useState(180);
-  const [rad, setRad] = useState(Math.PI);
+interface AngleDegRadCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: AngleDegRadCalculatorProps) {
+  const [deg, setDeg] = useState(() => Number(initialParams?.deg ?? 180));
+  const [rad, setRad] = useState(() => Number(initialParams?.rad ?? Math.PI));
 
   const out = useMemo(() => {
     const radFromDeg = deg * Math.PI/180;
     const degFromRad = rad * 180/Math.PI;
     return { radFromDeg, degFromRad };
   }, [deg, rad]);
+
+  const shareParams: ShareParams = { deg, rad };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

@@ -1,17 +1,26 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [x, setX] = useState(16);
-  const [n, setN] = useState(2);
+interface PowerRootCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: PowerRootCalculatorProps) {
+  const [x, setX] = useState(() => Number(initialParams?.x ?? 16));
+  const [n, setN] = useState(() => Number(initialParams?.n ?? 2));
   const out = useMemo(() => {
     const pow = Math.pow(x, n);
     const root = n !== 0 ? Math.pow(x, 1/n) : NaN;
     return { pow, root };
   }, [x,n]);
+
+  const shareParams: ShareParams = { x, n };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

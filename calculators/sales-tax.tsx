@@ -1,19 +1,27 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmtMoney } from "@/lib/math";
 
-function C() {
-  const [price, setPrice] = useState(100);
-  const [taxPct, setTaxPct] = useState(8.25);
+interface SalesTaxCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
 
+function C({ onStateChange, initialParams }: SalesTaxCalculatorProps) {
+  const [price, setPrice] = useState(() => Number(initialParams?.price ?? 100));
+  const [taxPct, setTaxPct] = useState(() => Number(initialParams?.taxPct ?? 8.25));
   const r = useMemo(() => {
     const tax = price * taxPct/100;
     const total = price + tax;
     const baseFromTotal = (1 + taxPct/100) !== 0 ? total/(1+taxPct/100) : NaN;
     return { tax, total, baseFromTotal };
   }, [price, taxPct]);
+
+  const shareParams: ShareParams = { price, taxPct };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>

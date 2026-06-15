@@ -1,13 +1,19 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [vs, setVs] = useState(5);
-  const [vf, setVf] = useState(2.0);
-  const [imA, setImA] = useState(10);
+interface LEDResistorCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: LEDResistorCalculatorProps) {
+  const [vs, setVs] = useState(() => Number(initialParams?.vs ?? 5));
+  const [vf, setVf] = useState(() => Number(initialParams?.vf ?? 2.0));
+  const [imA, setImA] = useState(() => Number(initialParams?.imA ?? 10));
 
   const out = useMemo(() => {
     const I = imA/1000;
@@ -16,6 +22,9 @@ function C() {
     const pR = I*I*R;
     return { vR, R, pR };
   }, [vs, vf, imA]);
+
+  const shareParams: ShareParams = { vs, vf, imA };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
@@ -30,8 +39,7 @@ function C() {
         <Result label="Resistor value" value={`${fmt(out.R, 2)} Ω`} />
         <Result label="Resistor power" value={`${fmt(out.pR, 6)} W`} />
       </div>
-      <Hr />
-      <SmallNote>If Vs ≤ Vf, you need a different topology.</SmallNote>
+      <SmallNote>R = (Vs - Vf) / I. Use next standard value up.</SmallNote>
     </Card>
   );
 }

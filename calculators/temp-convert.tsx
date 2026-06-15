@@ -1,12 +1,18 @@
 "use client";
+
 import { useMemo, useState } from "react";
-import type { CalculatorModule } from "@/lib/types";
+import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result, Hr } from "@/components/ui";
 import { fmt } from "@/lib/math";
 
-function C() {
-  const [from, setFrom] = useState("C");
-  const [v, setV] = useState(25);
+interface TempConvertCalculatorProps {
+  onStateChange?: (params: ShareParams) => void;
+  initialParams?: ShareParams;
+}
+
+function C({ onStateChange, initialParams }: TempConvertCalculatorProps) {
+  const [from, setFrom] = useState(() => String(initialParams?.from ?? "C"));
+  const [v, setV] = useState(() => Number(initialParams?.v ?? 25));
   const r = useMemo(() => {
     let C = v;
     if (from === "F") C = (v-32)*(5/9);
@@ -15,6 +21,9 @@ function C() {
     const K = C+273.15;
     return { C, F, K };
   }, [from, v]);
+
+  const shareParams: ShareParams = { from, v };
+  if (onStateChange) onStateChange(shareParams);
 
   return (
     <Card>
