@@ -1,4 +1,10 @@
-import type { CalculatorModule } from "@/lib/types";
+"use client";
+
+import type { CalculatorModule, CalculatorMeta } from "@/lib/types";
+import { CALCULATOR_META, getCalculatorMeta, CATEGORIES, CATEGORY_INFO } from "@/lib/registry";
+
+export { CALCULATOR_META, getCalculatorMeta, CATEGORIES, CATEGORY_INFO };
+
 import { basic } from "@/calculators/basic";
 import { percentage } from "@/calculators/percentage";
 import { fractionSimplifier } from "@/calculators/fraction-simplifier";
@@ -50,59 +56,63 @@ import { batteryRuntime } from "@/calculators/battery-runtime";
 import { dateDiff } from "@/calculators/date-diff";
 import { epochConverter } from "@/calculators/epoch-converter";
 
-export const CALCULATORS: CalculatorModule[] = [
-  basic,
-  percentage,
-  fractionSimplifier,
-  averageStats,
-  unitPrice,
-  ratioProportion,
-  gcdLcm,
-  rounding,
-  primeCheck,
-  areaCircle,
-  areaRectangle,
-  powerRoot,
-  tip,
-  salesTax,
-  loan,
-  mortgage,
-  compoundInterest,
-  simpleInterest,
-  roi,
-  marginMarkup,
-  aprToApy,
-  presentValue,
-  futureValue,
-  creditCardPayoff,
-  breakEven,
-  bmi,
-  bmrTdee,
-  macros,
-  heartRateZones,
-  waterIntake,
-  bodyFatNavy,
-  runningPace,
-  caloriesMet,
-  oneRepMax,
-  tempConvert,
-  lengthConvert,
-  massConvert,
-  speedConvert,
-  pressureConvert,
-  volumeConvert,
-  energyConvert,
-  angleDegRad,
-  ohmsLaw,
-  resistorDivider,
-  ledResistor,
-  rcCutoff,
-  capacitorCharge,
-  batteryRuntime,
-  dateDiff,
-  epochConverter
-].sort((a,b)=> a.meta.title.localeCompare(b.meta.title));
+const MODULE_MAP = new Map<string, CalculatorModule>([
+  ["basic", basic],
+  ["percentage", percentage],
+  ["fraction-simplifier", fractionSimplifier],
+  ["average-stats", averageStats],
+  ["unit-price", unitPrice],
+  ["ratio-proportion", ratioProportion],
+  ["gcd-lcm", gcdLcm],
+  ["rounding", rounding],
+  ["prime-check", primeCheck],
+  ["area-circle", areaCircle],
+  ["area-rectangle", areaRectangle],
+  ["power-root", powerRoot],
+  ["tip", tip],
+  ["sales-tax", salesTax],
+  ["loan", loan],
+  ["mortgage", mortgage],
+  ["compound-interest", compoundInterest],
+  ["simple-interest", simpleInterest],
+  ["roi", roi],
+  ["margin-markup", marginMarkup],
+  ["apr-to-apy", aprToApy],
+  ["present-value", presentValue],
+  ["future-value", futureValue],
+  ["credit-card-payoff", creditCardPayoff],
+  ["break-even", breakEven],
+  ["bmi", bmi],
+  ["bmr-tdee", bmrTdee],
+  ["macros", macros],
+  ["heart-rate-zones", heartRateZones],
+  ["water-intake", waterIntake],
+  ["body-fat-navy", bodyFatNavy],
+  ["running-pace", runningPace],
+  ["calories-met", caloriesMet],
+  ["one-rep-max", oneRepMax],
+  ["temp-convert", tempConvert],
+  ["length-convert", lengthConvert],
+  ["mass-convert", massConvert],
+  ["speed-convert", speedConvert],
+  ["pressure-convert", pressureConvert],
+  ["volume-convert", volumeConvert],
+  ["energy-convert", energyConvert],
+  ["angle-deg-rad", angleDegRad],
+  ["ohms-law", ohmsLaw],
+  ["resistor-divider", resistorDivider],
+  ["led-resistor", ledResistor],
+  ["rc-cutoff", rcCutoff],
+  ["capacitor-charge", capacitorCharge],
+  ["battery-runtime", batteryRuntime],
+  ["date-diff", dateDiff],
+  ["epoch-converter", epochConverter],
+]);
 
-export function getCalculator(slug: string) {
-  return CALCULATORS.find(c => c.meta.slug === slug);
+export const CALCULATOR_MODULES: CalculatorModule[] = CALCULATOR_META.map(
+  (meta) => MODULE_MAP.get(meta.slug)!
+).filter(Boolean);
+
+export function getCalculator(slug: string): CalculatorModule | undefined {
+  return MODULE_MAP.get(slug);
 }

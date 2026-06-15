@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { ShareButton } from "@/components/ui";
-import { getCalculatorModule } from "@/lib/calculator-modules";
+import { getCalculator } from "@/lib/registry-client";
 
 interface CalculatorClientProps {
   slug: string;
@@ -15,9 +14,8 @@ interface CalculatorClientProps {
 }
 
 export default function CalculatorClient({ slug, meta }: CalculatorClientProps) {
-  // Load calculator synchronously during render - no useEffect needed
-  // since getCalculatorModule is synchronous (all modules statically imported)
-  const calculatorModule = getCalculatorModule(slug);
+  // Synchronous lookup - all modules statically imported in registry-client.ts
+  const calculatorModule = getCalculator(slug);
   const CalculatorComponent = calculatorModule?.Calculator ?? null;
   const error = calculatorModule ? null : `Calculator "${slug}" not found`;
 

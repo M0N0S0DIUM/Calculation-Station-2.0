@@ -1,0 +1,126 @@
+import type { Category, CalculatorMeta } from "@/lib/types";
+
+/**
+ * Server-safe calculator metadata registry.
+ * No component imports - safe for use in generateMetadata, generateStaticParams, etc.
+ */
+export const CALCULATOR_META: CalculatorMeta[] = [
+  { slug: "basic", title: "Basic Calculator", category: "Basic", description: "Add/subtract/multiply/divide/powers.", keywords: ["add", "subtract", "multiply", "divide", "power", "arithmetic", "math"] },
+  { slug: "percentage", title: "Percentage Calculator", category: "Basic", description: "Percent of, what percent, increase/decrease.", keywords: ["percent", "percentage", "increase", "decrease", "percent of", "what percent", "ratio"] },
+  { slug: "fraction-simplifier", title: "Fraction Simplifier", category: "Basic", description: "Reduce a fraction + mixed number + decimal.", keywords: ["fraction", "simplify", "reduce", "mixed number", "decimal", "numerator", "denominator", "gcd"] },
+  { slug: "average-stats", title: "Average / Quick Stats", category: "Basic", description: "Average, sum, min, max from a list.", keywords: ["average", "mean", "sum", "min", "max", "statistics", "stats", "numbers", "list"] },
+  { slug: "unit-price", title: "Unit Price", category: "Basic", description: "Cost per item or per unit.", keywords: ["unit price", "cost per item", "price per unit", "comparison", "shopping", "value"] },
+  { slug: "ratio-proportion", title: "Ratio / Proportion", category: "Basic", description: "Solve a:b = c:d for missing value.", keywords: ["ratio", "proportion", "cross multiply", "a:b=c:d", "proportional", "scale"] },
+  { slug: "gcd-lcm", title: "GCD / LCM", category: "Basic", description: "Greatest common divisor and least common multiple.", keywords: ["gcd", "greatest common divisor", "lcm", "least common multiple", "factor", "multiple", "euclid"] },
+  { slug: "rounding", title: "Rounding", category: "Basic", description: "Round a number to N decimals.", keywords: ["round", "rounding", "decimal", "decimals", "precision", "number", "truncate", "math", "significant figures"] },
+  { slug: "prime-check", title: "Prime Checker", category: "Basic", description: "Check if an integer is prime.", keywords: ["prime", "prime number", "check", "is prime", "prime test", "factor", "divisible", "integer", "math", "number theory"] },
+  { slug: "area-circle", title: "Area of a Circle", category: "Basic", description: "Area and circumference from radius.", keywords: ["circle", "area", "circumference", "radius", "pi", "geometry", "π"] },
+  { slug: "area-rectangle", title: "Area of a Rectangle", category: "Basic", description: "Area and perimeter from width/height.", keywords: ["rectangle", "area", "perimeter", "width", "height", "geometry", "rectangular"] },
+  { slug: "power-root", title: "Power & Root", category: "Basic", description: "Compute x^n and n-th root of x.", keywords: ["power", "exponent", "root", "nth root", "x^n", "radical", "exponentiation"] },
+  { slug: "tip", title: "Tip Calculator", category: "Financial", description: "Tip amount and total bill.", keywords: ["tip", "gratuity", "bill", "split", "per person", "restaurant", "dining"] },
+  { slug: "sales-tax", title: "Sales Tax", category: "Financial", description: "Add/remove sales tax.", keywords: ["sales tax", "tax", "vat", "gst", "add tax", "remove tax", "pre-tax", "post-tax", "total"] },
+  { slug: "loan", title: "Loan Calculator", category: "Financial", description: "Monthly payment + total interest.", keywords: ["loan", "monthly payment", "amortization", "principal", "interest", "term", "apr", "installment"] },
+  { slug: "mortgage", title: "Mortgage Calculator", category: "Financial", description: "Monthly PITI+HOA estimate.", keywords: ["mortgage", "home loan", "house payment", "piti", "down payment", "property tax", "insurance", "hoa", "pmi", "amortization"] },
+  { slug: "compound-interest", title: "Compound Interest", category: "Financial", description: "Future value with monthly contributions.", keywords: ["compound interest", "future value", "fv", "investment", "savings", "monthly contribution", "apr", "compounding", "time value of money"] },
+  { slug: "simple-interest", title: "Simple Interest", category: "Financial", description: "Total = P + P·r·t.", keywords: ["simple interest", "principal", "rate", "time", "interest", "total", "p+r+t", "basic interest"] },
+  { slug: "roi", title: "ROI Calculator", category: "Financial", description: "Return on investment (%).", keywords: ["roi", "return on investment", "profit", "cost", "investment", "return", "percentage", "gain"] },
+  { slug: "margin-markup", title: "Margin / Markup", category: "Financial", description: "Compute margin% and markup% from cost and price.", keywords: ["margin", "markup", "profit margin", "cost", "price", "profit", "business", "pricing", "wholesale", "retail"] },
+  { slug: "apr-to-apy", title: "APR → APY", category: "Financial", description: "Convert APR to APY with compounding.", keywords: ["apr", "apy", "annual percentage rate", "annual percentage yield", "compounding", "convert", "effective rate", "nominal rate"] },
+  { slug: "present-value", title: "Present Value", category: "Financial", description: "PV of a future amount with discount rate.", keywords: ["present value", "pv", "future value", "discount rate", "time value of money", "discounting", "net present value"] },
+  { slug: "future-value", title: "Future Value", category: "Financial", description: "FV from present value with rate.", keywords: ["future value", "fv", "present value", "rate", "years", "compounding", "growth", "investment"] },
+  { slug: "credit-card-payoff", title: "Credit Card Payoff", category: "Financial", description: "Estimate months to payoff with fixed monthly payment.", keywords: ["credit card", "payoff", "debt", "balance", "apr", "monthly payment", "interest", "pay off", "credit card debt"] },
+  { slug: "break-even", title: "Break-even Point", category: "Financial", description: "Units to break even: fixed / (price - variable).", keywords: ["break even", "break-even", "fixed cost", "variable cost", "price", "units", "contribution margin", "cvp", "cost volume profit"] },
+  { slug: "bmi", title: "BMI Calculator", category: "Health", description: "Body mass index (US/Metric).", keywords: ["bmi", "body mass index", "weight", "height", "health", "body fat", "obesity", "underweight", "normal weight", "overweight"] },
+  { slug: "bmr-tdee", title: "BMR / TDEE", category: "Health", description: "Calories/day estimate (Mifflin-St Jeor).", keywords: ["bmr", "basal metabolic rate", "tdee", "total daily energy expenditure", "calories", "mifflin st jeor", "metabolism", "weight loss", "weight gain", "maintenance calories"] },
+  { slug: "macros", title: "Macro Split", category: "Health", description: "Convert macro % to grams/day.", keywords: ["macros", "macronutrients", "protein", "carbs", "carbohydrates", "fat", "grams", "percentage", "split", "diet", "nutrition"] },
+  { slug: "heart-rate-zones", title: "Heart Rate Zones", category: "Health", description: "Karvonen zones from age + resting HR.", keywords: ["heart rate", "hr", "zones", "karvonen", "training zones", "max heart rate", "resting heart rate", "cardio", "fitness", "exercise intensity"] },
+  { slug: "water-intake", title: "Water Intake", category: "Health", description: "Simple daily water estimate by body weight.", keywords: ["water", "hydration", "daily water", "water intake", "body weight", "oz", "liters", "drink water"] },
+  { slug: "body-fat-navy", title: "Body Fat (Navy Method)", category: "Health", description: "Estimate body fat % from measurements.", keywords: ["body fat", "navy method", "body fat percentage", "measurements", "neck", "waist", "hip", "height", "military", "fitness"] },
+  { slug: "running-pace", title: "Running Pace", category: "Health", description: "Convert distance/time to pace and speed.", keywords: ["running", "pace", "speed", "distance", "time", "min/km", "min/mi", "km/h", "mph", "jogging", "marathon", "5k", "10k"] },
+  { slug: "calories-met", title: "Calories Burned (MET)", category: "Health", description: "Calories burned from MET, weight, minutes.", keywords: ["calories", "burned", "met", "metabolic equivalent", "exercise", "activity", "weight", "minutes", "energy expenditure", "workout"] },
+  { slug: "one-rep-max", title: "One-Rep Max (Epley)", category: "Health", description: "Estimate 1RM from weight and reps.", keywords: ["one rep max", "1rm", "epley", "weight lifting", "strength", "reps", "weight", "powerlifting", "bodybuilding", "max lift"] },
+  { slug: "temp-convert", title: "Temperature Converter", category: "Conversion", description: "Convert °C, °F, K.", keywords: ["temperature", "convert", "celsius", "fahrenheit", "kelvin", "c", "f", "k", "degrees", "temp", "unit conversion"] },
+  { slug: "length-convert", title: "Length Converter", category: "Conversion", description: "Convert mm/cm/m/km/in/ft/yd/mi.", keywords: ["length", "convert", "mm", "cm", "meter", "km", "inch", "foot", "yard", "mile", "distance", "unit conversion"] },
+  { slug: "mass-convert", title: "Mass Converter", category: "Conversion", description: "Convert mg/g/kg/oz/lb.", keywords: ["mass", "convert", "weight", "mg", "g", "kg", "oz", "lb", "ounce", "pound", "gram", "kilogram", "unit conversion"] },
+  { slug: "pressure-convert", title: "Pressure Converter", category: "Conversion", description: "Convert Pa/kPa/bar/psi/atm.", keywords: ["pressure", "convert", "pa", "kpa", "bar", "psi", "atm", "pascal", "kilopascal", "pounds per square inch", "atmosphere", "unit conversion"] },
+  { slug: "speed-convert", title: "Speed Converter", category: "Conversion", description: "Convert m/s, km/h, mph, knots.", keywords: ["speed", "convert", "m/s", "km/h", "mph", "knots", "velocity", "meter per second", "kilometer per hour", "miles per hour", "nautical", "unit conversion"] },
+  { slug: "volume-convert", title: "Volume Converter", category: "Conversion", description: "Convert mL/L/m^3/US gal/US qt/ft^3.", keywords: ["volume", "convert", "ml", "l", "liter", "m3", "cubic meter", "gallon", "quart", "ft3", "cubic foot", "us", "unit conversion"] },
+  { slug: "energy-convert", title: "Energy Converter", category: "Conversion", description: "Convert J/kJ/Wh/kWh/cal/kcal/BTU.", keywords: ["energy", "convert", "joule", "j", "kj", "wh", "kwh", "calorie", "kcal", "btu", "unit conversion"] },
+  { slug: "angle-deg-rad", title: "Angle Converter", category: "Conversion", description: "Degrees ↔ radians.", keywords: ["angle", "degrees", "radians", "deg", "rad", "convert", "π", "pi", "trigonometry", "geometry"] },
+  { slug: "ohms-law", title: "Ohm's Law", category: "Electronics", description: "V/I/R + power.", keywords: ["ohm's law", "ohms law", "voltage", "current", "resistance", "power", "v", "i", "r", "watt", "amp", "volt", "ohm", "circuit"] },
+  { slug: "resistor-divider", title: "Resistor Divider", category: "Electronics", description: "Vout, current, resistor power.", keywords: ["resistor divider", "voltage divider", "vout", "vin", "resistor", "current", "power", "top", "bottom", "circuit", "ohms law"] },
+  { slug: "led-resistor", title: "LED Resistor", category: "Electronics", description: "Series resistor and power for an LED.", keywords: ["led", "resistor", "series", "forward voltage", "vf", "current", "ma", "ohm", "power", "watt", "circuit"] },
+  { slug: "rc-cutoff", title: "RC Cutoff", category: "Electronics", description: "RC time constant and cutoff frequency.", keywords: ["rc", "cutoff", "frequency", "time constant", "tau", "resistor", "capacitor", "filter", "low pass", "high pass", "hertz", "hz"] },
+  { slug: "capacitor-charge", title: "Capacitor Charge Time", category: "Electronics", description: "Time to reach a target % of final voltage in RC.", keywords: ["capacitor", "charge", "rc", "time constant", "tau", "voltage", "exponential", "charging curve", "percent", "final voltage"] },
+  { slug: "battery-runtime", title: "Battery Runtime", category: "Electronics", description: "Runtime from capacity and load current.", keywords: ["battery", "runtime", "capacity", "mah", "ah", "current", "load", "discharge", "hours", "estimate"] },
+  { slug: "date-diff", title: "Date Difference", category: "Time", description: "Days/weeks between two dates.", keywords: ["date", "difference", "days", "weeks", "between", "duration", "interval", "start", "end", "calendar"] },
+  { slug: "epoch-converter", title: "Epoch Converter", category: "Time", description: "Unix seconds ↔ ISO date/time (local).", keywords: ["epoch", "unix", "timestamp", "iso", "date", "time", "seconds", "milliseconds", "convert", "unix time"] },
+];
+
+/** All unique categories */
+export const CATEGORIES: Category[] = [
+  ...new Set(CALCULATOR_META.map((c) => c.category)),
+].sort();
+
+/** Category metadata for UI */
+export const CATEGORY_INFO: Record<Category, { description: string; icon: string }> = {
+  Basic: { description: "Fundamental math tools for everyday calculations — arithmetic, percentages, fractions, geometry, and number theory.", icon: "🔢" },
+  Financial: { description: "Money calculators for loans, mortgages, investments, interest, ROI, and business metrics.", icon: "💰" },
+  Health: { description: "Fitness and wellness estimators — BMI, calories, macros, heart rate zones, body fat, and hydration.", icon: "❤️" },
+  Conversion: { description: "Unit converters for length, mass, temperature, speed, pressure, energy, volume, and angles.", icon: "🔄" },
+  Electronics: { description: "Circuit calculators for Ohm's law, resistor dividers, LEDs, RC filters, capacitors, and battery runtime.", icon: "⚡" },
+  Time: { description: "Date and timestamp utilities — difference between dates, Unix epoch conversion.", icon: "⏱️" },
+};
+
+/** Lookup map for O(1) slug access */
+const SLUG_MAP = new Map(CALCULATOR_META.map((c) => [c.slug, c]));
+
+/** Get calculator metadata by slug */
+export function getCalculatorMeta(slug: string): CalculatorMeta | undefined {
+  return SLUG_MAP.get(slug);
+}
+
+/** Get all calculators in a category */
+export function getCalculatorsByCategory(category: Category): CalculatorMeta[] {
+  return CALCULATOR_META
+    .filter((c) => c.category === category)
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+/** Get all calculators */
+export function getAllCalculators(): CalculatorMeta[] {
+  return [...CALCULATOR_META].sort((a, b) => a.title.localeCompare(b.title));
+}
+
+/** Get all calculator slugs (for static generation, sitemaps, etc.) */
+export function getAllCalculatorSlugs(): string[] {
+  return CALCULATOR_META.map((c) => c.slug);
+}
+
+/** Validate registry integrity - throws if issues found (runs at build time) */
+export function validateRegistry(): void {
+  const errors: string[] = [];
+  const seenSlugs = new Set<string>();
+
+  for (const meta of CALCULATOR_META) {
+    const { slug, title, category, description } = meta;
+
+    if (!slug) errors.push(`Missing slug in calculator: ${title}`);
+    if (!title) errors.push(`Missing title for slug: ${slug}`);
+    if (!category) errors.push(`Missing category for: ${title}`);
+    if (!description) errors.push(`Missing description for: ${title}`);
+
+    if (seenSlugs.has(slug)) errors.push(`Duplicate slug: ${slug}`);
+    seenSlugs.add(slug);
+
+    if (!CATEGORIES.includes(category)) {
+      errors.push(`Unknown category "${category}" for: ${title}`);
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new Error(`Calculator registry validation failed:\n${errors.join("\n")}`);
+  }
+}
+
+validateRegistry();
