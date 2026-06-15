@@ -42,11 +42,22 @@ export function NumberField(props: {
 
       <input
         type="number"
-        value={Number.isFinite(props.value) ? props.value : 0}
-        step={props.step ?? 1}
+        value={Number.isFinite(props.value) ? props.value : ""}
+        step={props.step ??    1}
         min={props.min}
         max={props.max}
-        onChange={(e) => props.onChange(Number(e.target.value))}
+        onChange={(e) => {
+          const raw = e.target.value;
+          // Allow empty string (clearing), partial numbers like "1.", "-", etc.
+          if (raw === "" || raw === "-" || raw.endsWith(".")) {
+            // Don't update state for partial input - let user finish typing
+            return;
+          }
+          const num = Number(raw);
+          if (Number.isFinite(num)) {
+            props.onChange(num);
+          }
+        }}
         className="w-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-4 py-2 text-sm outline-none transition
                    focus:border-neutral-600 focus:ring-2 focus:ring-white/10"
       />
@@ -104,7 +115,7 @@ export function SelectField(props: {
 export function Result({ 
   label, 
   value, 
-  copyValue 
+  copyValue
 }: { 
   label: string; 
   value: string; 
