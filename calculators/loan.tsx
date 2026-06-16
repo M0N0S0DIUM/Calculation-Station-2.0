@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmtMoney } from "@/lib/math";
@@ -31,7 +31,9 @@ function C({ onStateChange, initialParams }: LoanCalculatorProps) {
   }, [principal, apr, years]);
 
   const shareParams: ShareParams = { principal, apr, years };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

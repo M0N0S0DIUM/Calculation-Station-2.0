@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmtPct } from "@/lib/math";
@@ -30,7 +30,9 @@ function C({ onStateChange, initialParams }: BodyFatNavyCalculatorProps) {
   }, [sex, height, neck, waist, hip]);
 
   const shareParams: ShareParams = { sex, height, neck, waist, hip };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

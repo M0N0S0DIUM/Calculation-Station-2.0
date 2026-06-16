@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmtPct, fmtMoney } from "@/lib/math";
@@ -20,7 +20,9 @@ function C({ onStateChange, initialParams }: ROICalculatorProps) {
   }, [cost, value]);
 
   const shareParams: ShareParams = { cost, value };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

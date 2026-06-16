@@ -29,7 +29,9 @@ function C({ onStateChange, initialParams }: BasicCalculatorProps) {
   }), [a, b]);
 
   const shareParams: ShareParams = { a, b };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

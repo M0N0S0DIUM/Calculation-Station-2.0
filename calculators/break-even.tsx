@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt, fmtMoney } from "@/lib/math";
@@ -23,7 +23,9 @@ function C({ onStateChange, initialParams }: BreakEvenCalculatorProps) {
   }, [fixed, price, variable]);
 
   const shareParams: ShareParams = { fixed, price, variable };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

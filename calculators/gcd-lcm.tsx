@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { gcd, lcm, fmt } from "@/lib/math";
@@ -16,7 +16,9 @@ function C({ onStateChange, initialParams }: GCDLCMCalculatorProps) {
   const r = useMemo(() => ({ gcd: gcd(a,b), lcm: lcm(a,b) }), [a,b]);
 
   const shareParams: ShareParams = { a, b };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

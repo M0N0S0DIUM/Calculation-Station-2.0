@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 
@@ -25,7 +25,9 @@ function C({ onStateChange, initialParams }: PrimeCheckCalculatorProps) {
   const r = useMemo(() => isPrime(n), [n]);
 
   const shareParams: ShareParams = { n };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

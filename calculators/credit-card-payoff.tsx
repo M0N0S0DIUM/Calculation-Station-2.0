@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmtMoney, fmt } from "@/lib/math";
@@ -38,7 +38,9 @@ function C({ onStateChange, initialParams }: CreditCardPayoffCalculatorProps) {
   }, [balance, apr, payment]);
 
   const shareParams: ShareParams = { balance, apr, payment };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result } from "@/components/ui";
 import { fmt } from "@/lib/math";
@@ -23,7 +23,9 @@ function C({ onStateChange, initialParams }: EnergyConvertCalculatorProps) {
   const options = keys.map((k) => ({ value: k, label: k }));
 
   const shareParams: ShareParams = { from, to, v };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

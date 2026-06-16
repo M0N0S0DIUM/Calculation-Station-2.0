@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result, Hr } from "@/components/ui";
 import { fmt } from "@/lib/math";
@@ -33,7 +33,9 @@ function C({ onStateChange, initialParams }: RunningPaceCalculatorProps) {
   };
 
   const shareParams: ShareParams = { dist, unit, minutes };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

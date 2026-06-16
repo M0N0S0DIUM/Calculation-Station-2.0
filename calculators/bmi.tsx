@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
@@ -34,7 +34,9 @@ function C({ onStateChange, initialParams }: BMICalculatorProps) {
     weight: units === "us" ? lbs : kg,
     height: units === "us" ? inch : cm,
   };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, units, lbs, inch, kg, cm, onStateChange]);
 
   return (
     <Card>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, TextField, Result, Hr, SmallNote } from "@/components/ui";
 
@@ -21,7 +21,9 @@ function C({ onStateChange, initialParams }: EpochConverterCalculatorProps) {
   }, [epoch, iso]);
 
   const shareParams: ShareParams = { epoch, iso };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

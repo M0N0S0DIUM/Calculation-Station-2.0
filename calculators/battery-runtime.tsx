@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, SelectField, Result, Hr, SmallNote } from "@/components/ui";
 import { fmt } from "@/lib/math";
@@ -24,7 +24,9 @@ function C({ onStateChange, initialParams }: BatteryRuntimeCalculatorProps) {
   }, [cap, capUnit, current, curUnit]);
 
   const shareParams: ShareParams = { cap, capUnit, current, curUnit };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

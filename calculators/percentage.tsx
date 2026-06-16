@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr } from "@/components/ui";
 import { fmt, fmtPct } from "@/lib/math";
@@ -24,7 +24,9 @@ function C({ onStateChange, initialParams }: PercentageCalculatorProps) {
   }, [base, pct, part]);
 
   const shareParams: ShareParams = { base, pct, part };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>

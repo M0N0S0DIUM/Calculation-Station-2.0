@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { CalculatorModule, ShareParams } from "@/lib/types";
 import { Card, Grid, NumberField, Result, Hr, SmallNote } from "@/components/ui";
 import { round, fmt } from "@/lib/math";
@@ -16,7 +16,9 @@ function C({ onStateChange, initialParams }: RoundingCalculatorProps) {
   const r = useMemo(() => round(x, Math.max(0, Math.min(12, Math.trunc(d)))), [x,d]);
 
   const shareParams: ShareParams = { x, d };
-  if (onStateChange) onStateChange(shareParams);
+  useEffect(() => {
+    if (onStateChange) onStateChange(shareParams);
+  }, [shareParams, onStateChange]);
 
   return (
     <Card>
