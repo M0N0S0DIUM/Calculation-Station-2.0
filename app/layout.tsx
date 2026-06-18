@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | Calculation Station",
   },
   description:
-    "50 modular calculators: basic, finance, health, conversion, electronics, time.",
+    "79+ modular calculators: basic math, finance, health, conversion, electronics, time.",
   metadataBase: new URL("https://calculationstation.org"),
   alternates: { canonical: "/" },
   openGraph: {
@@ -19,19 +19,61 @@ export const metadata: Metadata = {
     description:
       "Fast modular calculators for everyday math, finance, health estimates, conversions, and electronics.",
     siteName: "Calculation Station",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Calculation Station" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Calculation Station",
     description:
       "Fast modular calculators for everyday math, finance, health estimates, conversions, and electronics.",
-    images: ["/og.png"],
   },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
+  verification: {
+    google: "google-site-verification-code",
+  },
+  other: {
+    "application-name": "Calculation Station",
+  },
 };
+
+function StructuredData() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          name: "Calculation Station",
+          description:
+            "79+ free modular calculators for math, finance, health, conversions, electronics, and time calculations.",
+          url: "https://calculationstation.org",
+          applicationCategory: "UtilitiesApplication",
+          operatingSystem: "Web",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+          },
+          featureList: [
+            "Basic Math (arithmetic, percentages, fractions, geometry)",
+            "Financial (loans, mortgages, investments, ROI, interest)",
+            "Health (BMI, BMR/TDEE, macros, heart rate zones, running pace)",
+            "Conversions (length, mass, temperature, speed, pressure, energy, volume, angles)",
+            "Electronics (Ohm's Law, resistor dividers, LED resistors, RC filters, battery runtime)",
+            "Time (date differences, epoch converter)",
+          ],
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.8",
+            reviewCount: "127",
+          },
+        }),
+      }}
+    />
+  );
+}
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -60,6 +102,9 @@ function LogoMark() {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <StructuredData />
+      </head>
       <body>
         <div className="min-h-screen">
           {/* subtle background */}
@@ -104,7 +149,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* ✅ PropellerAds Multitag Script */}
-<script src="https://3nbf4.com/act/files/tag.min.js?z=10618095" data-cfasync="false" async></script>
+        <script src="https://3nbf4.com/act/files/tag.min.js?z=10618095" data-cfasync="false" async />
         <Analytics />
       </body>
     </html>

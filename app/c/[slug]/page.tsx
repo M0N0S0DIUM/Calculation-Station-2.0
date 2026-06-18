@@ -18,6 +18,7 @@ export async function generateMetadata({
   if (!calc) return { title: "Calculator Not Found" };
 
   const { title, description, category, keywords } = calc;
+  const catInfo = CATEGORY_INFO[category];
 
   return {
     title: `${title} | Calculation Station`,
@@ -27,18 +28,44 @@ export async function generateMetadata({
       title: `${title} | Calculation Station`,
       description: `${description} Free online ${title.toLowerCase()} calculator.`,
       type: "website",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: title }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title: `${title} | Calculation Station`,
       description: `${description} Free online ${title.toLowerCase()} calculator.`,
-      images: ["/og.png"],
     },
     alternates: {
       canonical: `/c/${slug}`,
     },
+    other: {
+      "application-name": "Calculation Station",
+      "category": category,
+    },
   };
+}
+
+function CalculatorStructuredData({ calc }: { calc: { title: string; description: string; slug: string } }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: calc.title,
+          description: calc.description,
+          url: `https://calculationstation.org/c/${calc.slug}`,
+          applicationCategory: "UtilitiesApplication",
+          operatingSystem: "Web",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+          },
+        }),
+      }}
+    />
+  );
 }
 
 import CalculatorClient from "./CalculatorClient";
@@ -57,5 +84,10 @@ export default async function CalculatorPage({
   const calc = getCalculatorMeta(slug);
   if (!calc) return <div>Calculator not found.</div>;
 
-  return <CalculatorClient slug={slug} meta={calc} />;
+  return (
+    <>
+      <CalculatorStructuredData calc={calc} />
+      <CalculatorClient slug={slug} meta={calc} />
+    </>
+  );
 }
