@@ -33,7 +33,7 @@ export default function HomePage() {
   return (
     <div>
       <p style={{ marginTop: 6, opacity: 0.8 }}>
-        {CALCULATOR_MODULES.length} Calculators With More to Come.
+        Financial, Health, Conversion & Math Calculators
       </p>
 
       <input
