@@ -11,26 +11,32 @@ interface RetirementWithdrawalProps {
 }
 
 function C({ onStateChange, initialParams }: RetirementWithdrawalProps) {
-  const [portfolio, setPortfolio] = useState(() => Number(initialParams?.portfolio ?? 1000000));
-  const [withdrawalRate, setWithdrawalRate] = useState(() => Number(initialParams?.withdrawalRate ?? 4));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 30));
-  const [returnRate, setReturnRate] = useState(() => Number(initialParams?.returnRate ?? 7));
-  const [inflation, setInflation] = useState(() => Number(initialParams?.inflation ?? 3));
+  const [portfolio, setPortfolio] = useState<number | null>(() => Number(initialParams?.portfolio ?? 1000000));
+  const [withdrawalRate, setWithdrawalRate] = useState<number | null>(() => Number(initialParams?.withdrawalRate ?? 4));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 30));
+  const [returnRate, setReturnRate] = useState<number | null>(() => Number(initialParams?.returnRate ?? 7));
+  const [inflation, setInflation] = useState<number | null>(() => Number(initialParams?.inflation ?? 3));
 
   const r = useMemo(() => {
-    const annualWithdrawal = portfolio * (withdrawalRate / 100);
+    const inflationVal = inflation ?? 0;
+    const portfolioVal = portfolio ?? 0;
+    const returnRateVal = returnRate ?? 0;
+    const withdrawalRateVal = withdrawalRate ?? 0;
+    const yearsVal = years ?? 0;
+
+    const annualWithdrawal = portfolioVal * (withdrawalRateVal / 100);
     const monthlyWithdrawal = annualWithdrawal / 12;
     
-    // Simple projection with inflation-adjusted withdrawals
-    let balance = portfolio;
+    // Simple projection with inflationVal-adjusted withdrawals
+    let balance = portfolioVal;
     let totalWithdrawn = 0;
     let currentWithdrawal = annualWithdrawal;
-    const realReturn = (1 + returnRate / 100) / (1 + inflation / 100) - 1;
+    const realReturn = (1 + returnRateVal / 100) / (1 + inflationVal / 100) - 1;
     
-    for (let y = 0; y < years; y++) {
-      balance = balance * (1 + returnRate / 100) - currentWithdrawal;
+    for (let y = 0; y < yearsVal; y++) {
+      balance = balance * (1 + returnRateVal / 100) - currentWithdrawal;
       totalWithdrawn += currentWithdrawal;
-      currentWithdrawal *= (1 + inflation / 100);
+      currentWithdrawal *= (1 + inflationVal / 100);
       if (balance <= 0) break;
     }
     
@@ -40,7 +46,7 @@ function C({ onStateChange, initialParams }: RetirementWithdrawalProps) {
     return { annualWithdrawal, monthlyWithdrawal, totalWithdrawn, finalBalance: Math.max(0, balance), success, realReturn };
   }, [portfolio, withdrawalRate, years, returnRate, inflation]);
 
-  const shareParams: ShareParams = { portfolio, withdrawalRate, years, returnRate, inflation };
+  const shareParams: ShareParams = { portfolio: portfolio ?? 0, withdrawalRate: withdrawalRate ?? 0, years: years ?? 0, returnRate: returnRate ?? 0, inflation: inflation ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

@@ -11,15 +11,18 @@ interface PowerRootCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: PowerRootCalculatorProps) {
-  const [x, setX] = useState(() => Number(initialParams?.x ?? 16));
-  const [n, setN] = useState(() => Number(initialParams?.n ?? 2));
+  const [x, setX] = useState<number | null>(() => Number(initialParams?.x ?? 16));
+  const [n, setN] = useState<number | null>(() => Number(initialParams?.n ?? 2));
   const out = useMemo(() => {
-    const pow = Math.pow(x, n);
-    const root = n !== 0 ? Math.pow(x, 1/n) : NaN;
+    const nVal = n ?? 0;
+    const xVal = x ?? 0;
+
+    const pow = Math.pow(xVal, nVal);
+    const root = nVal !== 0 ? Math.pow(xVal, 1/nVal) : NaN;
     return { pow, root };
   }, [x,n]);
 
-  const shareParams: ShareParams = { x, n };
+  const shareParams: ShareParams = { x: x ?? 0, n: n ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

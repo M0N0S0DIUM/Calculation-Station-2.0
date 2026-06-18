@@ -11,15 +11,18 @@ interface AlcoholCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: AlcoholCalculatorProps) {
-  const [volume, setVolume] = useState(() => Number(initialParams?.volume ?? 500));
-  const [abv, setAbv] = useState(() => Number(initialParams?.abv ?? 5));
+  const [volume, setVolume] = useState<number | null>(() => Number(initialParams?.volume ?? 500));
+  const [abv, setAbv] = useState<number | null>(() => Number(initialParams?.abv ?? 5));
   const [units, setUnits] = useState<"ml" | "oz">(
     () => (initialParams?.units as "ml" | "oz") ?? "ml"
   );
 
   const r = useMemo(() => {
-    const volMl = units === "ml" ? volume : volume * 29.5735;
-    const pureAlcoholMl = volMl * (abv / 100);
+    const abvVal = abv ?? 0;
+    const volumeVal = volume ?? 0;
+
+    const volMl = units === "ml" ? volumeVal : volumeVal * 29.5735;
+    const pureAlcoholMl = volMl * (abvVal / 100);
     const pureAlcoholGrams = pureAlcoholMl * 0.789; // density of ethanol
     
     // UK units: 1 unit = 8g = 10ml pure alcohol
@@ -33,7 +36,7 @@ function C({ onStateChange, initialParams }: AlcoholCalculatorProps) {
     return { pureAlcoholMl, pureAlcoholGrams, ukUnits, usDrinks, calories };
   }, [volume, abv, units]);
 
-  const shareParams: ShareParams = { volume, abv, units };
+  const shareParams: ShareParams = { volume: volume ?? 0, abv: abv ?? 0, units };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

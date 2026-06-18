@@ -11,29 +11,33 @@ interface InflationCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: InflationCalculatorProps) {
-  const [amount, setAmount] = useState(() => Number(initialParams?.amount ?? 10000));
-  const [inflationRate, setInflationRate] = useState(() => Number(initialParams?.inflationRate ?? 3));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 10));
+  const [amount, setAmount] = useState<number | null>(() => Number(initialParams?.amount ?? 10000));
+  const [inflationRate, setInflationRate] = useState<number | null>(() => Number(initialParams?.inflationRate ?? 3));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 10));
   const [mode, setMode] = useState<"future" | "past">(
     () => (initialParams?.mode as "future" | "past") ?? "future"
   );
 
   const r = useMemo(() => {
-    const factor = Math.pow(1 + inflationRate / 100, years);
+    const amountVal = amount ?? 0;
+    const inflationRateVal = inflationRate ?? 0;
+    const yearsVal = years ?? 0;
+
+    const factor = Math.pow(1 + inflationRateVal / 100, yearsVal);
     let futureValue = 0;
     let pastValue = 0;
     if (mode === "future") {
-      futureValue = amount * factor;
-      pastValue = amount / factor;
+      futureValue = amountVal * factor;
+      pastValue = amountVal / factor;
     } else {
-      pastValue = amount * factor;
-      futureValue = amount / factor;
+      pastValue = amountVal * factor;
+      futureValue = amountVal / factor;
     }
     const purchasingPower = (1 / factor) * 100;
     return { futureValue, pastValue, purchasingPower, factor };
   }, [amount, inflationRate, years, mode]);
 
-  const shareParams: ShareParams = { amount, inflationRate, years, mode };
+  const shareParams: ShareParams = { amount: amount ?? 0, inflationRate: inflationRate ?? 0, years: years ?? 0, mode: mode ?? 'future' };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

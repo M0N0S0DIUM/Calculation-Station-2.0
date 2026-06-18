@@ -11,14 +11,19 @@ interface BMICalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: BMICalculatorProps) {
-  const [units, setUnits] = useState<string>(() => String(initialParams?.units ?? "us"));
-  const [lbs, setLbs] = useState(() => Number(initialParams?.weight ?? (initialParams?.units === "metric" ? undefined : 180)) || 180);
-  const [inch, setInch] = useState(() => Number(initialParams?.height ?? (initialParams?.units === "metric" ? undefined : 70)) || 70);
-  const [kg, setKg] = useState(() => Number(initialParams?.weight ?? (initialParams?.units === "us" ? undefined : 82)) || 82);
-  const [cm, setCm] = useState(() => Number(initialParams?.height ?? (initialParams?.units === "us" ? undefined : 178)) || 178);
+  const [units, setUnits] = useState<string | null>(() => String(initialParams?.units ?? "us"));
+  const [lbs, setLbs] = useState<number | null>(() => Number(initialParams?.weight ?? (initialParams?.units === "metric" ? undefined : 180)) ?? 180);
+  const [inch, setInch] = useState<number | null>(() => Number(initialParams?.height ?? (initialParams?.units === "metric" ? undefined : 70)) ?? 70);
+  const [kg, setKg] = useState<number | null>(() => Number(initialParams?.weight ?? (initialParams?.units === "us" ? undefined : 82)) ?? 82);
+  const [cm, setCm] = useState<number | null>(() => Number(initialParams?.height ?? (initialParams?.units === "us" ? undefined : 178)) ?? 178);
 
   const r = useMemo(() => {
-    const bmi = units === "us" ? (lbs/(inch*inch))*703 : kg/Math.pow(cm/100,2);
+    const cmVal = cm ?? 0;
+    const inchVal = inch ?? 0;
+    const kgVal = kg ?? 0;
+    const lbsVal = lbs ?? 0;
+
+    const bmi = units === "us" ? (lbsVal/(inchVal*inchVal))*703 : kgVal/Math.pow(cmVal/100,2);
     let cat = "—";
     if (Number.isFinite(bmi)) {
       if (bmi < 18.5) cat = "Underweight";
@@ -30,10 +35,10 @@ function C({ onStateChange, initialParams }: BMICalculatorProps) {
   }, [units, lbs, inch, kg, cm]);
 
   const shareParams: ShareParams = {
-    units,
-    weight: units === "us" ? lbs : kg,
-    height: units === "us" ? inch : cm,
-  };
+      units: units ?? '',
+      weight: units === "us" ? (lbs ?? 0) : (kg ?? 0),
+      height: units === "us" ? (inch ?? 0) : (cm ?? 0),
+    };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, units, lbs, inch, kg, cm, onStateChange]);
@@ -44,10 +49,10 @@ function C({ onStateChange, initialParams }: BMICalculatorProps) {
         <h3 className="font-semibold">BMI Calculator</h3>
       </div>
       <SelectField
-        label="Units"
-        value={units}
-        onChange={setUnits}
-        options={[{value:"us",label:"US (lb/in)"},{value:"metric",label:"Metric (kg/cm)"}]}
+              label="Units"
+              value={units ?? ""}
+              onChange={setUnits}
+              options={[{value:"us",label:"US (lb/in)"},{value:"metric",label:"Metric (kg/cm)"}]}
       />
       <Hr />
       {units === "us" ? (

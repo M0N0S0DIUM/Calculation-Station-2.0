@@ -11,14 +11,17 @@ interface FractionSimplifierCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: FractionSimplifierCalculatorProps) {
-  const [num, setNum] = useState(() => Number(initialParams?.num ?? 42));
-  const [den, setDen] = useState(() => Number(initialParams?.den ?? 56));
+  const [num, setNum] = useState<number | null>(() => Number(initialParams?.num ?? 42));
+  const [den, setDen] = useState<number | null>(() => Number(initialParams?.den ?? 56));
 
   const r = useMemo(() => {
-    if (den === 0) return { simp: "—", mixed: "—", dec: NaN };
-    const g = gcd(num, den);
-    let n = num / g;
-    let d = den / g;
+    const denVal = den ?? 0;
+    const numVal = num ?? 0;
+
+    if (denVal === 0) return { simp: "—", mixed: "—", dec: NaN };
+    const g = gcd(numVal, denVal);
+    let n = numVal / g;
+    let d = denVal / g;
     if (d < 0) { n = -n; d = -d; }
     const whole = Math.trunc(n / d);
     const rem = Math.abs(n % d);
@@ -26,7 +29,7 @@ function C({ onStateChange, initialParams }: FractionSimplifierCalculatorProps) 
     return { simp: `${n}/${d}`, mixed, dec: n / d };
   }, [num, den]);
 
-  const shareParams: ShareParams = { num, den };
+  const shareParams: ShareParams = { num: num ?? 0, den: den ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

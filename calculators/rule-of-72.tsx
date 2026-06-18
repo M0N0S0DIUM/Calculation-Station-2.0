@@ -11,20 +11,23 @@ interface RuleOf72Props {
 }
 
 function C({ onStateChange, initialParams }: RuleOf72Props) {
-  const [rate, setRate] = useState(() => Number(initialParams?.rate ?? 7));
-  const [amount, setAmount] = useState(() => Number(initialParams?.amount ?? 10000));
+  const [rate, setRate] = useState<number | null>(() => Number(initialParams?.rate ?? 7));
+  const [amount, setAmount] = useState<number | null>(() => Number(initialParams?.amount ?? 10000));
 
   const r = useMemo(() => {
-    const yearsToDouble = 72 / rate;
-    const yearsToTriple = 114 / rate;
-    const yearsToQuadruple = 144 / rate;
-    const futureValue2x = amount * 2;
-    const futureValue3x = amount * 3;
-    const futureValue4x = amount * 4;
+    const amountVal = amount ?? 0;
+    const rateVal = rate ?? 0;
+
+    const yearsToDouble = 72 / rateVal;
+    const yearsToTriple = 114 / rateVal;
+    const yearsToQuadruple = 144 / rateVal;
+    const futureValue2x = amountVal * 2;
+    const futureValue3x = amountVal * 3;
+    const futureValue4x = amountVal * 4;
     return { yearsToDouble, yearsToTriple, yearsToQuadruple, futureValue2x, futureValue3x, futureValue4x };
   }, [rate, amount]);
 
-  const shareParams: ShareParams = { rate, amount };
+  const shareParams: ShareParams = { rate: rate ?? 0, amount: amount ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

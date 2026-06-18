@@ -11,14 +11,18 @@ interface CreditCardPayoffCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: CreditCardPayoffCalculatorProps) {
-  const [balance, setBalance] = useState(() => Number(initialParams?.balance ?? 5000));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 24));
-  const [payment, setPayment] = useState(() => Number(initialParams?.payment ?? 200));
+  const [balance, setBalance] = useState<number | null>(() => Number(initialParams?.balance ?? 5000));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 24));
+  const [payment, setPayment] = useState<number | null>(() => Number(initialParams?.payment ?? 200));
 
   const r = useMemo(() => {
-    const rm = (apr/100)/12;
-    if (balance <= 0 || payment <= 0 || apr < 0) return null;
-    let b = balance;
+    const aprVal = apr ?? 0;
+    const balanceVal = balance ?? 0;
+    const paymentVal = payment ?? 0;
+
+    const rm = (aprVal/100)/12;
+    if (balanceVal <= 0 || paymentVal <= 0 || aprVal < 0) return null;
+    let b = balanceVal;
     let months = 0;
     let interestPaid = 0;
     const maxMonths = 1200;
@@ -26,18 +30,18 @@ function C({ onStateChange, initialParams }: CreditCardPayoffCalculatorProps) {
     while (b > 0.01 && months < maxMonths) {
       const interest = b * rm;
       interestPaid += interest;
-      b = b + interest - payment;
+      b = b + interest - paymentVal;
       months++;
-      if (b > balance*10) break;
-      if (payment <= interest + 0.01) {
+      if (b > balanceVal*10) break;
+      if (paymentVal <= interest + 0.01) {
         return { months: Infinity, interestPaid, totalPaid: NaN };
       }
     }
-    const totalPaid = balance + interestPaid;
+    const totalPaid = balanceVal + interestPaid;
     return { months, interestPaid, totalPaid };
   }, [balance, apr, payment]);
 
-  const shareParams: ShareParams = { balance, apr, payment };
+  const shareParams: ShareParams = { balance: balance ?? 0, apr: apr ?? 0, payment: payment ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

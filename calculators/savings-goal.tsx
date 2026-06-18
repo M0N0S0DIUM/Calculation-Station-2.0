@@ -11,15 +11,20 @@ interface SavingsGoalCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: SavingsGoalCalculatorProps) {
-  const [goal, setGoal] = useState(() => Number(initialParams?.goal ?? 10000));
-  const [current, setCurrent] = useState(() => Number(initialParams?.current ?? 0));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 4));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 5));
+  const [goal, setGoal] = useState<number | null>(() => Number(initialParams?.goal ?? 10000));
+  const [current, setCurrent] = useState<number | null>(() => Number(initialParams?.current ?? 0));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 4));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 5));
 
   const r = useMemo(() => {
-    const remaining = Math.max(0, goal - current);
-    const months = years * 12;
-    const monthlyRate = apr / 100 / 12;
+    const aprVal = apr ?? 0;
+    const currentVal = current ?? 0;
+    const goalVal = goal ?? 0;
+    const yearsVal = years ?? 0;
+
+    const remaining = Math.max(0, goalVal - currentVal);
+    const months = yearsVal * 12;
+    const monthlyRate = aprVal / 100 / 12;
     
     let monthlyPayment = 0;
     if (monthlyRate === 0) {
@@ -29,12 +34,12 @@ function C({ onStateChange, initialParams }: SavingsGoalCalculatorProps) {
     }
     
     const totalContributed = monthlyPayment * months;
-    const totalInterest = Math.max(0, goal - current - totalContributed);
+    const totalInterest = Math.max(0, goalVal - currentVal - totalContributed);
     
     return { monthlyPayment, totalContributed, totalInterest, remaining };
   }, [goal, current, apr, years]);
 
-  const shareParams: ShareParams = { goal, current, apr, years };
+  const shareParams: ShareParams = { goal: goal ?? 0, current: current ?? 0, apr: apr ?? 0, years: years ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

@@ -11,13 +11,16 @@ interface AreaCircleCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: AreaCircleCalculatorProps) {
-  const [r, setR] = useState(() => Number(initialParams?.r ?? 5));
-  const out = useMemo(() => ({
-    area: Math.PI * r * r,
-    circ: 2 * Math.PI * r
-  }), [r]);
+  const [r, setR] = useState<number | null>(() => Number(initialParams?.r ?? 5));
+  const out = useMemo(() => {
+    const rVal = r ?? 0;
+    return {
+      area: Math.PI * rVal * rVal,
+      circ: 2 * Math.PI * rVal
+    };
+  }, [r]);
 
-  const shareParams: ShareParams = { r };
+  const shareParams: ShareParams = { r: r ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

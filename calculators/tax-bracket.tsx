@@ -11,13 +11,16 @@ interface TaxBracketProps {
 }
 
 function C({ onStateChange, initialParams }: TaxBracketProps) {
-  const [income, setIncome] = useState(() => Number(initialParams?.income ?? 80000));
+  const [income, setIncome] = useState<number | null>(() => Number(initialParams?.income ?? 80000));
   const [filingStatus, setFilingStatus] = useState<"single" | "married" | "hoh">(
     () => (initialParams?.filingStatus as "single" | "married" | "hoh") ?? "single"
   );
-  const [year, setYear] = useState(() => Number(initialParams?.year ?? 2024));
+  const [year, setYear] = useState<number | null>(() => Number(initialParams?.year ?? 2024));
 
   const r = useMemo(() => {
+    const incomeVal = income ?? 0;
+    const yearVal = year ?? 0;
+
     // 2024 US Federal Tax Brackets
     const brackets = {
       single: [
@@ -55,7 +58,7 @@ function C({ onStateChange, initialParams }: TaxBracketProps) {
     const bracketDetails = [];
 
     for (const bracket of selectedBrackets) {
-      const taxableInBracket = Math.max(0, Math.min(income, bracket.max) - bracket.min);
+      const taxableInBracket = Math.max(0, Math.min(incomeVal, bracket.max) - bracket.min);
       if (taxableInBracket > 0) {
         const bracketTax = taxableInBracket * bracket.rate;
         tax += bracketTax;
@@ -65,18 +68,18 @@ function C({ onStateChange, initialParams }: TaxBracketProps) {
           rate: bracket.rate * 100,
           amount: bracketTax,
         });
-      } else if (income <= bracket.min) {
+      } else if (incomeVal <= bracket.min) {
         break;
       }
     }
 
-    const effectiveRate = income > 0 ? (tax / income) * 100 : 0;
-    const afterTax = income - tax;
+    const effectiveRate = incomeVal > 0 ? (tax / incomeVal) * 100 : 0;
+    const afterTax = incomeVal - tax;
 
     return { tax, effectiveRate, afterTax, marginalRate, bracketDetails };
   }, [income, filingStatus, year]);
 
-  const shareParams: ShareParams = { income, filingStatus, year };
+  const shareParams: ShareParams = { income: income ?? 0, filingStatus, year: year ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

@@ -11,10 +11,10 @@ interface SalaryComparisonProps {
 }
 
 function C({ onStateChange, initialParams }: SalaryComparisonProps) {
-  const [salary, setSalary] = useState(() => Number(initialParams?.salary ?? 80000));
+  const [salary, setSalary] = useState<number | null>(() => Number(initialParams?.salary ?? 80000));
   const [locationFrom, setLocationFrom] = useState<string>(() => String(initialParams?.locationFrom ?? "national"));
   const [locationTo, setLocationTo] = useState<string>(() => String(initialParams?.locationTo ?? "san-francisco"));
-  const [includeTaxes, setIncludeTaxes] = useState(() => Boolean(initialParams?.includeTaxes ?? true));
+  const [includeTaxes, setIncludeTaxes] = useState<boolean | null>(() => Boolean(initialParams?.includeTaxes ?? true));
 
   const locations = [
     { id: "national", name: "National Average", colIndex: 100 },
@@ -42,18 +42,21 @@ function C({ onStateChange, initialParams }: SalaryComparisonProps) {
   const getIndex = (id: string) => locations.find(l => l.id === id)?.colIndex ?? 100;
 
   const r = useMemo(() => {
+    const salaryVal = salary ?? 0;
+    const includeTaxesVal = includeTaxes ?? false;
+
     const fromIdx = getIndex(locationFrom);
     const toIdx = getIndex(locationTo);
     
-    const equivalentSalary = salary * (toIdx / fromIdx);
-    const difference = equivalentSalary - salary;
-    const pctChange = ((equivalentSalary - salary) / salary) * 100;
+    const equivalentSalary = salaryVal * (toIdx / fromIdx);
+    const difference = equivalentSalary - salaryVal;
+    const pctChange = ((equivalentSalary - salaryVal) / salaryVal) * 100;
     
     // Rough tax estimate (federal + state average)
-    let afterTaxFrom = salary;
+    let afterTaxFrom = salaryVal;
     let afterTaxTo = equivalentSalary;
     
-    if (includeTaxes) {
+    if (includeTaxesVal) {
       const fedBrackets = [
         { max: 11600, rate: 0.10 },
         { max: 47150, rate: 0.12 },
@@ -66,10 +69,10 @@ function C({ onStateChange, initialParams }: SalaryComparisonProps) {
       
       let tax = 0;
       for (const b of fedBrackets) {
-        const taxable = Math.max(0, Math.min(salary, b.max) - (b.max === Infinity ? 0 : (b.max === 11600 ? 0 : 11600)));
+        const taxable = Math.max(0, Math.min(salaryVal, b.max) - (b.max === Infinity ? 0 : (b.max === 11600 ? 0 : 11600)));
         if (taxable > 0) tax += taxable * b.rate;
       }
-      afterTaxFrom = salary - tax;
+      afterTaxFrom = salaryVal - tax;
       
       let tax2 = 0;
       for (const b of fedBrackets) {
@@ -90,7 +93,7 @@ function C({ onStateChange, initialParams }: SalaryComparisonProps) {
     };
   }, [salary, locationFrom, locationTo, includeTaxes]);
 
-  const shareParams: ShareParams = { salary, locationFrom, locationTo, includeTaxes };
+  const shareParams: ShareParams = { salary: salary ?? 0, locationFrom: locationFrom ?? 'national', locationTo: locationTo ?? 'san-francisco', includeTaxes: includeTaxes ?? true };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -117,7 +120,7 @@ function C({ onStateChange, initialParams }: SalaryComparisonProps) {
         options={locations.map(l => ({ value: l.id, label: l.name }))}
       />
       <div className="flex items-center gap-2 mt-2">
-        <input type="checkbox" id="includeTaxes" checked={includeTaxes} onChange={(e) => setIncludeTaxes(e.target.checked)} className="w-4 h-4" />
+        <input type="checkbox" id="includeTaxes" checked={includeTaxes ?? true} onChange={(e) => setIncludeTaxes(e.target.checked)} className="w-4 h-4" />
         <label htmlFor="includeTaxes" className="text-sm">Estimate Federal Tax Impact</label>
       </div>
       <Hr />

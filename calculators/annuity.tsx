@@ -11,41 +11,45 @@ interface AnnuityCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: AnnuityCalculatorProps) {
-  const [payment, setPayment] = useState(() => Number(initialParams?.payment ?? 500));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 5));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 20));
+  const [payment, setPayment] = useState<number | null>(() => Number(initialParams?.payment ?? 500));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 5));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 20));
   const [type, setType] = useState<"ordinary" | "due">(
     () => (initialParams?.type as "ordinary" | "due") ?? "ordinary"
   );
 
   const r = useMemo(() => {
-    const n = years * 12;
-    const i = apr / 100 / 12;
+    const aprVal = apr ?? 0;
+    const paymentVal = payment ?? 0;
+    const yearsVal = years ?? 0;
+
+    const n = yearsVal * 12;
+    const i = aprVal / 100 / 12;
     
     let fv = 0;
     if (i === 0) {
-      fv = payment * n;
+      fv = paymentVal * n;
     } else {
-      fv = payment * ((Math.pow(1 + i, n) - 1) / i);
+      fv = paymentVal * ((Math.pow(1 + i, n) - 1) / i);
       if (type === "due") fv *= (1 + i);
     }
     
-    const totalPaid = payment * n;
+    const totalPaid = paymentVal * n;
     const interest = fv - totalPaid;
     
     // Present value
     let pv = 0;
     if (i === 0) {
-      pv = payment * n;
+      pv = paymentVal * n;
     } else {
-      pv = payment * ((1 - Math.pow(1 + i, -n)) / i);
+      pv = paymentVal * ((1 - Math.pow(1 + i, -n)) / i);
       if (type === "due") pv *= (1 + i);
     }
     
     return { fv, pv, totalPaid, interest, n };
   }, [payment, apr, years, type]);
 
-  const shareParams: ShareParams = { payment, apr, years, type };
+  const shareParams: ShareParams = { payment: payment ?? 0, apr: apr ?? 0, years: years ?? 0, type };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

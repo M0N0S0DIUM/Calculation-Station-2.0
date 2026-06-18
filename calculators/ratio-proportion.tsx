@@ -11,15 +11,19 @@ interface RatioProportionCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: RatioProportionCalculatorProps) {
-  const [a, setA] = useState(() => Number(initialParams?.a ?? 2));
-  const [b, setB] = useState(() => Number(initialParams?.b ?? 3));
-  const [c, setC] = useState(() => Number(initialParams?.c ?? 4));
+  const [a, setA] = useState<number | null>(() => Number(initialParams?.a ?? 2));
+  const [b, setB] = useState<number | null>(() => Number(initialParams?.b ?? 3));
+  const [c, setC] = useState<number | null>(() => Number(initialParams?.c ?? 4));
   const r = useMemo(() => {
-    const d = a !== 0 ? (b*c)/a : NaN;
+    const aVal = a ?? 0;
+    const bVal = b ?? 0;
+    const cVal = c ?? 0;
+
+    const d = aVal !== 0 ? (bVal*cVal)/aVal : NaN;
     return { d };
   }, [a,b,c]);
 
-  const shareParams: ShareParams = { a, b, c };
+  const shareParams: ShareParams = { a: a ?? 0, b: b ?? 0, c: c ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

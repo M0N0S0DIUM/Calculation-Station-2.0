@@ -25,17 +25,20 @@ const CURRENCIES = [
 ];
 
 function C({ onStateChange, initialParams }: CurrencyConverterProps) {
-  const [amount, setAmount] = useState(() => Number(initialParams?.amount ?? 100));
+  const [amount, setAmount] = useState<number | null>(() => Number(initialParams?.amount ?? 100));
   const [fromCurrency, setFromCurrency] = useState<string>(() => String(initialParams?.fromCurrency ?? "USD"));
   const [toCurrency, setToCurrency] = useState<string>(() => String(initialParams?.toCurrency ?? "EUR"));
-  const [rate, setRate] = useState(() => Number(initialParams?.rate ?? 0.92));
+  const [rate, setRate] = useState<number | null>(() => Number(initialParams?.rate ?? 0.92));
 
   const r = useMemo(() => {
-    const converted = amount * rate;
-    return { converted, inverseRate: 1 / rate };
+    const amountVal = amount ?? 0;
+    const rateVal = rate ?? 0;
+
+    const converted = amountVal * rateVal;
+    return { converted, inverseRate: 1 / rateVal };
   }, [amount, rate]);
 
-  const shareParams: ShareParams = { amount, fromCurrency, toCurrency, rate };
+  const shareParams: ShareParams = { amount: amount ?? 0, fromCurrency, toCurrency, rate: rate ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

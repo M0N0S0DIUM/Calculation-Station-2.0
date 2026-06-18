@@ -11,12 +11,17 @@ interface PresentValueCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: PresentValueCalculatorProps) {
-  const [fv, setFv] = useState(() => Number(initialParams?.fv ?? 10000));
-  const [rate, setRate] = useState(() => Number(initialParams?.rate ?? 6));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 10));
-  const pv = useMemo(() => fv / Math.pow(1 + rate/100, years), [fv, rate, years]);
+  const [fv, setFv] = useState<number | null>(() => Number(initialParams?.fv ?? 10000));
+  const [rate, setRate] = useState<number | null>(() => Number(initialParams?.rate ?? 6));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 10));
+  const pv = useMemo(() => {
+    const fvVal = fv ?? 0;
+    const rateVal = rate ?? 0;
+    const yearsVal = years ?? 0;
+    return fvVal / Math.pow(1 + rateVal/100, yearsVal);
+  }, [fv, rate, years]);
 
-  const shareParams: ShareParams = { fv, rate, years };
+  const shareParams: ShareParams = { fv: fv ?? 0, rate: rate ?? 0, years: years ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

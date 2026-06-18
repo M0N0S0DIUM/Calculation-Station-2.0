@@ -11,18 +11,21 @@ interface DateDiffCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: DateDiffCalculatorProps) {
-  const [a, setA] = useState(() => String(initialParams?.a ?? new Date().toISOString().slice(0,10)));
-  const [b, setB] = useState(() => String(initialParams?.b ?? new Date().toISOString().slice(0,10)));
+  const [a, setA] = useState<string | null>(() => String(initialParams?.a ?? new Date().toISOString().slice(0,10)));
+  const [b, setB] = useState<string | null>(() => String(initialParams?.b ?? new Date().toISOString().slice(0,10)));
 
   const out = useMemo(() => {
-    const da = new Date(a + "T00:00:00");
-    const db = new Date(b + "T00:00:00");
+    const aVal = a ?? '';
+    const bVal = b ?? '';
+
+    const da = new Date(aVal + "T00:00:00");
+    const db = new Date(bVal + "T00:00:00");
     const ms = db.getTime() - da.getTime();
     const days = ms / (1000*60*60*24);
     return { days, weeks: days/7 };
   }, [a,b]);
 
-  const shareParams: ShareParams = { a, b };
+  const shareParams: ShareParams = { a: a ?? '', b: b ?? '' };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -31,12 +34,12 @@ function C({ onStateChange, initialParams }: DateDiffCalculatorProps) {
     <Card>
       <label style={{ display: "grid", gap: 6 }}>
         <div style={{ opacity: 0.85 }}>Start date</div>
-        <input type="date" value={a} onChange={(e)=>setA(e.target.value)} style={{ width:"100%", padding:"10px 12px", borderRadius:12, border:"1px solid #999", background:"transparent" }} />
+        <input type="date" value={a ?? ""} onChange={(e)=>setA(e.target.value)} style={{ width:"100%", padding:"10px 12px", borderRadius:12, border:"1px solid #999", background:"transparent" }} />
       </label>
       <div style={{ marginTop: 12 }}>
         <label style={{ display: "grid", gap: 6 }}>
           <div style={{ opacity: 0.85 }}>End date</div>
-          <input type="date" value={b} onChange={(e)=>setB(e.target.value)} style={{ width:"100%", padding:"10px 12px", borderRadius:12, border:"1px solid #999", background:"transparent" }} />
+          <input type="date" value={b ?? ""} onChange={(e)=>setB(e.target.value)} style={{ width:"100%", padding:"10px 12px", borderRadius:12, border:"1px solid #999", background:"transparent" }} />
         </label>
       </div>
       <Hr />

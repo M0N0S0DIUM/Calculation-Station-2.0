@@ -11,15 +11,20 @@ interface UnitPriceCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: UnitPriceCalculatorProps) {
-  const [price, setPrice] = useState(() => Number(initialParams?.price ?? 9.99));
-  const [qty, setQty] = useState(() => Number(initialParams?.qty ?? 12));
-  const [units, setUnits] = useState(() => Number(initialParams?.units ?? 16));
-  const r = useMemo(() => ({
-    perItem: qty !== 0 ? price/qty : NaN,
-    perUnit: units !== 0 ? price/units : NaN
-  }), [price, qty, units]);
+  const [price, setPrice] = useState<number | null>(() => Number(initialParams?.price ?? 9.99));
+  const [qty, setQty] = useState<number | null>(() => Number(initialParams?.qty ?? 12));
+  const [units, setUnits] = useState<number | null>(() => Number(initialParams?.units ?? 16));
+  const r = useMemo(() => {
+    const priceVal = price ?? 0;
+    const qtyVal = qty ?? 0;
+    const unitsVal = units ?? 0;
+    return {
+      perItem: qtyVal !== 0 ? priceVal/qtyVal : NaN,
+      perUnit: unitsVal !== 0 ? priceVal/unitsVal : NaN
+    };
+  }, [price, qty, units]);
 
-  const shareParams: ShareParams = { price, qty, units };
+  const shareParams: ShareParams = { price: price ?? 0, qty: qty ?? 0, units: units ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

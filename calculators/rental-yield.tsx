@@ -11,23 +11,29 @@ interface RentalYieldProps {
 }
 
 function C({ onStateChange, initialParams }: RentalYieldProps) {
-  const [propertyValue, setPropertyValue] = useState(() => Number(initialParams?.propertyValue ?? 300000));
-  const [monthlyRent, setMonthlyRent] = useState(() => Number(initialParams?.monthlyRent ?? 1500));
-  const [annualExpenses, setAnnualExpenses] = useState(() => Number(initialParams?.annualExpenses ?? 5000));
-  const [mortgageBalance, setMortgageBalance] = useState(() => Number(initialParams?.mortgageBalance ?? 0));
-  const [mortgageRate, setMortgageRate] = useState(() => Number(initialParams?.mortgageRate ?? 6));
+  const [propertyValue, setPropertyValue] = useState<number | null>(() => Number(initialParams?.propertyValue ?? 300000));
+  const [monthlyRent, setMonthlyRent] = useState<number | null>(() => Number(initialParams?.monthlyRent ?? 1500));
+  const [annualExpenses, setAnnualExpenses] = useState<number | null>(() => Number(initialParams?.annualExpenses ?? 5000));
+  const [mortgageBalance, setMortgageBalance] = useState<number | null>(() => Number(initialParams?.mortgageBalance ?? 0));
+  const [mortgageRate, setMortgageRate] = useState<number | null>(() => Number(initialParams?.mortgageRate ?? 6));
 
   const r = useMemo(() => {
-    const annualRent = monthlyRent * 12;
-    const grossYield = (annualRent / propertyValue) * 100;
-    const netIncome = annualRent - annualExpenses;
-    const netYield = (netIncome / propertyValue) * 100;
+    const annualExpensesVal = annualExpenses ?? 0;
+    const monthlyRentVal = monthlyRent ?? 0;
+    const mortgageBalanceVal = mortgageBalance ?? 0;
+    const mortgageRateVal = mortgageRate ?? 0;
+    const propertyValueVal = propertyValue ?? 0;
+
+    const annualRent = monthlyRentVal * 12;
+    const grossYield = (annualRent / propertyValueVal) * 100;
+    const netIncome = annualRent - annualExpensesVal;
+    const netYield = (netIncome / propertyValueVal) * 100;
     
     let cashOnCash = 0;
-    if (mortgageBalance > 0) {
-      const mortgagePayment = mortgageBalance * (mortgageRate/100)/12 * 12;
+    if (mortgageBalanceVal > 0) {
+      const mortgagePayment = mortgageBalanceVal * (mortgageRateVal/100)/12 * 12;
       const cashFlow = netIncome - mortgagePayment;
-      const equity = propertyValue - mortgageBalance;
+      const equity = propertyValueVal - mortgageBalanceVal;
       cashOnCash = equity > 0 ? (cashFlow / equity) * 100 : 0;
     } else {
       cashOnCash = netYield;
@@ -36,7 +42,7 @@ function C({ onStateChange, initialParams }: RentalYieldProps) {
     return { grossYield, netYield, netIncome, cashOnCash, annualRent };
   }, [propertyValue, monthlyRent, annualExpenses, mortgageBalance, mortgageRate]);
 
-  const shareParams: ShareParams = { propertyValue, monthlyRent, annualExpenses, mortgageBalance, mortgageRate };
+  const shareParams: ShareParams = { propertyValue: propertyValue ?? 0, monthlyRent: monthlyRent ?? 0, annualExpenses: annualExpenses ?? 0, mortgageBalance: mortgageBalance ?? 0, mortgageRate: mortgageRate ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

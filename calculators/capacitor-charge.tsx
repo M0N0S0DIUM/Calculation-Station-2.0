@@ -11,18 +11,22 @@ interface CapacitorChargeCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: CapacitorChargeCalculatorProps) {
-  const [R, setR] = useState(() => Number(initialParams?.R ?? 10000));
-  const [Ccap, setCcap] = useState(() => Number(initialParams?.Ccap ?? 1e-6));
-  const [pct, setPct] = useState(() => Number(initialParams?.pct ?? 90));
+  const [R, setR] = useState<number | null>(() => Number(initialParams?.R ?? 10000));
+  const [Ccap, setCcap] = useState<number | null>(() => Number(initialParams?.Ccap ?? 1e-6));
+  const [pct, setPct] = useState<number | null>(() => Number(initialParams?.pct ?? 90));
 
   const out = useMemo(() => {
-    const tau = R*Ccap;
-    const p = pct/100;
+    const CcapVal = Ccap ?? 0;
+    const RVal = R ?? 0;
+    const pctVal = pct ?? 0;
+
+    const tau = RVal*CcapVal;
+    const p = pctVal/100;
     const t = (p > 0 && p < 1) ? -tau*Math.log(1 - p) : NaN;
     return { tau, t };
   }, [R, Ccap, pct]);
 
-  const shareParams: ShareParams = { R, Ccap, pct };
+  const shareParams: ShareParams = { R: R ?? 0, Ccap: Ccap ?? 0, pct: pct ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

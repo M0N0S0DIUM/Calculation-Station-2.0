@@ -11,15 +11,19 @@ interface SimpleInterestCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: SimpleInterestCalculatorProps) {
-  const [P, setP] = useState(() => Number(initialParams?.P ?? 1000));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 5));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 3));
+  const [P, setP] = useState<number | null>(() => Number(initialParams?.P ?? 1000));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 5));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 3));
   const r = useMemo(() => {
-    const interest = P*(apr/100)*years;
-    return { interest, total: P + interest };
+    const PVal = P ?? 0;
+    const aprVal = apr ?? 0;
+    const yearsVal = years ?? 0;
+
+    const interest = PVal*(aprVal/100)*yearsVal;
+    return { interest, total: PVal + interest };
   }, [P, apr, years]);
 
-  const shareParams: ShareParams = { P, apr, years };
+  const shareParams: ShareParams = { P: P ?? 0, apr: apr ?? 0, years: years ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

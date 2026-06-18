@@ -11,25 +11,29 @@ interface SocialSecurityProps {
 }
 
 function C({ onStateChange, initialParams }: SocialSecurityProps) {
-  const [birthYear, setBirthYear] = useState(() => Number(initialParams?.birthYear ?? 1970));
-  const [annualIncome, setAnnualIncome] = useState(() => Number(initialParams?.annualIncome ?? 80000));
-  const [claimAge, setClaimAge] = useState(() => Number(initialParams?.claimAge ?? 67));
+  const [birthYear, setBirthYear] = useState<number | null>(() => Number(initialParams?.birthYear ?? 1970));
+  const [annualIncome, setAnnualIncome] = useState<number | null>(() => Number(initialParams?.annualIncome ?? 80000));
+  const [claimAge, setClaimAge] = useState<number | null>(() => Number(initialParams?.claimAge ?? 67));
 
   const r = useMemo(() => {
+    const annualIncomeVal = annualIncome ?? 0;
+    const birthYearVal = birthYear ?? 0;
+    const claimAgeVal = claimAge ?? 0;
+
     const currentYear = new Date().getFullYear();
-    const age = currentYear - birthYear;
-    const fullRetirementAge = birthYear >= 1960 ? 67 : birthYear >= 1955 ? 66 + (birthYear - 1954) * 2/12 : 66;
+    const age = currentYear - birthYearVal;
+    const fullRetirementAge = birthYearVal >= 1960 ? 67 : birthYearVal >= 1955 ? 66 + (birthYearVal - 1954) * 2/12 : 66;
     
     // Simplified benefit calculation (rough estimate)
     // Based on bend points for 2024
-    const monthlyIncome = annualIncome / 12;
+    const monthlyIncome = annualIncomeVal / 12;
     const a = Math.min(monthlyIncome, 1174) * 0.9;
     const b = Math.min(Math.max(monthlyIncome - 1174, 0), 5904) * 0.32;
     const c = Math.max(monthlyIncome - 7078, 0) * 0.15;
     const pia = Math.round(a + b + c);
     
     let benefit = pia;
-    const monthsDiff = (claimAge - fullRetirementAge) * 12;
+    const monthsDiff = (claimAgeVal - fullRetirementAge) * 12;
     if (monthsDiff > 0) {
       // Delayed retirement credits: 8% per year = 0.67% per month
       benefit = Math.round(pia * (1 + monthsDiff * 0.0067));
@@ -44,13 +48,13 @@ function C({ onStateChange, initialParams }: SocialSecurityProps) {
     }
     
     const annualBenefit = benefit * 12;
-    const lifetimeTo85 = benefit * 12 * (85 - claimAge);
-    const lifetimeTo90 = benefit * 12 * (90 - claimAge);
+    const lifetimeTo85 = benefit * 12 * (85 - claimAgeVal);
+    const lifetimeTo90 = benefit * 12 * (90 - claimAgeVal);
     
     return { fullRetirementAge, pia, benefit, annualBenefit, lifetimeTo85, lifetimeTo90, age };
   }, [birthYear, annualIncome, claimAge]);
 
-  const shareParams: ShareParams = { birthYear, annualIncome, claimAge };
+  const shareParams: ShareParams = { birthYear: birthYear ?? 0, annualIncome: annualIncome ?? 0, claimAge: claimAge ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

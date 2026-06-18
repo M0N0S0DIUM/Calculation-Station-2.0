@@ -11,19 +11,23 @@ interface LEDResistorCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: LEDResistorCalculatorProps) {
-  const [vs, setVs] = useState(() => Number(initialParams?.vs ?? 5));
-  const [vf, setVf] = useState(() => Number(initialParams?.vf ?? 2.0));
-  const [imA, setImA] = useState(() => Number(initialParams?.imA ?? 10));
+  const [vs, setVs] = useState<number | null>(() => Number(initialParams?.vs ?? 5));
+  const [vf, setVf] = useState<number | null>(() => Number(initialParams?.vf ?? 2.0));
+  const [imA, setImA] = useState<number | null>(() => Number(initialParams?.imA ?? 10));
 
   const out = useMemo(() => {
-    const I = imA/1000;
-    const vR = vs - vf;
+    const imAVal = imA ?? 0;
+    const vfVal = vf ?? 0;
+    const vsVal = vs ?? 0;
+
+    const I = imAVal/1000;
+    const vR = vsVal - vfVal;
     const R = I !== 0 ? vR/I : NaN;
     const pR = I*I*R;
     return { vR, R, pR };
   }, [vs, vf, imA]);
 
-  const shareParams: ShareParams = { vs, vf, imA };
+  const shareParams: ShareParams = { vs: vs ?? 0, vf: vf ?? 0, imA: imA ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

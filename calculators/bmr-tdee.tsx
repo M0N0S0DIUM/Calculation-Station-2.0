@@ -11,19 +11,25 @@ interface BMRTDEECalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: BMRTDEECalculatorProps) {
-  const [sex, setSex] = useState(() => String(initialParams?.sex ?? "male"));
-  const [age, setAge] = useState(() => Number(initialParams?.age ?? 30));
-  const [kg, setKg] = useState(() => Number(initialParams?.kg ?? 82));
-  const [cm, setCm] = useState(() => Number(initialParams?.cm ?? 178));
-  const [activity, setActivity] = useState(() => String(initialParams?.activity ?? "1.55"));
+  const [sex, setSex] = useState<string | null>(() => String(initialParams?.sex ?? "male"));
+  const [age, setAge] = useState<number | null>(() => Number(initialParams?.age ?? 30));
+  const [kg, setKg] = useState<number | null>(() => Number(initialParams?.kg ?? 82));
+  const [cm, setCm] = useState<number | null>(() => Number(initialParams?.cm ?? 178));
+  const [activity, setActivity] = useState<string | null>(() => String(initialParams?.activity ?? "1.55"));
 
   const r = useMemo(() => {
-    const bmr = sex === "male" ? 10*kg + 6.25*cm - 5*age + 5 : 10*kg + 6.25*cm - 5*age - 161;
-    const tdee = bmr * Number(activity);
+    const ageVal = age ?? 0;
+    const cmVal = cm ?? 0;
+    const kgVal = kg ?? 0;
+    const activityVal = activity ?? '';
+    const sexVal = sex ?? '';
+
+    const bmr = sexVal === "male" ? 10*kgVal + 6.25*cmVal - 5*ageVal + 5 : 10*kgVal + 6.25*cmVal - 5*ageVal - 161;
+    const tdee = bmr * Number(activityVal);
     return { bmr, tdee };
   }, [sex, age, kg, cm, activity]);
 
-  const shareParams: ShareParams = { sex, age, kg, cm, activity };
+  const shareParams: ShareParams = { sex: sex ?? '', age: age ?? 0, kg: kg ?? 0, cm: cm ?? 0, activity: activity ?? '' };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -31,13 +37,13 @@ function C({ onStateChange, initialParams }: BMRTDEECalculatorProps) {
   return (
     <Card>
       <Grid>
-        <SelectField label="Sex" value={sex} onChange={setSex} options={[{value:"male",label:"Male"},{value:"female",label:"Female"}]} />
+        <SelectField label="Sex" value={sex ?? ""} onChange={setSex} options={[{value:"male",label:"Male"},{value:"female",label:"Female"}]} />
         <NumberField label="Age" value={age} onChange={setAge} step={1} />
         <NumberField label="Weight" value={kg} onChange={setKg} step={0.1} suffix="kg" />
         <NumberField label="Height" value={cm} onChange={setCm} step={0.1} suffix="cm" />
         <SelectField
           label="Activity"
-          value={activity}
+          value={activity ?? ""}
           onChange={setActivity}
           options={[
             {value:"1.2",label:"Sedentary (1.2)"},

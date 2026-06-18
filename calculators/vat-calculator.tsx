@@ -11,24 +11,27 @@ interface VATCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: VATCalculatorProps) {
-  const [amount, setAmount] = useState(() => Number(initialParams?.amount ?? 100));
-  const [vatRate, setVatRate] = useState(() => Number(initialParams?.vatRate ?? 20));
+  const [amount, setAmount] = useState<number | null>(() => Number(initialParams?.amount ?? 100));
+  const [vatRate, setVatRate] = useState<number | null>(() => Number(initialParams?.vatRate ?? 20));
   const [mode, setMode] = useState<"add" | "remove">(
     () => (initialParams?.mode as "add" | "remove") ?? "add"
   );
 
   const r = useMemo(() => {
+    const amountVal = amount ?? 0;
+    const vatRateVal = vatRate ?? 0;
+
     if (mode === "add") {
-      const vat = amount * (vatRate / 100);
-      return { net: amount, vat, gross: amount + vat };
+      const vat = amountVal * (vatRateVal / 100);
+      return { net: amountVal, vat, gross: amountVal + vat };
     } else {
-      const net = amount / (1 + vatRate / 100);
-      const vat = amount - net;
-      return { net, vat, gross: amount };
+      const net = amountVal / (1 + vatRateVal / 100);
+      const vat = amountVal - net;
+      return { net, vat, gross: amountVal };
     }
   }, [amount, vatRate, mode]);
 
-  const shareParams: ShareParams = { amount, vatRate, mode };
+  const shareParams: ShareParams = { amount: amount ?? 0, vatRate: vatRate ?? 0, mode };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

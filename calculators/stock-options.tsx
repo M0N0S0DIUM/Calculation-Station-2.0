@@ -11,28 +11,33 @@ interface StockOptionsProps {
 }
 
 function C({ onStateChange, initialParams }: StockOptionsProps) {
-  const [currentPrice, setCurrentPrice] = useState(() => Number(initialParams?.currentPrice ?? 150));
-  const [strikePrice, setStrikePrice] = useState(() => Number(initialParams?.strikePrice ?? 140));
-  const [optionPrice, setOptionPrice] = useState(() => Number(initialParams?.optionPrice ?? 15));
-  const [contracts, setContracts] = useState(() => Number(initialParams?.contracts ?? 1));
+  const [currentPrice, setCurrentPrice] = useState<number | null>(() => Number(initialParams?.currentPrice ?? 150));
+  const [strikePrice, setStrikePrice] = useState<number | null>(() => Number(initialParams?.strikePrice ?? 140));
+  const [optionPrice, setOptionPrice] = useState<number | null>(() => Number(initialParams?.optionPrice ?? 15));
+  const [contracts, setContracts] = useState<number | null>(() => Number(initialParams?.contracts ?? 1));
   const [type, setType] = useState<"call" | "put">(
     () => (initialParams?.type as "call" | "put") ?? "call"
   );
 
   const r = useMemo(() => {
+    const contractsVal = contracts ?? 0;
+    const currentPriceVal = currentPrice ?? 0;
+    const optionPriceVal = optionPrice ?? 0;
+    const strikePriceVal = strikePrice ?? 0;
+
     const intrinsicValue = type === "call" 
-      ? Math.max(0, currentPrice - strikePrice)
-      : Math.max(0, strikePrice - currentPrice);
-    const timeValue = optionPrice - intrinsicValue;
-    const totalCost = optionPrice * 100 * contracts;
-    const breakEven = type === "call" ? strikePrice + optionPrice : strikePrice - optionPrice;
+      ? Math.max(0, currentPriceVal - strikePriceVal)
+      : Math.max(0, strikePriceVal - currentPriceVal);
+    const timeValue = optionPriceVal - intrinsicValue;
+    const totalCost = optionPriceVal * 100 * contractsVal;
+    const breakEven = type === "call" ? strikePriceVal + optionPriceVal : strikePriceVal - optionPriceVal;
     const maxLoss = totalCost;
-    const intrinsicTotal = intrinsicValue * 100 * contracts;
+    const intrinsicTotal = intrinsicValue * 100 * contractsVal;
     
     return { intrinsicValue, timeValue, totalCost, breakEven, maxLoss, intrinsicTotal };
   }, [currentPrice, strikePrice, optionPrice, contracts, type]);
 
-  const shareParams: ShareParams = { currentPrice, strikePrice, optionPrice, contracts, type };
+  const shareParams: ShareParams = { currentPrice: currentPrice ?? 0, strikePrice: strikePrice ?? 0, optionPrice: optionPrice ?? 0, contracts: contracts ?? 0, type };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

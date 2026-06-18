@@ -11,11 +11,15 @@ interface RoundingCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: RoundingCalculatorProps) {
-  const [x, setX] = useState(() => Number(initialParams?.x ?? 123.456789));
-  const [d, setD] = useState(() => Number(initialParams?.d ?? 2));
-  const r = useMemo(() => round(x, Math.max(0, Math.min(12, Math.trunc(d)))), [x,d]);
+  const [x, setX] = useState<number | null>(() => Number(initialParams?.x ?? 123.456789));
+  const [d, setD] = useState<number | null>(() => Number(initialParams?.d ?? 2));
+  const r = useMemo(() => {
+    const xVal = x ?? 0;
+    const dVal = d ?? 0;
+    return round(xVal, Math.max(0, Math.min(12, Math.trunc(dVal))));
+  }, [x, d]);
 
-  const shareParams: ShareParams = { x, d };
+  const shareParams: ShareParams = { x: x ?? 0, d: d ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

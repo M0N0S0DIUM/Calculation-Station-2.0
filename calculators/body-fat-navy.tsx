@@ -13,23 +13,29 @@ interface BodyFatNavyCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: BodyFatNavyCalculatorProps) {
-  const [sex, setSex] = useState(() => String(initialParams?.sex ?? "male"));
-  const [height, setHeight] = useState(() => Number(initialParams?.height ?? 70));
-  const [neck, setNeck] = useState(() => Number(initialParams?.neck ?? 15));
-  const [waist, setWaist] = useState(() => Number(initialParams?.waist ?? 34));
-  const [hip, setHip] = useState(() => Number(initialParams?.hip ?? 38));
+  const [sex, setSex] = useState<string | null>(() => String(initialParams?.sex ?? "male"));
+  const [height, setHeight] = useState<number | null>(() => Number(initialParams?.height ?? 70));
+  const [neck, setNeck] = useState<number | null>(() => Number(initialParams?.neck ?? 15));
+  const [waist, setWaist] = useState<number | null>(() => Number(initialParams?.waist ?? 34));
+  const [hip, setHip] = useState<number | null>(() => Number(initialParams?.hip ?? 38));
 
   const bf = useMemo(() => {
-    if (sex === "male") {
-      const v = 86.010*log10(waist - neck) - 70.041*log10(height) + 36.76;
+    const heightVal = height ?? 0;
+    const hipVal = hip ?? 0;
+    const neckVal = neck ?? 0;
+    const waistVal = waist ?? 0;
+    const sexVal = sex ?? '';
+
+    if (sexVal === "male") {
+      const v = 86.010*log10(waistVal - neckVal) - 70.041*log10(heightVal) + 36.76;
       return v;
     } else {
-      const v = 163.205*log10(waist + hip - neck) - 97.684*log10(height) - 78.387;
+      const v = 163.205*log10(waistVal + hipVal - neckVal) - 97.684*log10(heightVal) - 78.387;
       return v;
     }
   }, [sex, height, neck, waist, hip]);
 
-  const shareParams: ShareParams = { sex, height, neck, waist, hip };
+  const shareParams: ShareParams = { sex: sex ?? '', height: height ?? 0, neck: neck ?? 0, waist: waist ?? 0, hip: hip ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -37,7 +43,7 @@ function C({ onStateChange, initialParams }: BodyFatNavyCalculatorProps) {
   return (
     <Card>
       <Grid>
-        <SelectField label="Sex" value={sex} onChange={setSex} options={[{value:"male",label:"Male"},{value:"female",label:"Female"}]} />
+        <SelectField label="Sex" value={sex ?? ""} onChange={setSex} options={[{value:"male",label:"Male"},{value:"female",label:"Female"}]} />
         <NumberField label="Height" value={height} onChange={setHeight} step={0.1} suffix="in" />
         <NumberField label="Neck" value={neck} onChange={setNeck} step={0.1} suffix="in" />
         <NumberField label="Waist" value={waist} onChange={setWaist} step={0.1} suffix="in" />

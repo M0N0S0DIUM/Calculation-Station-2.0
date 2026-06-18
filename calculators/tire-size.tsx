@@ -11,14 +11,18 @@ interface TireSizeCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: TireSizeCalculatorProps) {
-  const [width, setWidth] = useState(() => Number(initialParams?.width ?? 225));
-  const [aspect, setAspect] = useState(() => Number(initialParams?.aspect ?? 45));
-  const [rim, setRim] = useState(() => Number(initialParams?.rim ?? 17));
+  const [width, setWidth] = useState<number | null>(() => Number(initialParams?.width ?? 225));
+  const [aspect, setAspect] = useState<number | null>(() => Number(initialParams?.aspect ?? 45));
+  const [rim, setRim] = useState<number | null>(() => Number(initialParams?.rim ?? 17));
 
   const r = useMemo(() => {
-    const sidewallMm = width * (aspect / 100);
+    const aspectVal = aspect ?? 0;
+    const rimVal = rim ?? 0;
+    const widthVal = width ?? 0;
+
+    const sidewallMm = widthVal * (aspectVal / 100);
     const sidewallIn = sidewallMm / 25.4;
-    const overallDiameterIn = (2 * sidewallIn) + rim;
+    const overallDiameterIn = (2 * sidewallIn) + rimVal;
     const overallDiameterMm = overallDiameterIn * 25.4;
     const circumferenceMm = overallDiameterMm * Math.PI;
     const revsPerKm = 1000000 / circumferenceMm;
@@ -27,7 +31,7 @@ function C({ onStateChange, initialParams }: TireSizeCalculatorProps) {
     return { sidewallMm, sidewallIn, overallDiameterIn, overallDiameterMm, circumferenceMm, revsPerKm, revsPerMile };
   }, [width, aspect, rim]);
 
-  const shareParams: ShareParams = { width, aspect, rim };
+  const shareParams: ShareParams = { width: width ?? 0, aspect: aspect ?? 0, rim: rim ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

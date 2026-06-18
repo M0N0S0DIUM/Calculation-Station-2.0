@@ -14,28 +14,31 @@ function C({ onStateChange, initialParams }: BSACalculatorProps) {
   const [units, setUnits] = useState<"us" | "metric">(
     () => (initialParams?.units as "us" | "metric") ?? "metric"
   );
-  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 70));
-  const [height, setHeight] = useState(() => Number(initialParams?.height ?? 175));
+  const [weight, setWeight] = useState<number | null>(() => Number(initialParams?.weight ?? 70));
+  const [height, setHeight] = useState<number | null>(() => Number(initialParams?.height ?? 175));
 
   const r = useMemo(() => {
-    // Mosteller formula: BSA = sqrt(height(cm) * weight(kg) / 3600)
-    // Du Bois formula: BSA = 0.007184 * weight^0.425 * height^0.725
-    let w = weight, h = height;
+    const heightVal = height ?? 0;
+    const weightVal = weight ?? 0;
+
+    // Mosteller formula: BSA = sqrt(heightVal(cm) * weightVal(kg) / 3600)
+    // Du Bois formula: BSA = 0.007184 * weightVal^0.425 * heightVal^0.725
+    let w = weightVal, h = heightVal;
     if (units === "us") {
-      w = weight * 0.453592; // lb to kg
-      h = height * 2.54; // in to cm
+      w = weightVal * 0.453592; // lb to kg
+      h = heightVal * 2.54; // in to cm
     }
     const mosteller = Math.sqrt(h * w / 3600);
     const dubois = 0.007184 * Math.pow(w, 0.425) * Math.pow(h, 0.725);
     const avg = (mosteller + dubois) / 2;
-    return { mosteller, dubois, avg, weight: w, height: h };
+    return { mosteller, dubois, avg, weightVal: w, heightVal: h };
   }, [units, weight, height]);
 
   const shareParams: ShareParams = {
-    units,
-    weight: units === "us" ? weight : Math.round(weight * 10) / 10,
-    height: units === "us" ? height : Math.round(height * 10) / 10,
-  };
+      units: units ?? 'metric',
+      weight: units === "us" ? (weight ?? 0) : Math.round((weight ?? 0) * 10) / 10,
+      height: units === "us" ? (height ?? 0) : Math.round((height ?? 0) * 10) / 10,
+    };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

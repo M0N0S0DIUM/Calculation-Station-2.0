@@ -26,8 +26,8 @@ export function Hr() {
 
 export function NumberField(props: {
   label: string;
-  value: number;
-  onChange: (v: number) => void;
+  value: number | null;
+  onChange: (v: number | null) => void;
   step?: number;
   min?: number;
   max?: number;
@@ -42,20 +42,31 @@ export function NumberField(props: {
 
       <input
         type="number"
-        value={Number.isFinite(props.value) ? props.value : ""}
-        step={props.step ??    1}
+        value={props.value !== null && Number.isFinite(props.value) ? props.value : ""}
+        step={props.step ?? 1}
         min={props.min}
         max={props.max}
         onChange={(e) => {
           const raw = e.target.value;
-          // Allow empty string (clearing), partial numbers like "1.", "-", etc.
-          if (raw === "" || raw === "-" || raw.endsWith(".")) {
-            // Don't update state for partial input - let user finish typing
+          // Allow empty string (clearing field) - call onChange with null
+          if (raw === "") {
+            props.onChange(null);
+            return;
+          }
+          // Allow partial numbers like "1.", "-", "-." - don't update state yet
+          if (raw === "-" || raw === "-." || raw.endsWith(".")) {
             return;
           }
           const num = Number(raw);
           if (Number.isFinite(num)) {
             props.onChange(num);
+          }
+        }}
+        onBlur={(e) => {
+          // On blur, if the value is just "-" or "-." or ends with ".", clear it
+          const raw = e.target.value;
+          if (raw === "-" || raw === "-." || raw.endsWith(".")) {
+            props.onChange(null);
           }
         }}
         className="w-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-4 py-2 text-sm outline-none transition

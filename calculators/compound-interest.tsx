@@ -11,27 +11,32 @@ interface CompoundInterestCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: CompoundInterestCalculatorProps) {
-  const [principal, setPrincipal] = useState(() => Number(initialParams?.principal ?? 5000));
-  const [monthly, setMonthly] = useState(() => Number(initialParams?.monthly ?? 200));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 7));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 20));
+  const [principal, setPrincipal] = useState<number | null>(() => Number(initialParams?.principal ?? 5000));
+  const [monthly, setMonthly] = useState<number | null>(() => Number(initialParams?.monthly ?? 200));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 7));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 20));
 
   const r = useMemo(() => {
-    const rm = (apr/100)/12;
-    const n = Math.max(0, Math.round(years*12));
-    if (apr < 0 || n === 0) return { fv: principal, invested: principal, gain: 0 };
+    const aprVal = apr ?? 0;
+    const monthlyVal = monthly ?? 0;
+    const principalVal = principal ?? 0;
+    const yearsVal = years ?? 0;
+
+    const rm = (aprVal/100)/12;
+    const n = Math.max(0, Math.round(yearsVal*12));
+    if (aprVal < 0 || n === 0) return { fv: principalVal, invested: principalVal, gain: 0 };
     if (rm === 0) {
-      const invested = principal + monthly*n;
+      const invested = principalVal + monthlyVal*n;
       return { fv: invested, invested, gain: 0 };
     }
-    const fvPrincipal = principal * Math.pow(1+rm, n);
-    const fvMonthly = monthly * (Math.pow(1+rm, n) - 1) / rm;
+    const fvPrincipal = principalVal * Math.pow(1+rm, n);
+    const fvMonthly = monthlyVal * (Math.pow(1+rm, n) - 1) / rm;
     const fv = fvPrincipal + fvMonthly;
-    const invested = principal + monthly*n;
+    const invested = principalVal + monthlyVal*n;
     return { fv, invested, gain: fv - invested };
   }, [principal, monthly, apr, years]);
 
-  const shareParams: ShareParams = { principal, monthly, apr, years };
+  const shareParams: ShareParams = { principal: principal ?? 0, monthly: monthly ?? 0, apr: apr ?? 0, years: years ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

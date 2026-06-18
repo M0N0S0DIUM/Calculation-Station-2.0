@@ -11,24 +11,30 @@ interface EmergencyFundProps {
 }
 
 function C({ onStateChange, initialParams }: EmergencyFundProps) {
-  const [monthlyExpenses, setMonthlyExpenses] = useState(() => Number(initialParams?.monthlyExpenses ?? 3000));
-  const [monthsCoverage, setMonthsCoverage] = useState(() => Number(initialParams?.monthsCoverage ?? 6));
-  const [currentSavings, setCurrentSavings] = useState(() => Number(initialParams?.currentSavings ?? 5000));
-  const [monthlySavings, setMonthlySavings] = useState(() => Number(initialParams?.monthlySavings ?? 500));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 4));
+  const [monthlyExpenses, setMonthlyExpenses] = useState<number | null>(() => Number(initialParams?.monthlyExpenses ?? 3000));
+  const [monthsCoverage, setMonthsCoverage] = useState<number | null>(() => Number(initialParams?.monthsCoverage ?? 6));
+  const [currentSavings, setCurrentSavings] = useState<number | null>(() => Number(initialParams?.currentSavings ?? 5000));
+  const [monthlySavings, setMonthlySavings] = useState<number | null>(() => Number(initialParams?.monthlySavings ?? 500));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 4));
 
   const r = useMemo(() => {
-    const targetAmount = monthlyExpenses * monthsCoverage;
-    const remaining = Math.max(0, targetAmount - currentSavings);
-    const monthlyRate = apr / 100 / 12;
+    const aprVal = apr ?? 0;
+    const currentSavingsVal = currentSavings ?? 0;
+    const monthlyExpensesVal = monthlyExpenses ?? 0;
+    const monthlySavingsVal = monthlySavings ?? 0;
+    const monthsCoverageVal = monthsCoverage ?? 0;
+
+    const targetAmount = monthlyExpensesVal * monthsCoverageVal;
+    const remaining = Math.max(0, targetAmount - currentSavingsVal);
+    const monthlyRate = aprVal / 100 / 12;
     
     let monthsToGoal = 0;
-    if (monthlySavings > 0) {
+    if (monthlySavingsVal > 0) {
       if (monthlyRate === 0) {
-        monthsToGoal = Math.ceil(remaining / monthlySavings);
+        monthsToGoal = Math.ceil(remaining / monthlySavingsVal);
       } else {
         monthsToGoal = Math.ceil(
-          Math.log(1 + (remaining * monthlyRate) / monthlySavings) / Math.log(1 + monthlyRate)
+          Math.log(1 + (remaining * monthlyRate) / monthlySavingsVal) / Math.log(1 + monthlyRate)
         );
       }
     }
@@ -38,7 +44,7 @@ function C({ onStateChange, initialParams }: EmergencyFundProps) {
     return { targetAmount, remaining, monthsToGoal, yearsToGoal };
   }, [monthlyExpenses, monthsCoverage, currentSavings, monthlySavings, apr]);
 
-  const shareParams: ShareParams = { monthlyExpenses, monthsCoverage, currentSavings, monthlySavings, apr };
+  const shareParams: ShareParams = { monthlyExpenses: monthlyExpenses ?? 0, monthsCoverage: monthsCoverage ?? 0, currentSavings: currentSavings ?? 0, monthlySavings: monthlySavings ?? 0, apr: apr ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

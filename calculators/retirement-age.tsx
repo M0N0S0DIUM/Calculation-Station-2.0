@@ -11,37 +11,44 @@ interface RetirementAgeProps {
 }
 
 function C({ onStateChange, initialParams }: RetirementAgeProps) {
-  const [currentAge, setCurrentAge] = useState(() => Number(initialParams?.currentAge ?? 30));
-  const [retirementAge, setRetirementAge] = useState(() => Number(initialParams?.retirementAge ?? 65));
-  const [currentSavings, setCurrentSavings] = useState(() => Number(initialParams?.currentSavings ?? 50000));
-  const [monthlyContribution, setMonthlyContribution] = useState(() => Number(initialParams?.monthlyContribution ?? 1000));
-  const [expectedReturn, setExpectedReturn] = useState(() => Number(initialParams?.expectedReturn ?? 7));
-  const [withdrawalRate, setWithdrawalRate] = useState(() => Number(initialParams?.withdrawalRate ?? 4));
+  const [currentAge, setCurrentAge] = useState<number | null>(() => Number(initialParams?.currentAge ?? 30));
+  const [retirementAge, setRetirementAge] = useState<number | null>(() => Number(initialParams?.retirementAge ?? 65));
+  const [currentSavings, setCurrentSavings] = useState<number | null>(() => Number(initialParams?.currentSavings ?? 50000));
+  const [monthlyContribution, setMonthlyContribution] = useState<number | null>(() => Number(initialParams?.monthlyContribution ?? 1000));
+  const [expectedReturn, setExpectedReturn] = useState<number | null>(() => Number(initialParams?.expectedReturn ?? 7));
+  const [withdrawalRate, setWithdrawalRate] = useState<number | null>(() => Number(initialParams?.withdrawalRate ?? 4));
 
   const r = useMemo(() => {
-    const yearsToRetirement = retirementAge - currentAge;
+    const currentAgeVal = currentAge ?? 0;
+    const currentSavingsVal = currentSavings ?? 0;
+    const expectedReturnVal = expectedReturn ?? 0;
+    const monthlyContributionVal = monthlyContribution ?? 0;
+    const retirementAgeVal = retirementAge ?? 0;
+    const withdrawalRateVal = withdrawalRate ?? 0;
+
+    const yearsToRetirement = retirementAgeVal - currentAgeVal;
     if (yearsToRetirement <= 0) {
-      return { yearsToRetirement: 0, projectedSavings: currentSavings, annualIncome: 0, monthlyIncome: 0 };
+      return { yearsToRetirement: 0, projectedSavings: currentSavingsVal, annualIncome: 0, monthlyIncome: 0 };
     }
     
     const months = yearsToRetirement * 12;
-    const monthlyRate = expectedReturn / 100 / 12;
+    const monthlyRate = expectedReturnVal / 100 / 12;
     
-    let projectedSavings = currentSavings;
+    let projectedSavings = currentSavingsVal;
     if (monthlyRate === 0) {
-      projectedSavings += monthlyContribution * months;
+      projectedSavings += monthlyContributionVal * months;
     } else {
-      projectedSavings = currentSavings * Math.pow(1 + monthlyRate, months) + 
-                         monthlyContribution * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+      projectedSavings = currentSavingsVal * Math.pow(1 + monthlyRate, months) + 
+                         monthlyContributionVal * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
     }
     
-    const annualIncome = projectedSavings * (withdrawalRate / 100);
+    const annualIncome = projectedSavings * (withdrawalRateVal / 100);
     const monthlyIncome = annualIncome / 12;
     
     return { yearsToRetirement, projectedSavings, annualIncome, monthlyIncome };
   }, [currentAge, retirementAge, currentSavings, monthlyContribution, expectedReturn, withdrawalRate]);
 
-  const shareParams: ShareParams = { currentAge, retirementAge, currentSavings, monthlyContribution, expectedReturn, withdrawalRate };
+  const shareParams: ShareParams = { currentAge: currentAge ?? 0, retirementAge: retirementAge ?? 0, currentSavings: currentSavings ?? 0, monthlyContribution: monthlyContribution ?? 0, expectedReturn: expectedReturn ?? 0, withdrawalRate: withdrawalRate ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -53,7 +60,7 @@ function C({ onStateChange, initialParams }: RetirementAgeProps) {
       </div>
       <Grid>
         <NumberField label="Current Age" value={currentAge} onChange={setCurrentAge} step={1} min={18} max={80} />
-        <NumberField label="Target Retirement Age" value={retirementAge} onChange={setRetirementAge} step={1} min={currentAge} max={100} />
+        <NumberField label="Target Retirement Age" value={retirementAge} onChange={setRetirementAge} step={1} min={currentAge ?? 18} max={100} />
         <NumberField label="Current Savings" value={currentSavings} onChange={setCurrentSavings} step={5000} />
         <NumberField label="Monthly Contribution" value={monthlyContribution} onChange={setMonthlyContribution} step={100} />
         <NumberField label="Expected Return" value={expectedReturn} onChange={setExpectedReturn} step={0.1} suffix="%" />

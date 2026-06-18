@@ -11,11 +11,15 @@ interface AreaRectangleCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: AreaRectangleCalculatorProps) {
-  const [w, setW] = useState(() => Number(initialParams?.w ?? 10));
-  const [h, setH] = useState(() => Number(initialParams?.h ?? 5));
-  const out = useMemo(() => ({ area: w*h, perim: 2*(w+h) }), [w,h]);
+  const [w, setW] = useState<number | null>(() => Number(initialParams?.w ?? 10));
+  const [h, setH] = useState<number | null>(() => Number(initialParams?.h ?? 5));
+  const out = useMemo(() => {
+    const wVal = w ?? 0;
+    const hVal = h ?? 0;
+    return { area: wVal * hVal, perim: 2 * (wVal + hVal) };
+  }, [w, h]);
 
-  const shareParams: ShareParams = { w, h };
+  const shareParams: ShareParams = { w: w ?? 0, h: h ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

@@ -11,19 +11,23 @@ interface PercentageCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: PercentageCalculatorProps) {
-  const [base, setBase] = useState(() => Number(initialParams?.base ?? 200));
-  const [pct, setPct] = useState(() => Number(initialParams?.pct ?? 15));
-  const [part, setPart] = useState(() => Number(initialParams?.part ?? 30));
+  const [base, setBase] = useState<number | null>(() => Number(initialParams?.base ?? 200));
+  const [pct, setPct] = useState<number | null>(() => Number(initialParams?.pct ?? 15));
+  const [part, setPart] = useState<number | null>(() => Number(initialParams?.part ?? 30));
 
   const r = useMemo(() => {
-    const pctOf = base * (pct / 100);
-    const whatPct = base !== 0 ? (part / base) * 100 : NaN;
-    const inc = base * (1 + pct / 100);
-    const dec = base * (1 - pct / 100);
+    const baseVal = base ?? 0;
+    const partVal = part ?? 0;
+    const pctVal = pct ?? 0;
+
+    const pctOf = baseVal * (pctVal / 100);
+    const whatPct = baseVal !== 0 ? (partVal / baseVal) * 100 : NaN;
+    const inc = baseVal * (1 + pctVal / 100);
+    const dec = baseVal * (1 - pctVal / 100);
     return { pctOf, whatPct, inc, dec };
   }, [base, pct, part]);
 
-  const shareParams: ShareParams = { base, pct, part };
+  const shareParams: ShareParams = { base: base ?? 0, pct: pct ?? 0, part: part ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

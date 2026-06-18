@@ -11,33 +11,37 @@ interface DebtPayoffProps {
 }
 
 function C({ onStateChange, initialParams }: DebtPayoffProps) {
-  const [balance, setBalance] = useState(() => Number(initialParams?.balance ?? 10000));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 18));
-  const [monthlyPayment, setMonthlyPayment] = useState(() => Number(initialParams?.monthlyPayment ?? 300));
+  const [balance, setBalance] = useState<number | null>(() => Number(initialParams?.balance ?? 10000));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 18));
+  const [monthlyPayment, setMonthlyPayment] = useState<number | null>(() => Number(initialParams?.monthlyPayment ?? 300));
 
   const r = useMemo(() => {
-    const monthlyRate = apr / 100 / 12;
+    const aprVal = apr ?? 0;
+    const balanceVal = balance ?? 0;
+    const monthlyPaymentVal = monthlyPayment ?? 0;
+
+    const monthlyRate = aprVal / 100 / 12;
     
-    if (monthlyPayment <= balance * monthlyRate) {
+    if (monthlyPaymentVal <= balanceVal * monthlyRate) {
       return { monthsToPayoff: Infinity, totalInterest: Infinity, yearsToPayoff: Infinity, totalPaid: Infinity, minMonths: Infinity, minTotalInterest: Infinity, minPayment: 0 };
     }
     
-    const monthsToPayoff = Math.log(monthlyPayment / (monthlyPayment - balance * monthlyRate)) / Math.log(1 + monthlyRate);
-    const totalPaid = monthlyPayment * monthsToPayoff;
-    const totalInterest = totalPaid - balance;
+    const monthsToPayoff = Math.log(monthlyPaymentVal / (monthlyPaymentVal - balanceVal * monthlyRate)) / Math.log(1 + monthlyRate);
+    const totalPaid = monthlyPaymentVal * monthsToPayoff;
+    const totalInterest = totalPaid - balanceVal;
     const yearsToPayoff = monthsToPayoff / 12;
     
-    // Minimum payment (just interest + 1% of balance)
-    const minPayment = Math.max(25, balance * monthlyRate + balance * 0.01);
-    const minMonths = monthlyRate === 0 ? balance / minPayment : 
-      Math.log(minPayment / (minPayment - balance * monthlyRate)) / Math.log(1 + monthlyRate);
+    // Minimum payment (just interest + 1% of balanceVal)
+    const minPayment = Math.max(25, balanceVal * monthlyRate + balanceVal * 0.01);
+    const minMonths = monthlyRate === 0 ? balanceVal / minPayment : 
+      Math.log(minPayment / (minPayment - balanceVal * monthlyRate)) / Math.log(1 + monthlyRate);
     const minTotalPaid = minPayment * minMonths;
-    const minTotalInterest = minTotalPaid - balance;
+    const minTotalInterest = minTotalPaid - balanceVal;
     
     return { monthsToPayoff, totalInterest, yearsToPayoff, totalPaid, minMonths, minTotalInterest, minPayment };
   }, [balance, apr, monthlyPayment]);
 
-  const shareParams: ShareParams = { balance, apr, monthlyPayment };
+  const shareParams: ShareParams = { balance: balance ?? 0, apr: apr ?? 0, monthlyPayment: monthlyPayment ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

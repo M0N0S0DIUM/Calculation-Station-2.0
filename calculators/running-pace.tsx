@@ -11,17 +11,21 @@ interface RunningPaceCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: RunningPaceCalculatorProps) {
-  const [dist, setDist] = useState(() => Number(initialParams?.dist ?? 5));
-  const [unit, setUnit] = useState(() => String(initialParams?.unit ?? "km"));
-  const [minutes, setMinutes] = useState(() => Number(initialParams?.minutes ?? 25));
+  const [dist, setDist] = useState<number | null>(() => Number(initialParams?.dist ?? 5));
+  const [unit, setUnit] = useState<string | null>(() => String(initialParams?.unit ?? "km"));
+  const [minutes, setMinutes] = useState<number | null>(() => Number(initialParams?.minutes ?? 25));
 
   const r = useMemo(() => {
-    const km = unit === "km" ? dist : dist*1.609344;
-    const hours = minutes/60;
+    const distVal = dist ?? 0;
+    const minutesVal = minutes ?? 0;
+    const unitVal = unit ?? '';
+
+    const km = unitVal === "km" ? distVal : distVal*1.609344;
+    const hours = minutesVal/60;
     const kmh = hours !== 0 ? km/hours : NaN;
     const mph = kmh/1.609344;
-    const paceMinPerKm = km !== 0 ? minutes/km : NaN;
-    const paceMinPerMi = (unit === "mi" ? minutes/dist : minutes/(km/1.609344));
+    const paceMinPerKm = km !== 0 ? minutesVal/km : NaN;
+    const paceMinPerMi = (unitVal === "mi" ? minutesVal/distVal : minutesVal/(km/1.609344));
     return { kmh, mph, paceMinPerKm, paceMinPerMi };
   }, [dist, unit, minutes]);
 
@@ -32,7 +36,7 @@ function C({ onStateChange, initialParams }: RunningPaceCalculatorProps) {
     return `${mm}:${String(ss).padStart(2,"0")}`;
   };
 
-  const shareParams: ShareParams = { dist, unit, minutes };
+  const shareParams: ShareParams = { dist: dist ?? 0, unit: unit ?? '', minutes: minutes ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -41,7 +45,7 @@ function C({ onStateChange, initialParams }: RunningPaceCalculatorProps) {
     <Card>
       <Grid>
         <NumberField label="Distance" value={dist} onChange={setDist} step={0.01} />
-        <SelectField label="Unit" value={unit} onChange={setUnit} options={[{value:"km",label:"km"},{value:"mi",label:"mi"}]} />
+        <SelectField label="Unit" value={unit ?? ""} onChange={setUnit} options={[{value:"km",label:"km"},{value:"mi",label:"mi"}]} />
         <NumberField label="Time (minutes)" value={minutes} onChange={setMinutes} step={1} />
       </Grid>
       <Hr />

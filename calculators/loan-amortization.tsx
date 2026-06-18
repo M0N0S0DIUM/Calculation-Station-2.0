@@ -11,15 +11,20 @@ interface LoanAmortizationProps {
 }
 
 function C({ onStateChange, initialParams }: LoanAmortizationProps) {
-  const [principal, setPrincipal] = useState(() => Number(initialParams?.principal ?? 300000));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 6.5));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 30));
-  const [extraPayment, setExtraPayment] = useState(() => Number(initialParams?.extraPayment ?? 0));
+  const [principal, setPrincipal] = useState<number | null>(() => Number(initialParams?.principal ?? 300000));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 6.5));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 30));
+  const [extraPayment, setExtraPayment] = useState<number | null>(() => Number(initialParams?.extraPayment ?? 0));
 
   const r = useMemo(() => {
-    const P = principal;
-    const rm = (apr/100)/12;
-    const n = Math.max(1, Math.round(years*12));
+    const aprVal = apr ?? 0;
+    const extraPaymentVal = extraPayment ?? 0;
+    const principalVal = principal ?? 0;
+    const yearsVal = years ?? 0;
+
+    const P = principalVal;
+    const rm = (aprVal/100)/12;
+    const n = Math.max(1, Math.round(yearsVal*12));
     
     let monthlyPI = 0;
     if (rm === 0) monthlyPI = P/n;
@@ -33,10 +38,10 @@ function C({ onStateChange, initialParams }: LoanAmortizationProps) {
     let monthsWithExtra = 0;
     let interestWithExtra = 0;
     let balance = P;
-    if (extraPayment > 0) {
+    if (extraPaymentVal > 0) {
       while (balance > 0 && monthsWithExtra < n * 2) {
         const interest = balance * rm;
-        const principalPayment = Math.min(monthlyPI - interest + extraPayment, balance);
+        const principalPayment = Math.min(monthlyPI - interest + extraPaymentVal, balance);
         balance -= principalPayment;
         interestWithExtra += interest;
         monthsWithExtra++;
@@ -57,7 +62,7 @@ function C({ onStateChange, initialParams }: LoanAmortizationProps) {
     };
   }, [principal, apr, years, extraPayment]);
 
-  const shareParams: ShareParams = { principal, apr, years, extraPayment };
+  const shareParams: ShareParams = { principal: principal ?? 0, apr: apr ?? 0, years: years ?? 0, extraPayment: extraPayment ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -78,7 +83,7 @@ function C({ onStateChange, initialParams }: LoanAmortizationProps) {
         <Result label="Monthly Payment (P+I)" value={fmt(r.monthlyPI, 2)} copyValue={String(r.monthlyPI)} />
         <Result label="Total Paid (Standard)" value={fmt(r.totalPayment, 2)} />
         <Result label="Total Interest (Standard)" value={fmt(r.totalInterest, 2)} />
-        {extraPayment > 0 && (
+        {(extraPayment ?? 0) > 0 && (
           <>
             <Result label="Payoff Time (with Extra)" value={`${Math.floor(r.monthsWithExtra / 12)} yr ${r.monthsWithExtra % 12} mo`} />
             <Result label="Interest with Extra" value={fmt(r.interestWithExtra, 2)} />

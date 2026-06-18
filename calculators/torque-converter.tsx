@@ -18,21 +18,25 @@ const TORQUE_UNITS = [
 ];
 
 function C({ onStateChange, initialParams }: TorqueConverterProps) {
-  const [value, setValue] = useState(() => Number(initialParams?.value ?? 100));
+  const [value, setValue] = useState<number | null>(() => Number(initialParams?.value ?? 100));
   const [fromUnit, setFromUnit] = useState<string>(() => String(initialParams?.fromUnit ?? "nm"));
   const [toUnit, setToUnit] = useState<string>(() => String(initialParams?.toUnit ?? "ftlb"));
 
   const toNm = useMemo(() => {
+    const valueVal = value ?? 0;
+
     switch (fromUnit) {
-      case "nm": return value;
-      case "ftlb": return value * 1.35582;
-      case "inlb": return value * 0.112985;
-      case "kgfm": return value * 9.80665;
-      default: return value;
+      case "nm": return valueVal;
+      case "ftlb": return valueVal * 1.35582;
+      case "inlb": return valueVal * 0.112985;
+      case "kgfm": return valueVal * 9.80665;
+      default: return valueVal;
     }
   }, [value, fromUnit]);
 
   const r = useMemo(() => {
+    const valueVal = value ?? 0;
+
     switch (toUnit) {
       case "nm": return toNm;
       case "ftlb": return toNm / 1.35582;
@@ -42,7 +46,7 @@ function C({ onStateChange, initialParams }: TorqueConverterProps) {
     }
   }, [toNm, toUnit]);
 
-  const shareParams: ShareParams = { value, fromUnit, toUnit };
+  const shareParams: ShareParams = { value: value ?? 0, fromUnit, toUnit };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

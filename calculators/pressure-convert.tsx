@@ -16,13 +16,17 @@ interface PressureConvertCalculatorProps {
 
 function C({ onStateChange, initialParams }: PressureConvertCalculatorProps) {
   const keys = Object.keys(U);
-  const [from, setFrom] = useState(() => String(initialParams?.from ?? keys[0]));
-  const [to, setTo] = useState(() => String(initialParams?.to ?? keys[1] ?? keys[0]));
-  const [v, setV] = useState(() => Number(initialParams?.v ?? 1));
-  const out = useMemo(() => { const base = v * U[from]; return base / U[to]; }, [from, to, v]);
+  const [from, setFrom] = useState<string | null>(() => String(initialParams?.from ?? keys[0]));
+  const [to, setTo] = useState<string | null>(() => String(initialParams?.to ?? keys[1] ?? keys[0]));
+  const [v, setV] = useState<number | null>(() => Number(initialParams?.v ?? 1));
+  const out = useMemo(() => {
+    const vVal = v ?? 0;
+    const fromVal = from ?? '';
+    const toVal = to ?? '';
+ const base = vVal * U[fromVal]; return base / U[toVal]; }, [from, to, v]);
   const options = keys.map((k) => ({ value: k, label: k }));
 
-  const shareParams: ShareParams = { from, to, v };
+  const shareParams: ShareParams = { from: from ?? '', to: to ?? '', v: v ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -30,8 +34,8 @@ function C({ onStateChange, initialParams }: PressureConvertCalculatorProps) {
   return (
     <Card>
       <Grid>
-        <SelectField label="From" value={from} onChange={setFrom} options={options} />
-        <SelectField label="To" value={to} onChange={setTo} options={options} />
+        <SelectField label="From" value={from ?? ""} onChange={setFrom} options={options} />
+        <SelectField label="To" value={to ?? ""} onChange={setTo} options={options} />
         <NumberField label="Value" value={v} onChange={setV} step={0.01} />
       </Grid>
       <Result label={`${v} ${from}`} value={`${fmt(out, 10)} ${to}`} />

@@ -11,15 +11,18 @@ interface ROICalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: ROICalculatorProps) {
-  const [cost, setCost] = useState(() => Number(initialParams?.cost ?? 1000));
-  const [value, setValue] = useState(() => Number(initialParams?.value ?? 1300));
+  const [cost, setCost] = useState<number | null>(() => Number(initialParams?.cost ?? 1000));
+  const [value, setValue] = useState<number | null>(() => Number(initialParams?.value ?? 1300));
   const r = useMemo(() => {
-    const profit = value - cost;
-    const roi = cost !== 0 ? (profit/cost)*100 : NaN;
+    const costVal = cost ?? 0;
+    const valueVal = value ?? 0;
+
+    const profit = valueVal - costVal;
+    const roi = costVal !== 0 ? (profit/costVal)*100 : NaN;
     return { profit, roi };
   }, [cost, value]);
 
-  const shareParams: ShareParams = { cost, value };
+  const shareParams: ShareParams = { cost: cost ?? 0, value: value ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

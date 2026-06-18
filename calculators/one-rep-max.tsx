@@ -11,15 +11,18 @@ interface OneRepMaxCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: OneRepMaxCalculatorProps) {
-  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 185));
-  const [reps, setReps] = useState(() => Number(initialParams?.reps ?? 5));
+  const [weight, setWeight] = useState<number | null>(() => Number(initialParams?.weight ?? 185));
+  const [reps, setReps] = useState<number | null>(() => Number(initialParams?.reps ?? 5));
 
   const rm = useMemo(() => {
-    if (reps <= 1) return weight;
-    return weight * (1 + reps/30);
+    const repsVal = reps ?? 0;
+    const weightVal = weight ?? 0;
+
+    if (repsVal <= 1) return weightVal;
+    return weightVal * (1 + repsVal/30);
   }, [weight, reps]);
 
-  const shareParams: ShareParams = { weight, reps };
+  const shareParams: ShareParams = { weight: weight ?? 0, reps: reps ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

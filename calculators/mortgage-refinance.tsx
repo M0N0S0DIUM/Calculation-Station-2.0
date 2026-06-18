@@ -11,30 +11,38 @@ interface MortgageRefinanceProps {
 }
 
 function C({ onStateChange, initialParams }: MortgageRefinanceProps) {
-  const [currentBalance, setCurrentBalance] = useState(() => Number(initialParams?.currentBalance ?? 250000));
-  const [currentRate, setCurrentRate] = useState(() => Number(initialParams?.currentRate ?? 6.5));
-  const [currentTermLeft, setCurrentTermLeft] = useState(() => Number(initialParams?.currentTermLeft ?? 25));
-  const [newRate, setNewRate] = useState(() => Number(initialParams?.newRate ?? 5.5));
-  const [newTerm, setNewTerm] = useState(() => Number(initialParams?.newTerm ?? 30));
-  const [closingCosts, setClosingCosts] = useState(() => Number(initialParams?.closingCosts ?? 5000));
-  const [cashOut, setCashOut] = useState(() => Number(initialParams?.cashOut ?? 0));
+  const [currentBalance, setCurrentBalance] = useState<number | null>(() => Number(initialParams?.currentBalance ?? 250000));
+  const [currentRate, setCurrentRate] = useState<number | null>(() => Number(initialParams?.currentRate ?? 6.5));
+  const [currentTermLeft, setCurrentTermLeft] = useState<number | null>(() => Number(initialParams?.currentTermLeft ?? 25));
+  const [newRate, setNewRate] = useState<number | null>(() => Number(initialParams?.newRate ?? 5.5));
+  const [newTerm, setNewTerm] = useState<number | null>(() => Number(initialParams?.newTerm ?? 30));
+  const [closingCosts, setClosingCosts] = useState<number | null>(() => Number(initialParams?.closingCosts ?? 5000));
+  const [cashOut, setCashOut] = useState<number | null>(() => Number(initialParams?.cashOut ?? 0));
 
   const r = useMemo(() => {
-    const currentMonthly = currentBalance * (currentRate/100)/12 * Math.pow(1 + currentRate/100/12, currentTermLeft*12) / 
-                          (Math.pow(1 + currentRate/100/12, currentTermLeft*12) - 1);
-    const newLoanAmount = currentBalance + closingCosts + cashOut;
-    const newMonthly = newLoanAmount * (newRate/100)/12 * Math.pow(1 + newRate/100/12, newTerm*12) / 
-                       (Math.pow(1 + newRate/100/12, newTerm*12) - 1);
+    const cashOutVal = cashOut ?? 0;
+    const closingCostsVal = closingCosts ?? 0;
+    const currentBalanceVal = currentBalance ?? 0;
+    const currentRateVal = currentRate ?? 0;
+    const currentTermLeftVal = currentTermLeft ?? 0;
+    const newRateVal = newRate ?? 0;
+    const newTermVal = newTerm ?? 0;
+
+    const currentMonthly = currentBalanceVal * (currentRateVal/100)/12 * Math.pow(1 + currentRateVal/100/12, currentTermLeftVal*12) / 
+                          (Math.pow(1 + currentRateVal/100/12, currentTermLeftVal*12) - 1);
+    const newLoanAmount = currentBalanceVal + closingCostsVal + cashOutVal;
+    const newMonthly = newLoanAmount * (newRateVal/100)/12 * Math.pow(1 + newRateVal/100/12, newTermVal*12) / 
+                       (Math.pow(1 + newRateVal/100/12, newTermVal*12) - 1);
     const monthlySavings = currentMonthly - newMonthly;
-    const totalCurrentPayments = currentMonthly * currentTermLeft * 12;
-    const totalNewPayments = newMonthly * newTerm * 12 + closingCosts;
+    const totalCurrentPayments = currentMonthly * currentTermLeftVal * 12;
+    const totalNewPayments = newMonthly * newTermVal * 12 + closingCostsVal;
     const lifetimeSavings = totalCurrentPayments - totalNewPayments;
-    const breakEvenMonths = monthlySavings > 0 ? Math.ceil(closingCosts / monthlySavings) : Infinity;
+    const breakEvenMonths = monthlySavings > 0 ? Math.ceil(closingCostsVal / monthlySavings) : Infinity;
     
     return { currentMonthly, newMonthly, monthlySavings, totalCurrentPayments, totalNewPayments, lifetimeSavings, breakEvenMonths, newLoanAmount };
   }, [currentBalance, currentRate, currentTermLeft, newRate, newTerm, closingCosts, cashOut]);
 
-  const shareParams: ShareParams = { currentBalance, currentRate, currentTermLeft, newRate, newTerm, closingCosts, cashOut };
+  const shareParams: ShareParams = { currentBalance: currentBalance ?? 0, currentRate: currentRate ?? 0, currentTermLeft: currentTermLeft ?? 0, newRate: newRate ?? 0, newTerm: newTerm ?? 0, closingCosts: closingCosts ?? 0, cashOut: cashOut ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

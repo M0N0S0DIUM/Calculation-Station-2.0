@@ -11,22 +11,24 @@ interface AverageStatsCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: AverageStatsCalculatorProps) {
-  const [list, setList] = useState(() => String(initialParams?.list ?? "10, 20, 30, 40"));
+  const [list, setList] = useState<string | null>(() => String(initialParams?.list ?? "10, 20, 30, 40"));
   const r = useMemo(() => {
-    const nums = list.split(/[,\s]+/).map(s => s.trim()).filter(Boolean).map(Number).filter(Number.isFinite);
+    const listVal = list ?? '';
+
+    const nums = listVal.split(/[,\s]+/).map(s => s.trim()).filter(Boolean).map(Number).filter(Number.isFinite);
     if (!nums.length) return { n: 0, sum: NaN, avg: NaN, min: NaN, max: NaN };
     const sum = nums.reduce((a,b) => a + b, 0);
     return { n: nums.length, sum, avg: sum/nums.length, min: Math.min(...nums), max: Math.max(...nums) };
   }, [list]);
 
-  const shareParams: ShareParams = { list };
+  const shareParams: ShareParams = { list: list ?? '' };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
 
   return (
     <Card>
-      <TextField label="Numbers (comma or space separated)" value={list} onChange={setList} placeholder="e.g. 1 2 3 4" />
+      <TextField label="Numbers (comma or space separated)" value={list ?? ""} onChange={setList} placeholder="e.g. 1 2 3 4" />
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>
         <Result label="Count" value={String(r.n)} />

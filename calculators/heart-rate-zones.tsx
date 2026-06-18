@@ -11,18 +11,21 @@ interface HeartRateZonesCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: HeartRateZonesCalculatorProps) {
-  const [age, setAge] = useState(() => Number(initialParams?.age ?? 30));
-  const [rest, setRest] = useState(() => Number(initialParams?.rest ?? 60));
+  const [age, setAge] = useState<number | null>(() => Number(initialParams?.age ?? 30));
+  const [rest, setRest] = useState<number | null>(() => Number(initialParams?.rest ?? 60));
 
   const r = useMemo(() => {
-    const max = 220 - age;
-    const hrr = max - rest;
-    const zone = (p: number) => rest + hrr*p;
+    const ageVal = age ?? 0;
+    const restVal = rest ?? 0;
+
+    const max = 220 - ageVal;
+    const hrr = max - restVal;
+    const zone = (p: number) => restVal + hrr*p;
     const z = (a:number,b:number)=>`${fmt(zone(a),0)}–${fmt(zone(b),0)} bpm`;
     return { max, z1:z(0.5,0.6), z2:z(0.6,0.7), z3:z(0.7,0.8), z4:z(0.8,0.9), z5:z(0.9,1.0) };
   }, [age, rest]);
 
-  const shareParams: ShareParams = { age, rest };
+  const shareParams: ShareParams = { age: age ?? 0, rest: rest ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

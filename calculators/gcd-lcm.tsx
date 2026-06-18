@@ -11,11 +11,15 @@ interface GCDLCMCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: GCDLCMCalculatorProps) {
-  const [a, setA] = useState(() => Number(initialParams?.a ?? 48));
-  const [b, setB] = useState(() => Number(initialParams?.b ?? 18));
-  const r = useMemo(() => ({ gcd: gcd(a,b), lcm: lcm(a,b) }), [a,b]);
+  const [a, setA] = useState<number | null>(() => Number(initialParams?.a ?? 48));
+  const [b, setB] = useState<number | null>(() => Number(initialParams?.b ?? 18));
+  const r = useMemo(() => {
+    const aVal = a ?? 0;
+    const bVal = b ?? 0;
+    return { gcd: gcd(aVal, bVal), lcm: lcm(aVal, bVal) };
+  }, [a, b]);
 
-  const shareParams: ShareParams = { a, b };
+  const shareParams: ShareParams = { a: a ?? 0, b: b ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

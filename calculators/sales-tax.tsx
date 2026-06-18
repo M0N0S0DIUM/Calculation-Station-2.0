@@ -11,16 +11,19 @@ interface SalesTaxCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: SalesTaxCalculatorProps) {
-  const [price, setPrice] = useState(() => Number(initialParams?.price ?? 100));
-  const [taxPct, setTaxPct] = useState(() => Number(initialParams?.taxPct ?? 8.25));
+  const [price, setPrice] = useState<number | null>(() => Number(initialParams?.price ?? 100));
+  const [taxPct, setTaxPct] = useState<number | null>(() => Number(initialParams?.taxPct ?? 8.25));
   const r = useMemo(() => {
-    const tax = price * taxPct/100;
-    const total = price + tax;
-    const baseFromTotal = (1 + taxPct/100) !== 0 ? total/(1+taxPct/100) : NaN;
+    const priceVal = price ?? 0;
+    const taxPctVal = taxPct ?? 0;
+
+    const tax = priceVal * taxPctVal/100;
+    const total = priceVal + tax;
+    const baseFromTotal = (1 + taxPctVal/100) !== 0 ? total/(1+taxPctVal/100) : NaN;
     return { tax, total, baseFromTotal };
   }, [price, taxPct]);
 
-  const shareParams: ShareParams = { price, taxPct };
+  const shareParams: ShareParams = { price: price ?? 0, taxPct: taxPct ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

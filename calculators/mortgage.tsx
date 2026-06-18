@@ -11,31 +11,39 @@ interface MortgageCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: MortgageCalculatorProps) {
-  const [home, setHome] = useState(() => Number(initialParams?.home ?? 300000));
-  const [downPct, setDownPct] = useState(() => Number(initialParams?.downPct ?? 20));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 6.75));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 30));
-  const [tax, setTax] = useState(() => Number(initialParams?.tax ?? 250));
-  const [ins, setIns] = useState(() => Number(initialParams?.ins ?? 120));
-  const [hoa, setHoa] = useState(() => Number(initialParams?.hoa ?? 0));
+  const [home, setHome] = useState<number | null>(() => Number(initialParams?.home ?? 300000));
+  const [downPct, setDownPct] = useState<number | null>(() => Number(initialParams?.downPct ?? 20));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 6.75));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 30));
+  const [tax, setTax] = useState<number | null>(() => Number(initialParams?.tax ?? 250));
+  const [ins, setIns] = useState<number | null>(() => Number(initialParams?.ins ?? 120));
+  const [hoa, setHoa] = useState<number | null>(() => Number(initialParams?.hoa ?? 0));
 
   const r = useMemo(() => {
-    const principal = home * (1 - downPct/100);
-    const rm = (apr/100)/12;
-    const n = Math.max(1, Math.round(years*12));
+    const aprVal = apr ?? 0;
+    const downPctVal = downPct ?? 0;
+    const hoaVal = hoa ?? 0;
+    const homeVal = home ?? 0;
+    const insVal = ins ?? 0;
+    const taxVal = tax ?? 0;
+    const yearsVal = years ?? 0;
+
+    const principal = homeVal * (1 - downPctVal/100);
+    const rm = (aprVal/100)/12;
+    const n = Math.max(1, Math.round(yearsVal*12));
     let monthlyPI = 0;
     if (rm === 0) monthlyPI = principal/n;
     else monthlyPI = principal * (rm*Math.pow(1+rm, n)) / (Math.pow(1+rm, n)-1);
-    const monthlyTax = tax/12;
-    const monthlyIns = ins/12;
-    const monthlyHoa = hoa/12;
+    const monthlyTax = taxVal/12;
+    const monthlyIns = insVal/12;
+    const monthlyHoa = hoaVal/12;
     const totalMonthly = monthlyPI + monthlyTax + monthlyIns + monthlyHoa;
     const totalPaid = monthlyPI * n;
     const totalInterest = totalPaid - principal;
     return { principal, monthlyPI, monthlyTax, monthlyIns, monthlyHoa, totalMonthly, totalPaid, totalInterest };
   }, [home, downPct, apr, years, tax, ins, hoa]);
 
-  const shareParams: ShareParams = { home, downPct, apr, years, tax, ins, hoa };
+  const shareParams: ShareParams = { home: home ?? 0, downPct: downPct ?? 0, apr: apr ?? 0, years: years ?? 0, tax: tax ?? 0, ins: ins ?? 0, hoa: hoa ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

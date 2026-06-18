@@ -11,8 +11,8 @@ interface MacrosCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: MacrosCalculatorProps) {
-  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 180));
-  const [bodyFat, setBodyFat] = useState(() => Number(initialParams?.bodyFat ?? 20));
+  const [weight, setWeight] = useState<number | null>(() => Number(initialParams?.weight ?? 180));
+  const [bodyFat, setBodyFat] = useState<number | null>(() => Number(initialParams?.bodyFat ?? 20));
   const [activity, setActivity] = useState<"sedentary" | "light" | "moderate" | "active" | "very-active">(
     () => (initialParams?.activity as "sedentary" | "light" | "moderate" | "active" | "very-active") ?? "moderate"
   );
@@ -24,8 +24,11 @@ function C({ onStateChange, initialParams }: MacrosCalculatorProps) {
   );
 
   const r = useMemo(() => {
-    const weightKg = units === "us" ? weight / 2.20462 : weight;
-    const leanMass = weightKg * (1 - bodyFat / 100);
+    const bodyFatVal = bodyFat ?? 0;
+    const weightVal = weight ?? 0;
+
+    const weightKg = units === "us" ? weightVal / 2.20462 : weightVal;
+    const leanMass = weightKg * (1 - bodyFatVal / 100);
     
     const activityMultipliers = {
       sedentary: 1.2,
@@ -69,7 +72,7 @@ function C({ onStateChange, initialParams }: MacrosCalculatorProps) {
     };
   }, [weight, bodyFat, activity, goal, units]);
 
-  const shareParams: ShareParams = { weight, bodyFat, activity, goal, units };
+  const shareParams: ShareParams = { weight: weight ?? 0, bodyFat: bodyFat ?? 0, activity: activity ?? 'moderate', goal: goal ?? 'maintain', units: units ?? 'us' };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

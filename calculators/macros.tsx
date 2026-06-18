@@ -11,20 +11,25 @@ interface MacrosCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: MacrosCalculatorProps) {
-  const [cal, setCal] = useState(() => Number(initialParams?.cal ?? 2200));
-  const [p, setP] = useState(() => Number(initialParams?.p ?? 30));
-  const [c, setC] = useState(() => Number(initialParams?.c ?? 40));
-  const [f, setF] = useState(() => Number(initialParams?.f ?? 30));
+  const [cal, setCal] = useState<number | null>(() => Number(initialParams?.cal ?? 2200));
+  const [p, setP] = useState<number | null>(() => Number(initialParams?.p ?? 30));
+  const [c, setC] = useState<number | null>(() => Number(initialParams?.c ?? 40));
+  const [f, setF] = useState<number | null>(() => Number(initialParams?.f ?? 30));
 
   const r = useMemo(() => {
-    const totalPct = p+c+f;
-    const pG = (cal*(p/100))/4;
-    const cG = (cal*(c/100))/4;
-    const fG = (cal*(f/100))/9;
+    const cVal = c ?? 0;
+    const calVal = cal ?? 0;
+    const fVal = f ?? 0;
+    const pVal = p ?? 0;
+
+    const totalPct = pVal+cVal+fVal;
+    const pG = (calVal*(pVal/100))/4;
+    const cG = (calVal*(cVal/100))/4;
+    const fG = (calVal*(fVal/100))/9;
     return { totalPct, pG, cG, fG };
   }, [cal, p, c, f]);
 
-  const shareParams: ShareParams = { cal, p, c, f };
+  const shareParams: ShareParams = { cal: cal ?? 0, p: p ?? 0, c: c ?? 0, f: f ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

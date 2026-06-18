@@ -11,15 +11,18 @@ interface RCCutoffCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: RCCutoffCalculatorProps) {
-  const [R, setR] = useState(() => Number(initialParams?.R ?? 1000));
-  const [Ccap, setCcap] = useState(() => Number(initialParams?.Ccap ?? 1e-6));
+  const [R, setR] = useState<number | null>(() => Number(initialParams?.R ?? 1000));
+  const [Ccap, setCcap] = useState<number | null>(() => Number(initialParams?.Ccap ?? 1e-6));
   const out = useMemo(() => {
-    const tau = R*Ccap;
+    const CcapVal = Ccap ?? 0;
+    const RVal = R ?? 0;
+
+    const tau = RVal*CcapVal;
     const fc = tau !== 0 ? 1/(2*Math.PI*tau) : NaN;
     return { tau, fc };
   }, [R, Ccap]);
 
-  const shareParams: ShareParams = { R, Ccap };
+  const shareParams: ShareParams = { R: R ?? 0, Ccap: Ccap ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

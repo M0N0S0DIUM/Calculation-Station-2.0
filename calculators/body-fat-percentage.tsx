@@ -14,23 +14,29 @@ function C({ onStateChange, initialParams }: BodyFatProps) {
   const [gender, setGender] = useState<"male" | "female">(
     () => (initialParams?.gender as "male" | "female") ?? "male"
   );
-  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 180));
-  const [waist, setWaist] = useState(() => Number(initialParams?.waist ?? 34));
-  const [neck, setNeck] = useState(() => Number(initialParams?.neck ?? 16));
-  const [hip, setHip] = useState(() => Number(initialParams?.hip ?? 36));
-  const [height, setHeight] = useState(() => Number(initialParams?.height ?? 70));
+  const [weight, setWeight] = useState<number | null>(() => Number(initialParams?.weight ?? 180));
+  const [waist, setWaist] = useState<number | null>(() => Number(initialParams?.waist ?? 34));
+  const [neck, setNeck] = useState<number | null>(() => Number(initialParams?.neck ?? 16));
+  const [hip, setHip] = useState<number | null>(() => Number(initialParams?.hip ?? 36));
+  const [height, setHeight] = useState<number | null>(() => Number(initialParams?.height ?? 70));
   const [units, setUnits] = useState<"us" | "metric">(
     () => (initialParams?.units as "us" | "metric") ?? "us"
   );
 
   const r = useMemo(() => {
-    let w = weight, wst = waist, nck = neck, hp = hip, hgt = height;
+    const heightVal = height ?? 0;
+    const hipVal = hip ?? 0;
+    const neckVal = neck ?? 0;
+    const waistVal = waist ?? 0;
+    const weightVal = weight ?? 0;
+
+    let w = weightVal, wst = waistVal, nck = neckVal, hp = hipVal, hgt = heightVal;
     if (units === "metric") {
-      w = weight * 2.20462;
-      wst = waist / 2.54;
-      nck = neck / 2.54;
-      hp = hip / 2.54;
-      hgt = height / 2.54;
+      w = weightVal * 2.20462;
+      wst = waistVal / 2.54;
+      nck = neckVal / 2.54;
+      hp = hipVal / 2.54;
+      hgt = heightVal / 2.54;
     }
 
     let bodyFat = 0;
@@ -63,7 +69,7 @@ function C({ onStateChange, initialParams }: BodyFatProps) {
     return { bodyFat, leanMass, fatMass, category };
   }, [gender, weight, waist, neck, hip, height, units]);
 
-  const shareParams: ShareParams = { gender, weight, waist, neck, hip, height, units };
+  const shareParams: ShareParams = { gender, weight: weight ?? 0, waist: waist ?? 0, neck: neck ?? 0, hip: hip ?? 0, height: height ?? 0, units };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

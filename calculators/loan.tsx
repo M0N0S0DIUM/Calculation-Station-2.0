@@ -11,15 +11,19 @@ interface LoanCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: LoanCalculatorProps) {
-  const [principal, setPrincipal] = useState(() => Number(initialParams?.principal ?? 20000));
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 6.5));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 5));
+  const [principal, setPrincipal] = useState<number | null>(() => Number(initialParams?.principal ?? 20000));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 6.5));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 5));
 
   const r = useMemo(() => {
-    const P = principal;
-    const rm = (apr/100)/12;
-    const n = Math.max(1, Math.round(years*12));
-    if (P <= 0 || apr < 0) return null;
+    const aprVal = apr ?? 0;
+    const principalVal = principal ?? 0;
+    const yearsVal = years ?? 0;
+
+    const P = principalVal;
+    const rm = (aprVal/100)/12;
+    const n = Math.max(1, Math.round(yearsVal*12));
+    if (P <= 0 || aprVal < 0) return null;
     if (rm === 0) {
       const m = P/n;
       const total = m*n;
@@ -30,7 +34,7 @@ function C({ onStateChange, initialParams }: LoanCalculatorProps) {
     return { monthly, total, interest: total-P };
   }, [principal, apr, years]);
 
-  const shareParams: ShareParams = { principal, apr, years };
+  const shareParams: ShareParams = { principal: principal ?? 0, apr: apr ?? 0, years: years ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

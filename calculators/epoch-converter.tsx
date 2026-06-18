@@ -10,17 +10,20 @@ interface EpochConverterCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: EpochConverterCalculatorProps) {
-  const [epoch, setEpoch] = useState(() => Number(initialParams?.epoch ?? Math.floor(Date.now()/1000)));
-  const [iso, setIso] = useState(() => String(initialParams?.iso ?? new Date().toISOString()));
+  const [epoch, setEpoch] = useState<number | null>(() => Number(initialParams?.epoch ?? Math.floor(Date.now()/1000)));
+  const [iso, setIso] = useState<string | null>(() => String(initialParams?.iso ?? new Date().toISOString()));
 
   const out = useMemo(() => {
-    const dFromEpoch = new Date(epoch*1000);
+    const epochVal = epoch ?? 0;
+    const isoVal = iso ?? '';
+
+    const dFromEpoch = new Date(epochVal*1000);
     const isoFromEpoch = dFromEpoch.toISOString();
-    const epochFromIso = Math.floor(new Date(iso).getTime()/1000);
+    const epochFromIso = Math.floor(new Date(isoVal).getTime()/1000);
     return { isoFromEpoch, epochFromIso };
   }, [epoch, iso]);
 
-  const shareParams: ShareParams = { epoch, iso };
+  const shareParams: ShareParams = { epoch: epoch ?? 0, iso: iso ?? '' };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -29,7 +32,7 @@ function C({ onStateChange, initialParams }: EpochConverterCalculatorProps) {
     <Card>
       <Grid>
         <NumberField label="Unix epoch (seconds)" value={epoch} onChange={setEpoch} step={1} />
-        <TextField label="ISO date/time" value={iso} onChange={setIso} placeholder="e.g. 2024-01-15T14:30:00" />
+        <TextField label="ISO date/time" value={iso ?? ""} onChange={setIso} placeholder="e.g. 2024-01-15T14:30:00" />
       </Grid>
       <Hr />
       <div style={{ display: "grid", gap: 8 }}>

@@ -11,16 +11,19 @@ interface MarginMarkupCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: MarginMarkupCalculatorProps) {
-  const [cost, setCost] = useState(() => Number(initialParams?.cost ?? 50));
-  const [price, setPrice] = useState(() => Number(initialParams?.price ?? 80));
+  const [cost, setCost] = useState<number | null>(() => Number(initialParams?.cost ?? 50));
+  const [price, setPrice] = useState<number | null>(() => Number(initialParams?.price ?? 80));
   const r = useMemo(() => {
-    const profit = price - cost;
-    const margin = price !== 0 ? (profit/price)*100 : NaN;
-    const markup = cost !== 0 ? (profit/cost)*100 : NaN;
+    const costVal = cost ?? 0;
+    const priceVal = price ?? 0;
+
+    const profit = priceVal - costVal;
+    const margin = priceVal !== 0 ? (profit/priceVal)*100 : NaN;
+    const markup = costVal !== 0 ? (profit/costVal)*100 : NaN;
     return { profit, margin, markup };
   }, [cost, price]);
 
-  const shareParams: ShareParams = { cost, price };
+  const shareParams: ShareParams = { cost: cost ?? 0, price: price ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

@@ -11,14 +11,17 @@ interface APRToAPYCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: APRToAPYCalculatorProps) {
-  const [apr, setApr] = useState(() => Number(initialParams?.apr ?? 6));
-  const [n, setN] = useState(() => Number(initialParams?.n ?? 12));
+  const [apr, setApr] = useState<number | null>(() => Number(initialParams?.apr ?? 6));
+  const [n, setN] = useState<number | null>(() => Number(initialParams?.n ?? 12));
   const r = useMemo(() => {
-    const apy = (Math.pow(1 + (apr/100)/n, n) - 1) * 100;
+    const aprVal = apr ?? 0;
+    const nVal = n ?? 0;
+
+    const apy = (Math.pow(1 + (aprVal/100)/nVal, nVal) - 1) * 100;
     return { apy };
   }, [apr, n]);
 
-  const shareParams: ShareParams = { apr, n };
+  const shareParams: ShareParams = { apr: apr ?? 0, n: n ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

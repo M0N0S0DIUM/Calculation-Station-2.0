@@ -11,16 +11,19 @@ interface AngleDegRadCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: AngleDegRadCalculatorProps) {
-  const [deg, setDeg] = useState(() => Number(initialParams?.deg ?? 180));
-  const [rad, setRad] = useState(() => Number(initialParams?.rad ?? Math.PI));
+  const [deg, setDeg] = useState<number | null>(() => Number(initialParams?.deg ?? 180));
+  const [rad, setRad] = useState<number | null>(() => Number(initialParams?.rad ?? Math.PI));
 
   const out = useMemo(() => {
-    const radFromDeg = deg * Math.PI/180;
-    const degFromRad = rad * 180/Math.PI;
+    const degVal = deg ?? 0;
+    const radVal = rad ?? 0;
+
+    const radFromDeg = degVal * Math.PI/180;
+    const degFromRad = radVal * 180/Math.PI;
     return { radFromDeg, degFromRad };
   }, [deg, rad]);
 
-  const shareParams: ShareParams = { deg, rad };
+  const shareParams: ShareParams = { deg: deg ?? 0, rad: rad ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

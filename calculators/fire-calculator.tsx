@@ -11,16 +11,23 @@ interface FIRECalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: FIRECalculatorProps) {
-  const [annualExpenses, setAnnualExpenses] = useState(() => Number(initialParams?.annualExpenses ?? 40000));
-  const [currentSavings, setCurrentSavings] = useState(() => Number(initialParams?.currentSavings ?? 50000));
-  const [annualSavings, setAnnualSavings] = useState(() => Number(initialParams?.annualSavings ?? 20000));
-  const [expectedReturn, setExpectedReturn] = useState(() => Number(initialParams?.expectedReturn ?? 7));
-  const [swr, setSwr] = useState(() => Number(initialParams?.swr ?? 4));
-  const [inflation, setInflation] = useState(() => Number(initialParams?.inflation ?? 3));
+  const [annualExpenses, setAnnualExpenses] = useState<number | null>(() => Number(initialParams?.annualExpenses ?? 40000));
+  const [currentSavings, setCurrentSavings] = useState<number | null>(() => Number(initialParams?.currentSavings ?? 50000));
+  const [annualSavings, setAnnualSavings] = useState<number | null>(() => Number(initialParams?.annualSavings ?? 20000));
+  const [expectedReturn, setExpectedReturn] = useState<number | null>(() => Number(initialParams?.expectedReturn ?? 7));
+  const [swr, setSwr] = useState<number | null>(() => Number(initialParams?.swr ?? 4));
+  const [inflation, setInflation] = useState<number | null>(() => Number(initialParams?.inflation ?? 3));
 
   const r = useMemo(() => {
-    const fireNumber = annualExpenses * (100 / swr);
-    const realReturn = (1 + expectedReturn / 100) / (1 + inflation / 100) - 1;
+    const annualExpensesVal = annualExpenses ?? 0;
+    const annualSavingsVal = annualSavings ?? 0;
+    const currentSavingsVal = currentSavings ?? 0;
+    const expectedReturnVal = expectedReturn ?? 0;
+    const inflationVal = inflation ?? 0;
+    const swrVal = swr ?? 0;
+
+    const fireNumber = annualExpensesVal * (100 / swrVal);
+    const realReturn = (1 + expectedReturnVal / 100) / (1 + inflationVal / 100) - 1;
     
     if (realReturn <= 0) {
       return { fireNumber, yearsToFIRE: Infinity, coastFIRE: 0, monthlySavingsNeeded: Infinity };
@@ -28,12 +35,12 @@ function C({ onStateChange, initialParams }: FIRECalculatorProps) {
     
     // Years to FIRE with compound growth
     const target = fireNumber;
-    const monthlySavings = annualSavings / 12;
+    const monthlySavings = annualSavingsVal / 12;
     const monthlyRate = realReturn / 12;
     
     let yearsToFIRE = 0;
     if (monthlySavings > 0) {
-      yearsToFIRE = Math.log(1 + (target - currentSavings) * monthlyRate / monthlySavings) / (12 * Math.log(1 + monthlyRate));
+      yearsToFIRE = Math.log(1 + (target - currentSavingsVal) * monthlyRate / monthlySavings) / (12 * Math.log(1 + monthlyRate));
     }
     
     // Coast FIRE - amount needed now to reach FIRE by traditional retirement age
@@ -43,13 +50,13 @@ function C({ onStateChange, initialParams }: FIRECalculatorProps) {
     // Monthly savings needed to reach FIRE in 10 years
     const targetYears = 10;
     const monthlySavingsNeeded = targetYears > 0 && monthlyRate > 0 
-      ? (target - currentSavings) * monthlyRate / (Math.pow(1 + monthlyRate, targetYears * 12) - 1)
-      : (target - currentSavings) / (targetYears * 12);
+      ? (target - currentSavingsVal) * monthlyRate / (Math.pow(1 + monthlyRate, targetYears * 12) - 1)
+      : (target - currentSavingsVal) / (targetYears * 12);
     
     return { fireNumber, yearsToFIRE, coastFIRE, monthlySavingsNeeded, monthlySavings };
   }, [annualExpenses, currentSavings, annualSavings, expectedReturn, swr, inflation]);
 
-  const shareParams: ShareParams = { annualExpenses, currentSavings, annualSavings, expectedReturn, swr, inflation };
+  const shareParams: ShareParams = { annualExpenses: annualExpenses ?? 0, currentSavings: currentSavings ?? 0, annualSavings: annualSavings ?? 0, expectedReturn: expectedReturn ?? 0, swr: swr ?? 0, inflation: inflation ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

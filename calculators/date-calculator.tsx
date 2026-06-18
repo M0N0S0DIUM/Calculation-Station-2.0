@@ -12,22 +12,27 @@ interface DateCalculatorProps {
 
 function C({ onStateChange, initialParams }: DateCalculatorProps) {
   const [baseDate, setBaseDate] = useState<string>(() => String(initialParams?.baseDate ?? new Date().toISOString().split("T")[0]));
-  const [days, setDays] = useState(() => Number(initialParams?.days ?? 0));
-  const [weeks, setWeeks] = useState(() => Number(initialParams?.weeks ?? 0));
-  const [months, setMonths] = useState(() => Number(initialParams?.months ?? 0));
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 0));
+  const [days, setDays] = useState<number | null>(() => Number(initialParams?.days ?? 0));
+  const [weeks, setWeeks] = useState<number | null>(() => Number(initialParams?.weeks ?? 0));
+  const [months, setMonths] = useState<number | null>(() => Number(initialParams?.months ?? 0));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 0));
   const [operation, setOperation] = useState<"add" | "subtract">(
     () => (initialParams?.operation as "add" | "subtract") ?? "add"
   );
 
   const r = useMemo(() => {
+    const daysVal = days ?? 0;
+    const monthsVal = months ?? 0;
+    const weeksVal = weeks ?? 0;
+    const yearsVal = years ?? 0;
+
     const date = new Date(baseDate + "T12:00:00"); // Use noon to avoid DST issues
     const multiplier = operation === "add" ? 1 : -1;
     
-    date.setDate(date.getDate() + multiplier * days);
-    date.setDate(date.getDate() + multiplier * weeks * 7);
-    date.setMonth(date.getMonth() + multiplier * months);
-    date.setFullYear(date.getFullYear() + multiplier * years);
+    date.setDate(date.getDate() + multiplier * daysVal);
+    date.setDate(date.getDate() + multiplier * weeksVal * 7);
+    date.setMonth(date.getMonth() + multiplier * monthsVal);
+    date.setFullYear(date.getFullYear() + multiplier * yearsVal);
     
     const resultDate = date.toISOString().split("T")[0];
     const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
@@ -42,7 +47,7 @@ function C({ onStateChange, initialParams }: DateCalculatorProps) {
     return { resultDate, dayName, formatted, diffDays };
   }, [baseDate, days, weeks, months, years, operation]);
 
-  const shareParams: ShareParams = { baseDate, days, weeks, months, years, operation };
+  const shareParams: ShareParams = { baseDate, days: days ?? 0, weeks: weeks ?? 0, months: months ?? 0, years: years ?? 0, operation };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

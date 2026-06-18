@@ -21,10 +21,13 @@ interface PrimeCheckCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: PrimeCheckCalculatorProps) {
-  const [n, setN] = useState(() => Number(initialParams?.n ?? 97));
-  const r = useMemo(() => isPrime(n), [n]);
+  const [n, setN] = useState<number | null>(() => Number(initialParams?.n ?? 97));
+  const r = useMemo(() => {
+    const nVal = n ?? 0;
+    return isPrime(nVal);
+  }, [n]);
 
-  const shareParams: ShareParams = { n };
+  const shareParams: ShareParams = { n: n ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

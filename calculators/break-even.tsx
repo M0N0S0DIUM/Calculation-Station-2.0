@@ -11,18 +11,22 @@ interface BreakEvenCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: BreakEvenCalculatorProps) {
-  const [fixed, setFixed] = useState(() => Number(initialParams?.fixed ?? 10000));
-  const [price, setPrice] = useState(() => Number(initialParams?.price ?? 50));
-  const [variable, setVariable] = useState(() => Number(initialParams?.variable ?? 20));
+  const [fixed, setFixed] = useState<number | null>(() => Number(initialParams?.fixed ?? 10000));
+  const [price, setPrice] = useState<number | null>(() => Number(initialParams?.price ?? 50));
+  const [variable, setVariable] = useState<number | null>(() => Number(initialParams?.variable ?? 20));
 
   const r = useMemo(() => {
-    const contrib = price - variable;
-    const units = contrib > 0 ? fixed / contrib : Infinity;
-    const revenue = units !== Infinity ? units * price : NaN;
+    const fixedVal = fixed ?? 0;
+    const priceVal = price ?? 0;
+    const variableVal = variable ?? 0;
+
+    const contrib = priceVal - variableVal;
+    const units = contrib > 0 ? fixedVal / contrib : Infinity;
+    const revenue = units !== Infinity ? units * priceVal : NaN;
     return { contrib, units, revenue };
   }, [fixed, price, variable]);
 
-  const shareParams: ShareParams = { fixed, price, variable };
+  const shareParams: ShareParams = { fixed: fixed ?? 0, price: price ?? 0, variable: variable ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

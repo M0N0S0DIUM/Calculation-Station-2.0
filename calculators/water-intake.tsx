@@ -11,18 +11,22 @@ interface WaterIntakeCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: WaterIntakeCalculatorProps) {
-  const [units, setUnits] = useState(() => String(initialParams?.units ?? "lb"));
-  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 180));
-  const [mult, setMult] = useState(() => Number(initialParams?.mult ?? 0.5));
+  const [units, setUnits] = useState<string | null>(() => String(initialParams?.units ?? "lb"));
+  const [weight, setWeight] = useState<number | null>(() => Number(initialParams?.weight ?? 180));
+  const [mult, setMult] = useState<number | null>(() => Number(initialParams?.mult ?? 0.5));
 
   const r = useMemo(() => {
-    const lbs = units === "lb" ? weight : weight*2.2046226218;
-    const oz = lbs * mult;
+    const multVal = mult ?? 0;
+    const weightVal = weight ?? 0;
+    const unitsVal = units ?? '';
+
+    const lbs = unitsVal === "lb" ? weightVal : weightVal*2.2046226218;
+    const oz = lbs * multVal;
     const liters = oz * 0.0295735296;
     return { oz, liters };
   }, [units, weight, mult]);
 
-  const shareParams: ShareParams = { units, weight, mult };
+  const shareParams: ShareParams = { units: units ?? '', weight: weight ?? 0, mult: mult ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
@@ -30,7 +34,7 @@ function C({ onStateChange, initialParams }: WaterIntakeCalculatorProps) {
   return (
     <Card>
       <Grid>
-        <SelectField label="Weight units" value={units} onChange={setUnits} options={[{value:"lb",label:"lb"},{value:"kg",label:"kg"}]} />
+        <SelectField label="Weight units" value={units ?? ""} onChange={setUnits} options={[{value:"lb",label:"lb"},{value:"kg",label:"kg"}]} />
         <NumberField label="Weight" value={weight} onChange={setWeight} step={0.1} />
         <NumberField label="Multiplier" value={mult} onChange={setMult} step={0.05} suffix="oz per lb" />
       </Grid>

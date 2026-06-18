@@ -11,20 +11,24 @@ interface ResistorDividerCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: ResistorDividerCalculatorProps) {
-  const [vin, setVin] = useState(() => Number(initialParams?.vin ?? 12));
-  const [rt, setRt] = useState(() => Number(initialParams?.rt ?? 10000));
-  const [rb, setRb] = useState(() => Number(initialParams?.rb ?? 4700));
+  const [vin, setVin] = useState<number | null>(() => Number(initialParams?.vin ?? 12));
+  const [rt, setRt] = useState<number | null>(() => Number(initialParams?.rt ?? 10000));
+  const [rb, setRb] = useState<number | null>(() => Number(initialParams?.rb ?? 4700));
 
   const out = useMemo(() => {
-    const denom = rt + rb;
-    const vout = denom !== 0 ? vin*(rb/denom) : NaN;
-    const i = denom !== 0 ? vin/denom : NaN;
-    const pt = i*i*rt;
-    const pb = i*i*rb;
+    const rbVal = rb ?? 0;
+    const rtVal = rt ?? 0;
+    const vinVal = vin ?? 0;
+
+    const denom = rtVal + rbVal;
+    const vout = denom !== 0 ? vinVal*(rbVal/denom) : NaN;
+    const i = denom !== 0 ? vinVal/denom : NaN;
+    const pt = i*i*rtVal;
+    const pb = i*i*rbVal;
     return { vout, i, pt, pb };
   }, [vin, rt, rb]);
 
-  const shareParams: ShareParams = { vin, rt, rb };
+  const shareParams: ShareParams = { vin: vin ?? 0, rt: rt ?? 0, rb: rb ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

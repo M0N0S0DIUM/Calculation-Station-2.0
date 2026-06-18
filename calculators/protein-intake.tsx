@@ -11,7 +11,7 @@ interface ProteinIntakeProps {
 }
 
 function C({ onStateChange, initialParams }: ProteinIntakeProps) {
-  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 180));
+  const [weight, setWeight] = useState<number | null>(() => Number(initialParams?.weight ?? 180));
   const [activity, setActivity] = useState<"sedentary" | "light" | "moderate" | "active" | "very-active">(
     () => (initialParams?.activity as "sedentary" | "light" | "moderate" | "active" | "very-active") ?? "moderate"
   );
@@ -23,7 +23,9 @@ function C({ onStateChange, initialParams }: ProteinIntakeProps) {
   );
 
   const r = useMemo(() => {
-    const weightKg = units === "us" ? weight / 2.20462 : weight;
+    const weightVal = weight ?? 0;
+
+    const weightKg = units === "us" ? weightVal / 2.20462 : weightVal;
     
     const activityMultipliers = {
       sedentary: 0.8,
@@ -34,11 +36,11 @@ function C({ onStateChange, initialParams }: ProteinIntakeProps) {
     };
     
     const goalMultipliers = {
-      maintain: 1.0,
-      muscle: 1.6,
-      "weight-loss": 1.8,
-      endurance: 1.4,
-    };
+          maintain: 1.0,
+          muscle: 1.2,
+          "weight-loss": 1.8,
+          endurance: 1.4,
+        };
     
     const baseProtein = weightKg * activityMultipliers[activity];
     const targetProtein = baseProtein * goalMultipliers[goal];
@@ -50,7 +52,7 @@ function C({ onStateChange, initialParams }: ProteinIntakeProps) {
     return { targetProtein, minProtein, maxProtein, caloriesFromProtein, weightKg };
   }, [weight, activity, goal, units]);
 
-  const shareParams: ShareParams = { weight, activity, goal, units };
+  const shareParams: ShareParams = { weight: weight ?? 0, activity: activity ?? 'moderate', goal: goal ?? 'muscle', units: units ?? 'us' };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

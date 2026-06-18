@@ -11,17 +11,21 @@ interface TipCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: TipCalculatorProps) {
-  const [bill, setBill] = useState(() => Number(initialParams?.bill ?? 45.00));
-  const [tipPct, setTipPct] = useState(() => Number(initialParams?.tipPct ?? 20));
-  const [people, setPeople] = useState(() => Number(initialParams?.people ?? 2));
+  const [bill, setBill] = useState<number | null>(() => Number(initialParams?.bill ?? 45.00));
+  const [tipPct, setTipPct] = useState<number | null>(() => Number(initialParams?.tipPct ?? 20));
+  const [people, setPeople] = useState<number | null>(() => Number(initialParams?.people ?? 2));
   const r = useMemo(() => {
-    const tip = bill * tipPct/100;
-    const total = bill + tip;
-    const per = people > 0 ? total/people : NaN;
+    const billVal = bill ?? 0;
+    const peopleVal = people ?? 0;
+    const tipPctVal = tipPct ?? 0;
+
+    const tip = billVal * tipPctVal/100;
+    const total = billVal + tip;
+    const per = peopleVal > 0 ? total/peopleVal : NaN;
     return { tip, total, per };
   }, [bill, tipPct, people]);
 
-  const shareParams: ShareParams = { bill, tipPct, people };
+  const shareParams: ShareParams = { bill: bill ?? 0, tipPct: tipPct ?? 0, people: people ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

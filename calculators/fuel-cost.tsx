@@ -11,34 +11,38 @@ interface FuelCostCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: FuelCostCalculatorProps) {
-  const [distance, setDistance] = useState(() => Number(initialParams?.distance ?? 100));
-  const [efficiency, setEfficiency] = useState(() => Number(initialParams?.efficiency ?? 25));
-  const [fuelPrice, setFuelPrice] = useState(() => Number(initialParams?.fuelPrice ?? 3.5));
+  const [distance, setDistance] = useState<number | null>(() => Number(initialParams?.distance ?? 100));
+  const [efficiency, setEfficiency] = useState<number | null>(() => Number(initialParams?.efficiency ?? 25));
+  const [fuelPrice, setFuelPrice] = useState<number | null>(() => Number(initialParams?.fuelPrice ?? 3.5));
   const [units, setUnits] = useState<"us" | "metric">(
     () => (initialParams?.units as "us" | "metric") ?? "us"
   );
 
   const r = useMemo(() => {
-    let distKm = distance;
-    let effL100km = efficiency;
-    let pricePerLiter = fuelPrice;
+    const distanceVal = distance ?? 0;
+    const efficiencyVal = efficiency ?? 0;
+    const fuelPriceVal = fuelPrice ?? 0;
+
+    let distKm = distanceVal;
+    let effL100km = efficiencyVal;
+    let pricePerLiter = fuelPriceVal;
     
     if (units === "us") {
-      // US: distance in miles, efficiency in MPG, price in $/gallon
-      distKm = distance * 1.60934;
-      effL100km = 235.215 / efficiency; // MPG to L/100km
-      pricePerLiter = fuelPrice / 3.78541; // $/gal to $/L
+      // US: distanceVal in miles, efficiencyVal in MPG, price in $/gallon
+      distKm = distanceVal * 1.60934;
+      effL100km = 235.215 / efficiencyVal; // MPG to L/100km
+      pricePerLiter = fuelPriceVal / 3.78541; // $/gal to $/L
     }
     
     const fuelNeeded = (distKm / 100) * effL100km;
     const cost = fuelNeeded * pricePerLiter;
     const costPerKm = cost / distKm;
-    const costPerMile = cost / distance;
+    const costPerMile = cost / distanceVal;
     
     return { fuelNeeded, cost, costPerKm, costPerMile, distKm, effL100km };
   }, [distance, efficiency, fuelPrice, units]);
 
-  const shareParams: ShareParams = { distance, efficiency, fuelPrice, units };
+  const shareParams: ShareParams = { distance: distance ?? 0, efficiency: efficiency ?? 0, fuelPrice: fuelPrice ?? 0, units: units ?? 'us' };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

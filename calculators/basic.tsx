@@ -11,24 +11,28 @@ interface BasicCalculatorProps {
 }
 
 function C({ onStateChange, initialParams }: BasicCalculatorProps) {
-  const [a, setA] = useState(() => {
+  const [a, setA] = useState<number | null>(() => {
     if (initialParams?.a !== undefined) return Number(initialParams.a);
     return 12;
   });
-  const [b, setB] = useState(() => {
+  const [b, setB] = useState<number | null>(() => {
     if (initialParams?.b !== undefined) return Number(initialParams.b);
     return 3;
   });
 
-  const r = useMemo(() => ({
-    add: a + b,
-    sub: a - b,
-    mul: a * b,
-    div: b !== 0 ? a / b : NaN,
-    pow: Math.pow(a, b),
-  }), [a, b]);
+  const r = useMemo(() => {
+    const aVal = a ?? 0;
+    const bVal = b ?? 0;
+    return {
+      add: aVal + bVal,
+      sub: aVal - bVal,
+      mul: aVal * bVal,
+      div: bVal !== 0 ? aVal / bVal : NaN,
+      pow: Math.pow(aVal, bVal),
+    };
+  }, [a, b]);
 
-  const shareParams: ShareParams = { a, b };
+  const shareParams: ShareParams = { a: a ?? 0, b: b ?? 0 };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

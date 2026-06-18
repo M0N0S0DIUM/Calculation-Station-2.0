@@ -11,31 +11,34 @@ interface DollarCostAveragingProps {
 }
 
 function C({ onStateChange, initialParams }: DollarCostAveragingProps) {
-  const [totalInvested, setTotalInvested] = useState(() => Number(initialParams?.totalInvested ?? 12000));
+  const [totalInvested, setTotalInvested] = useState<number | null>(() => Number(initialParams?.totalInvested ?? 12000));
   const [frequency, setFrequency] = useState<"monthly" | "weekly" | "biweekly">(
     () => (initialParams?.frequency as "monthly" | "weekly" | "biweekly") ?? "monthly"
   );
-  const [years, setYears] = useState(() => Number(initialParams?.years ?? 10));
+  const [years, setYears] = useState<number | null>(() => Number(initialParams?.years ?? 10));
   const [scenario, setScenario] = useState<"lump" | "dca" | "both">(
     () => (initialParams?.scenario as "lump" | "dca" | "both") ?? "both"
   );
 
   const r = useMemo(() => {
+    const totalInvestedVal = totalInvested ?? 0;
+    const yearsVal = years ?? 0;
+
     const periods = frequency === "monthly" ? 12 : frequency === "weekly" ? 52 : 26;
-    const totalPeriods = years * periods;
-    const perPeriod = totalInvested / totalPeriods;
+    const totalPeriods = yearsVal * periods;
+    const perPeriod = totalInvestedVal / totalPeriods;
     
     // Lump sum: all invested at start
-    const lumpSumValue = totalInvested;
+    const lumpSumValue = totalInvestedVal;
     
     // DCA: invested evenly over time
     // Average entry price is roughly middle of period
-    const dcaEffectiveInvestment = totalInvested;
+    const dcaEffectiveInvestment = totalInvestedVal;
     
-    return { totalPeriods, perPeriod, lumpSumValue, dcaEffectiveInvestment, totalInvested };
+    return { totalPeriods, perPeriod, lumpSumValue, dcaEffectiveInvestment, totalInvested: totalInvestedVal };
   }, [totalInvested, frequency, years]);
 
-  const shareParams: ShareParams = { totalInvested, frequency, years, scenario };
+  const shareParams: ShareParams = { totalInvested: totalInvested ?? 0, frequency, years: years ?? 0, scenario };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);

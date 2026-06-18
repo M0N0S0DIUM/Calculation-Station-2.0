@@ -11,24 +11,30 @@ interface WorkoutVolumeProps {
 }
 
 function C({ onStateChange, initialParams }: WorkoutVolumeProps) {
-  const [sets, setSets] = useState(() => Number(initialParams?.sets ?? 10));
-  const [reps, setReps] = useState(() => Number(initialParams?.reps ?? 10));
-  const [weight, setWeight] = useState(() => Number(initialParams?.weight ?? 135));
-  const [exercises, setExercises] = useState(() => Number(initialParams?.exercises ?? 4));
-  const [frequency, setFrequency] = useState(() => Number(initialParams?.frequency ?? 3));
+  const [sets, setSets] = useState<number | null>(() => Number(initialParams?.sets ?? 10));
+  const [reps, setReps] = useState<number | null>(() => Number(initialParams?.reps ?? 10));
+  const [weight, setWeight] = useState<number | null>(() => Number(initialParams?.weight ?? 135));
+  const [exercises, setExercises] = useState<number | null>(() => Number(initialParams?.exercises ?? 4));
+  const [frequency, setFrequency] = useState<number | null>(() => Number(initialParams?.frequency ?? 3));
   const [units, setUnits] = useState<"us" | "metric">(
     () => (initialParams?.units as "us" | "metric") ?? "us"
   );
 
   const r = useMemo(() => {
-    const volumePerSet = weight * reps;
-    const volumePerExercise = volumePerSet * sets;
-    const volumePerSession = volumePerExercise * exercises;
-    const weeklyVolume = volumePerSession * frequency;
+    const exercisesVal = exercises ?? 0;
+    const frequencyVal = frequency ?? 0;
+    const repsVal = reps ?? 0;
+    const setsVal = sets ?? 0;
+    const weightVal = weight ?? 0;
+
+    const volumePerSet = weightVal * repsVal;
+    const volumePerExercise = volumePerSet * setsVal;
+    const volumePerSession = volumePerExercise * exercisesVal;
+    const weeklyVolume = volumePerSession * frequencyVal;
     const monthlyVolume = weeklyVolume * 4.33;
     
     // Estimated 1RM using Epley formula
-    const estimated1RM = weight * (1 + reps / 30);
+    const estimated1RM = weightVal * (1 + repsVal / 30);
     
     // Volume landmarks (Dr. Mike Israetel)
     const mv = weeklyVolume * 0.5; // Maintenance
@@ -47,7 +53,7 @@ function C({ onStateChange, initialParams }: WorkoutVolumeProps) {
     };
   }, [sets, reps, weight, exercises, frequency, units]);
 
-  const shareParams: ShareParams = { sets, reps, weight, exercises, frequency, units };
+  const shareParams: ShareParams = { sets: sets ?? 0, reps: reps ?? 0, weight: weight ?? 0, exercises: exercises ?? 0, frequency: frequency ?? 0, units };
   useEffect(() => {
     if (onStateChange) onStateChange(shareParams);
   }, [shareParams, onStateChange]);
