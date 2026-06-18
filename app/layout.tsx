@@ -81,7 +81,7 @@ function GoogleAnalytics() {
     <>
       <Script
         strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+        src="https://www.googletagmanager.com/gtag/js?id=G-JY1MF9B8W4"
       />
       <Script
         id="google-analytics"
