@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { getCalculatorMeta, getAllCalculatorSlugs, CATEGORY_INFO } from "@/lib/registry";
+import { Suspense } from "react";
 
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const slugs = getAllCalculatorSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -36,6 +40,10 @@ export async function generateMetadata({
     },
     alternates: {
       canonical: `/c/${slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
     other: {
       "application-name": "Calculation Station",
@@ -85,9 +93,9 @@ export default async function CalculatorPage({
   if (!calc) return <div>Calculator not found.</div>;
 
   return (
-    <>
+    <Suspense fallback={<div className="animate-pulse h-64" />}>
       <CalculatorStructuredData calc={calc} />
       <CalculatorClient slug={slug} meta={calc} />
-    </>
+    </Suspense>
   );
 }

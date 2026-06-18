@@ -27,6 +27,13 @@ export async function generateMetadata({
       description: `${info.description} Includes: ${titles}.`,
       type: "website",
     },
+    alternates: {
+      canonical: `/cat/${category}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "79+ modular calculators: basic math, finance, health, conversion, electronics, time.",
   metadataBase: new URL("https://calculationstation.org"),
-  alternates: { canonical: "/" },
+  // Removed root canonical - each page defines its own
   openGraph: {
     type: "website",
     url: "https://calculationstation.org",
