@@ -76,31 +76,6 @@ function StructuredData() {
   );
 }
 
-function GoogleAnalytics() {
-  return (
-    <>
-      <Script
-        strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-JY1MF9B8W4"
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-JY1MF9B8W4', {
-              page_path: window.location.pathname,
-            });
-          `,
-        }}
-      />
-    </>
-  );
-}
-
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <a
@@ -132,7 +107,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData />
       </head>
       <body>
-        <GoogleAnalytics />
         <div className="min-h-screen">
           {/* subtle background */}
           <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.035),transparent_60%)]" />
@@ -175,8 +149,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </footer>
         </div>
 
-        {/* ✅ PropellerAds Multitag Script */}
-        <script src="https://3nbf4.com/act/files/tag.min.js?z=10618095" data-cfasync="false" async />
         <Analytics />
       </body>
     </html>
