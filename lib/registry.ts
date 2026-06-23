@@ -98,12 +98,12 @@ export const CATEGORIES: Category[] = [
 
 /** Category metadata for UI */
 export const CATEGORY_INFO: Record<Category, { description: string; icon: string }> = {
-  Basic: { description: "Fundamental math tools for everyday calculations â€” arithmetic, percentages, fractions, geometry, and number theory.", icon: "ðŸ”¢" },
-  Financial: { description: "Money calculators for loans, mortgages, investments, interest, ROI, and business metrics.", icon: "ðŸ’°" },
-  Health: { description: "Fitness and wellness estimators â€” BMI, calories, macros, heart rate zones, body fat, and hydration.", icon: "â¤ï¸" },
-  Conversion: { description: "Unit converters for length, mass, temperature, speed, pressure, energy, volume, and angles.", icon: "ðŸ”„" },
-  Electronics: { description: "Circuit calculators for Ohm's law, resistor dividers, LEDs, RC filters, capacitors, and battery runtime.", icon: "âš¡" },
-  Time: { description: "Date and timestamp utilities â€” difference between dates, Unix epoch conversion.", icon: "â±ï¸" },
+  Basic: { description: "Fundamental math tools for everyday calculations — arithmetic, percentages, fractions, geometry, and number theory.", icon: "🔢" },
+  Financial: { description: "Money calculators for loans, mortgages, investments, interest, ROI, and business metrics.", icon: "💰" },
+  Health: { description: "Fitness and wellness estimators — BMI, calories, macros, heart rate zones, body fat, and hydration.", icon: "❤️" },
+  Conversion: { description: "Unit converters for length, mass, temperature, speed, pressure, energy, volume, and angles.", icon: "🔄" },
+  Electronics: { description: "Circuit calculators for Ohm's law, resistor dividers, LEDs, RC filters, capacitors, and battery runtime.", icon: "⚡" },
+  Time: { description: "Date and timestamp utilities — difference between dates, Unix epoch conversion.", icon: "⏱️" },
 };
 
 /** Lookup map for O(1) slug access */
