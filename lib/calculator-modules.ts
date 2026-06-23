@@ -15,7 +15,6 @@ import { areaCircle } from "@/calculators/area-circle";
 import { areaRectangle } from "@/calculators/area-rectangle";
 import { powerRoot } from "@/calculators/power-root";
 import { tip } from "@/calculators/tip";
-import { salesTax } from "@/calculators/sales-tax";
 import { loan } from "@/calculators/loan";
 import { mortgage } from "@/calculators/mortgage";
 import { compoundInterest } from "@/calculators/compound-interest";
@@ -29,7 +28,6 @@ import { creditCardPayoff } from "@/calculators/credit-card-payoff";
 import { breakEven } from "@/calculators/break-even";
 import { bmi } from "@/calculators/bmi";
 import { bmrTdee } from "@/calculators/bmr-tdee";
-import { macros } from "@/calculators/macros";
 import { heartRateZones } from "@/calculators/heart-rate-zones";
 import { waterIntake } from "@/calculators/water-intake";
 import { runningPace } from "@/calculators/running-pace";
@@ -66,7 +64,6 @@ const calculatorModules: Record<string, CalculatorModule> = {
   "area-rectangle": areaRectangle,
   "power-root": powerRoot,
   tip,
-  "sales-tax": salesTax,
   loan,
   mortgage,
   "compound-interest": compoundInterest,
@@ -80,7 +77,6 @@ const calculatorModules: Record<string, CalculatorModule> = {
   "break-even": breakEven,
   bmi,
   "bmr-tdee": bmrTdee,
-  macros,
   "heart-rate-zones": heartRateZones,
   "water-intake": waterIntake,
   "running-pace": runningPace,

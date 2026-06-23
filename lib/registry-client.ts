@@ -43,7 +43,6 @@ import { lengthConvert } from "@/calculators/length-convert";
 import { loan } from "@/calculators/loan";
 import { loanAmortization } from "@/calculators/loan-amortization";
 import { macrosCalculator2 } from "@/calculators/macro-calculator-advanced";
-import { macros } from "@/calculators/macros";
 import { marginMarkup } from "@/calculators/margin-markup";
 import { massConvert } from "@/calculators/mass-convert";
 import { mortgage } from "@/calculators/mortgage";
@@ -67,7 +66,6 @@ import { rounding } from "@/calculators/rounding";
 import { ruleOf72 } from "@/calculators/rule-of-72";
 import { runningPace } from "@/calculators/running-pace";
 import { salaryComparison } from "@/calculators/salary-comparison";
-import { salesTax } from "@/calculators/sales-tax";
 import { savingsGoal } from "@/calculators/savings-goal";
 import { simpleInterest } from "@/calculators/simple-interest";
 import { socialSecurity } from "@/calculators/social-security";
@@ -128,7 +126,6 @@ const MODULE_MAP = new Map<string, CalculatorModule>([
   ["loan", loan],
   ["loan-amortization", loanAmortization],
   ["macro-calculator-advanced", macrosCalculator2],
-  ["macros", macros],
   ["margin-markup", marginMarkup],
   ["mass-convert", massConvert],
   ["mortgage", mortgage],
@@ -152,7 +149,6 @@ const MODULE_MAP = new Map<string, CalculatorModule>([
   ["rule-of-72", ruleOf72],
   ["running-pace", runningPace],
   ["salary-comparison", salaryComparison],
-  ["sales-tax", salesTax],
   ["savings-goal", savingsGoal],
   ["simple-interest", simpleInterest],
   ["social-security", socialSecurity],
