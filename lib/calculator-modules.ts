@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { CalculatorModule } from "@/lib/types";
 
@@ -32,7 +32,6 @@ import { bmrTdee } from "@/calculators/bmr-tdee";
 import { macros } from "@/calculators/macros";
 import { heartRateZones } from "@/calculators/heart-rate-zones";
 import { waterIntake } from "@/calculators/water-intake";
-import { bodyFatNavy } from "@/calculators/body-fat-navy";
 import { runningPace } from "@/calculators/running-pace";
 import { caloriesMet } from "@/calculators/calories-met";
 import { oneRepMax } from "@/calculators/one-rep-max";
@@ -84,7 +83,6 @@ const calculatorModules: Record<string, CalculatorModule> = {
   macros,
   "heart-rate-zones": heartRateZones,
   "water-intake": waterIntake,
-  "body-fat-navy": bodyFatNavy,
   "running-pace": runningPace,
   "calories-met": caloriesMet,
   "one-rep-max": oneRepMax,

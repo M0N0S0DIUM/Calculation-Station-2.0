@@ -16,7 +16,6 @@ import { basic } from "@/calculators/basic";
 import { batteryRuntime } from "@/calculators/battery-runtime";
 import { bmi } from "@/calculators/bmi";
 import { bmrTdee } from "@/calculators/bmr-tdee";
-import { bodyFatNavy } from "@/calculators/body-fat-navy";
 import { bodyFatNavy2 } from "@/calculators/body-fat-percentage";
 import { breakEven } from "@/calculators/break-even";
 import { bsa } from "@/calculators/bsa";
@@ -102,7 +101,6 @@ const MODULE_MAP = new Map<string, CalculatorModule>([
   ["battery-runtime", batteryRuntime],
   ["bmi", bmi],
   ["bmr-tdee", bmrTdee],
-  ["body-fat-navy", bodyFatNavy],
   ["body-fat-percentage", bodyFatNavy2],
   ["break-even", breakEven],
   ["bsa", bsa],

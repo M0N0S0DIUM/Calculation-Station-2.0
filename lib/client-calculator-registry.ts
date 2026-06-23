@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 const calculatorImports: Record<string, () => Promise<any>> = {
   "alcohol-units": () => import("@/calculators/alcohol-units").then(m => m.alcoholUnits),
@@ -12,7 +12,6 @@ const calculatorImports: Record<string, () => Promise<any>> = {
   "battery-runtime": () => import("@/calculators/battery-runtime").then(m => m.batteryRuntime),
   "bmi": () => import("@/calculators/bmi").then(m => m.bmi),
   "bmr-tdee": () => import("@/calculators/bmr-tdee").then(m => m.bmrTdee),
-  "body-fat-navy": () => import("@/calculators/body-fat-navy").then(m => m.bodyFatNavy),
   "body-fat-percentage": () => import("@/calculators/body-fat-percentage").then(m => m.bodyFatNavy2),
   "break-even": () => import("@/calculators/break-even").then(m => m.breakEven),
   "bsa": () => import("@/calculators/bsa").then(m => m.bsa),
