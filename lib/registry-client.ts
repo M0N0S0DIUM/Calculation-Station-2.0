@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { CalculatorModule, CalculatorMeta } from "@/lib/types";
 import { CALCULATOR_META, getCalculatorMeta, CATEGORIES, CATEGORY_INFO } from "@/lib/registry";
@@ -84,6 +84,11 @@ import { vatCalculator } from "@/calculators/vat-calculator";
 import { volumeConvert } from "@/calculators/volume-convert";
 import { waterIntake } from "@/calculators/water-intake";
 import { workoutVolume } from "@/calculators/workout-volume";
+import { wilksScore } from "@/calculators/wilks-score";
+import { plateCalculator } from "@/calculators/plate-calculator";
+import { trainingMax } from "@/calculators/training-max";
+import { vo2Max } from "@/calculators/vo2-max";
+import { strengthStandards } from "@/calculators/strength-standards";
 
 const MODULE_MAP = new Map<string, CalculatorModule>([
   ["alcohol-units", alcoholUnits],
@@ -165,6 +170,11 @@ const MODULE_MAP = new Map<string, CalculatorModule>([
   ["volume-convert", volumeConvert],
   ["water-intake", waterIntake],
   ["workout-volume", workoutVolume],
+  ["wilks-score", wilksScore],
+  ["plate-calculator", plateCalculator],
+  ["training-max", trainingMax],
+  ["vo2-max", vo2Max],
+  ["strength-standards", strengthStandards],
 ]);
 
 export const CALCULATOR_MODULES: CalculatorModule[] = CALCULATOR_META.map(
@@ -174,3 +184,4 @@ export const CALCULATOR_MODULES: CalculatorModule[] = CALCULATOR_META.map(
 export function getCalculator(slug: string): CalculatorModule | undefined {
   return MODULE_MAP.get(slug);
 }
+
