@@ -7,11 +7,11 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title: {
-    default: "Calculation Station",
+    default: "Calculation Station — Free Online Calculators",
     template: "%s | Calculation Station",
   },
   description:
-    "79+ modular calculators: basic math, finance, health, conversion, electronics, time.",
+    "Free online calculators for fitness, finance, math, and conversions. One rep max, plate loading, BMI, mortgage, compound interest, and 80+ more tools.",
   metadataBase: new URL("https://calculationstation.org"),
   // Removed root canonical - each page defines its own
   openGraph: {

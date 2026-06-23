@@ -26,17 +26,17 @@ export async function generateMetadata({
 
   return {
     title: `${title} | Calculation Station`,
-    description: `${description} Free online ${title.toLowerCase()} calculator.`,
+    description: `${description} Free, no login required.`,
     keywords: keywords?.join(", "),
     openGraph: {
       title: `${title} | Calculation Station`,
-      description: `${description} Free online ${title.toLowerCase()} calculator.`,
+      description: `${description} Free, no login required.`,
       type: "website",
     },
     twitter: {
       card: "summary",
       title: `${title} | Calculation Station`,
-      description: `${description} Free online ${title.toLowerCase()} calculator.`,
+      description: `${description} Free, no login required.`,
     },
     alternates: {
       canonical: `/c/${slug}`,
