@@ -34,9 +34,9 @@ function C({ onStateChange, initialParams }: MortgageCalculatorProps) {
     let monthlyPI = 0;
     if (rm === 0) monthlyPI = principal/n;
     else monthlyPI = principal * (rm*Math.pow(1+rm, n)) / (Math.pow(1+rm, n)-1);
-    const monthlyTax = taxVal/12;
-    const monthlyIns = insVal/12;
-    const monthlyHoa = hoaVal/12;
+    const monthlyTax = taxVal;
+    const monthlyIns = insVal;
+    const monthlyHoa = hoaVal;
     const totalMonthly = monthlyPI + monthlyTax + monthlyIns + monthlyHoa;
     const totalPaid = monthlyPI * n;
     const totalInterest = totalPaid - principal;
