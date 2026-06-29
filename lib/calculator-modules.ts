@@ -49,6 +49,17 @@ import { capacitorCharge } from "@/calculators/capacitor-charge";
 import { batteryRuntime } from "@/calculators/battery-runtime";
 import { dateDiff } from "@/calculators/date-diff";
 import { epochConverter } from "@/calculators/epoch-converter";
+import { strengthStandards } from "@/calculators/strength-standards";
+import { brewAbv } from "@/calculators/brew-abv";
+import { brewPriming } from "@/calculators/brew-priming";
+import { brewStrikeWater } from "@/calculators/brew-strike-water";
+import { brewIbu } from "@/calculators/brew-ibu";
+import { brewYeastPitch } from "@/calculators/brew-yeast-pitch";
+import { brewBrixSg } from "@/calculators/brew-brix-sg";
+import { brewAttenuation } from "@/calculators/brew-attenuation";
+import { brewGrainBill } from "@/calculators/brew-grain-bill";
+import { brewBoilOff } from "@/calculators/brew-boil-off";
+import { brewCalories } from "@/calculators/brew-calories";
 
 const calculatorModules: Record<string, CalculatorModule> = {
   basic,
@@ -98,6 +109,16 @@ const calculatorModules: Record<string, CalculatorModule> = {
   "battery-runtime": batteryRuntime,
   "date-diff": dateDiff,
   "epoch-converter": epochConverter,
+  "brew-abv": brewAbv,
+  "brew-priming": brewPriming,
+  "brew-strike-water": brewStrikeWater,
+  "brew-ibu": brewIbu,
+  "brew-yeast-pitch": brewYeastPitch,
+  "brew-brix-sg": brewBrixSg,
+  "brew-attenuation": brewAttenuation,
+  "brew-grain-bill": brewGrainBill,
+  "brew-boil-off": brewBoilOff,
+  "brew-calories": brewCalories,
 };
 
 export function getCalculatorModule(slug: string): CalculatorModule | undefined {

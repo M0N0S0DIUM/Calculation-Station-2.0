@@ -4,7 +4,8 @@ export type Category =
   | "Health"
   | "Conversion"
   | "Electronics"
-  | "Time";
+  | "Time"
+  | "Brewing";
 
 export type CalculatorMeta = {
   slug: string;

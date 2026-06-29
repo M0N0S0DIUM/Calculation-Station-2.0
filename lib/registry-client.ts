@@ -86,6 +86,16 @@ import { plateCalculator } from "@/calculators/plate-calculator";
 import { trainingMax } from "@/calculators/training-max";
 import { vo2Max } from "@/calculators/vo2-max";
 import { strengthStandards } from "@/calculators/strength-standards";
+import { brewAbv } from "@/calculators/brew-abv";
+import { brewPriming } from "@/calculators/brew-priming";
+import { brewStrikeWater } from "@/calculators/brew-strike-water";
+import { brewIbu } from "@/calculators/brew-ibu";
+import { brewYeastPitch } from "@/calculators/brew-yeast-pitch";
+import { brewBrixSg } from "@/calculators/brew-brix-sg";
+import { brewAttenuation } from "@/calculators/brew-attenuation";
+import { brewGrainBill } from "@/calculators/brew-grain-bill";
+import { brewBoilOff } from "@/calculators/brew-boil-off";
+import { brewCalories } from "@/calculators/brew-calories";
 
 const MODULE_MAP = new Map<string, CalculatorModule>([
   ["alcohol-units", alcoholUnits],
@@ -169,7 +179,17 @@ const MODULE_MAP = new Map<string, CalculatorModule>([
   ["training-max", trainingMax],
   ["vo2-max", vo2Max],
   ["strength-standards", strengthStandards],
-]);
+    ["brew-abv", brewAbv],
+    ["brew-priming", brewPriming],
+    ["brew-strike-water", brewStrikeWater],
+    ["brew-ibu", brewIbu],
+    ["brew-yeast-pitch", brewYeastPitch],
+    ["brew-brix-sg", brewBrixSg],
+    ["brew-attenuation", brewAttenuation],
+    ["brew-grain-bill", brewGrainBill],
+    ["brew-boil-off", brewBoilOff],
+    ["brew-calories", brewCalories],
+  ]);
 
 export const CALCULATOR_MODULES: CalculatorModule[] = CALCULATOR_META.map(
   (meta) => MODULE_MAP.get(meta.slug)!
