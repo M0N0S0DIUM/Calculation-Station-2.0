@@ -16,7 +16,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const INDEXNOW_KEY = '8f203a652aae462c91d5db6834701a9d';
+const INDEXNOW_KEY = '4766bafda1de46e38b86ac0420d945f2';
 const INDEXNOW_HOST = 'api.indexnow.org';
 const SITE_URL = 'https://www.calculationstation.org';
 
