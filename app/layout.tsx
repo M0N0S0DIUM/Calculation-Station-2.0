@@ -152,10 +152,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
 
-          <footer className="mx-auto max-w-6xl px-6 pb-10 pt-8 text-sm text-neutral-400">
+          <footer className="mx-auto max-w-6xl px-6 pb-20 pt-8 text-sm text-neutral-400">
             <div className="border-t border-neutral-900 pt-6">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex flex-wrap gap-x-6 gap-y-2">
+              <div className="flex flex-col items-center gap-4 text-center">
+                <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
                   <a className="hover:text-white transition" href="/about">About</a>
                   <a className="hover:text-white transition" href="/privacy">Privacy</a>
                   <a className="hover:text-white transition" href="/terms">Terms</a>
