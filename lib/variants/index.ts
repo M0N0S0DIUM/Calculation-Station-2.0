@@ -34,6 +34,9 @@ import { oneRepMaxVariants } from "./one-rep-max";
 import { mortgageVariants } from "./mortgage";
 import { compoundInterestVariants } from "./compound-interest";
 import { percentageVariants } from "./percentage";
+import { loanVariants } from "./loan";
+import { fireVariants } from "./fire";
+import { proteinVariants } from "./protein";
 
 export const ALL_VARIANTS: VariantRegistry = {
   ...bmiVariants,
@@ -42,6 +45,9 @@ export const ALL_VARIANTS: VariantRegistry = {
   ...mortgageVariants,
   ...compoundInterestVariants,
   ...percentageVariants,
+  ...loanVariants,
+  ...fireVariants,
+  ...proteinVariants,
 };
 
 export function getVariant(slug: string): CalcVariant | undefined {

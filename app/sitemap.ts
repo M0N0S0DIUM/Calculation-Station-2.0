@@ -73,11 +73,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "percentage-calculator-gpa",
     "percentage-calculator-increase",
     "percentage-calculator-decrease",
+    // Loans (high commercial intent)
+    "car-loan-calculator",
+    "personal-loan-calculator",
+    "student-loan-calculator",
+    "auto-loan-calculator-50k",
+    // FIRE / Early Retirement
+    "fire-number-calculator",
+    "retire-at-40-calculator",
+    "retire-at-50-calculator",
+    "lean-fire-calculator",
+    // Protein
+    "protein-intake-for-muscle-building",
+    "protein-intake-for-weight-loss",
+    "protein-per-day-by-weight",
+    "protein-calculator-for-vegetarians",
   ].map((slug) => ({
     url: `${BASE_URL}/topic/${slug}`,
     lastModified: now,
     changeFrequency: "monthly",
-    priority: slug.startsWith("mortgage") ? 0.85 : 0.75,
+    priority: slug.startsWith("mortgage") || slug.includes("loan") ? 0.85 : 0.75,
   }));
 
   return [...staticRoutes, ...calculatorRoutes, ...categoryRoutes, ...topicRoutes];
