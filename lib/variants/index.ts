@@ -29,7 +29,7 @@ export interface VariantRegistry {
 
 // Re-export sub-registries so the /topic route can iterate over all variants
 import { bmiVariants } from "./bmi";
-import { bmrVariants } from "./bmr-tdee";
+import { bmrTdeeVariants } from "./bmr-tdee";
 import { oneRepMaxVariants } from "./one-rep-max";
 import { mortgageVariants } from "./mortgage";
 import { compoundInterestVariants } from "./compound-interest";
@@ -37,10 +37,11 @@ import { percentageVariants } from "./percentage";
 import { loanVariants } from "./loan";
 import { fireVariants } from "./fire";
 import { proteinVariants } from "./protein";
+import { savingsGoalVariants } from "./savings-goal";
 
 export const ALL_VARIANTS: VariantRegistry = {
   ...bmiVariants,
-  ...bmrVariants,
+  ...bmrTdeeVariants,
   ...oneRepMaxVariants,
   ...mortgageVariants,
   ...compoundInterestVariants,
@@ -48,6 +49,7 @@ export const ALL_VARIANTS: VariantRegistry = {
   ...loanVariants,
   ...fireVariants,
   ...proteinVariants,
+  ...savingsGoalVariants,
 };
 
 export function getVariant(slug: string): CalcVariant | undefined {

@@ -52,6 +52,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "tdee-calculator-for-weight-loss",
     "calories-to-gain-muscle",
     "tdee-for-men",
+    "tdee-sedentary",
+    "tdee-lightly-active",
+    "tdee-moderately-active",
+    "tdee-very-active",
+    "tdee-extra-active",
     "bench-press-max-calculator",
     "squat-max-calculator",
     "deadlift-max-calculator",
@@ -88,6 +93,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "protein-intake-for-weight-loss",
     "protein-per-day-by-weight",
     "protein-calculator-for-vegetarians",
+    // Savings Goals (high commercial intent)
+    "emergency-fund-calculator",
+    "house-down-payment-calculator",
+    "retirement-savings-calculator",
   ].map((slug) => ({
     url: `${BASE_URL}/topic/${slug}`,
     lastModified: now,
