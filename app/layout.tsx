@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -167,9 +168,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </footer>
         </div>
 
-        {/* PropellerAds Multitag Script */}
-        <script src="https://3nbf4.com/act/files/tag.min.js?z=10618095" data-cfasync="false" async />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
