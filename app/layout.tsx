@@ -170,15 +170,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <Analytics />
         <SpeedInsights />
-        <Script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js" strategy="afterInteractive" />
         <Script id="kofi-widget" strategy="afterInteractive">
           {`
-            kofiWidgetOverlay.draw('odderonlab', {
-              'type': 'floating-chat',
-              'floating-chat.donateButton.text': 'Support me',
-              'floating-chat.donateButton.background-color': '#323842',
-              'floating-chat.donateButton.text-color': '#fff'
-            });
+            (function() {
+              var s = document.createElement('script');
+              s.src = 'https://storage.ko-fi.com/cdn/scripts/overlay-widget.js';
+              s.onload = function() {
+                kofiWidgetOverlay.draw('odderonlab', {
+                  'type': 'floating-chat',
+                  'floating-chat.donateButton.text': 'Support me',
+                  'floating-chat.donateButton.background-color': '#323842',
+                  'floating-chat.donateButton.text-color': '#fff'
+                });
+              };
+              document.body.appendChild(s);
+            })();
           `}
         </Script>
       </body>
