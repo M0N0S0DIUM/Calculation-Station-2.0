@@ -38,6 +38,7 @@ import { loanVariants } from "./loan";
 import { fireVariants } from "./fire";
 import { proteinVariants } from "./protein";
 import { savingsGoalVariants } from "./savings-goal";
+import { heartRateZonesVariants } from "./heart-rate-zones";
 
 export const ALL_VARIANTS: VariantRegistry = {
   ...bmiVariants,
@@ -50,6 +51,7 @@ export const ALL_VARIANTS: VariantRegistry = {
   ...fireVariants,
   ...proteinVariants,
   ...savingsGoalVariants,
+  ...heartRateZonesVariants,
 };
 
 export function getVariant(slug: string): CalcVariant | undefined {

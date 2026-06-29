@@ -97,6 +97,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "emergency-fund-calculator",
     "house-down-payment-calculator",
     "retirement-savings-calculator",
+    // Heart Rate Zones (running/cycling/weight-loss)
+    "heart-rate-zones-running",
+    "heart-rate-zones-cycling",
+    "heart-rate-zones-weight-loss",
   ].map((slug) => ({
     url: `${BASE_URL}/topic/${slug}`,
     lastModified: now,
