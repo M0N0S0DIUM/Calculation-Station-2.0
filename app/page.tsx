@@ -61,7 +61,25 @@ export default function HomePage() {
         return (
           <section key={cat} style={{ marginTop: 18 }}>
             <h3 style={{ marginBottom: 10 }}>
-              {info?.icon} {cat}
+              <a 
+                href={`/cat/${cat}`}
+                style={{ 
+                  color: 'inherit', 
+                  textDecoration: 'none',
+                  cursor: 'pointer'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                onMouseOut={(e) => e.currentTarget.style.textDecoration = 'none'}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = `/cat/${cat}`;
+                }}
+              >
+                {info?.icon} {cat}
+              </a>
+              <span style={{ fontSize: '0.75rem', opacity: 0.5, marginLeft: 8 }}>
+                ({items.length} calculators)
+              </span>
             </h3>
             <div
               style={{

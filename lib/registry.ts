@@ -104,15 +104,105 @@ export const CATEGORIES: Category[] = [
 ].sort();
 
 /** Category metadata for UI */
-export const CATEGORY_INFO: Record<Category, { description: string; icon: string }> = {
-  Basic: { description: "Fundamental math tools for everyday calculations — arithmetic, percentages, fractions, geometry, and number theory.", icon: "🔢" },
-  Financial: { description: "Money calculators for loans, mortgages, investments, interest, ROI, and business metrics.", icon: "💰" },
-  Health: { description: "Fitness and wellness estimators — BMI, calories, macros, heart rate zones, body fat, and hydration.", icon: "❤️" },
-  Conversion: { description: "Unit converters for length, mass, temperature, speed, pressure, energy, volume, and angles.", icon: "🔄" },
-  Electronics: { description: "Circuit calculators for Ohm's law, resistor dividers, LEDs, RC filters, capacitors, and battery runtime.", icon: "⚡" },
-  Time: { description: "Date and timestamp utilities — difference between dates, Unix epoch conversion.", icon: "⏱️" },
-    Brewing: { description: "Brewing calculators for ABV, priming, strike water, IBU, yeast pitch, gravity conversion, attenuation, grain bills, boil-off, and calories.", icon: "🍺" },
-  };
+export const CATEGORY_INFO: Record<Category, { 
+  description: string; 
+  icon: string;
+  longDescription?: string;
+  useCases?: string[];
+  keywords?: string[];
+}> = {
+  Basic: { 
+    description: "Fundamental math tools for everyday calculations — arithmetic, percentages, fractions, geometry, and number theory.",
+    icon: "🔢",
+    longDescription: "Master fundamental calculations with our comprehensive suite of basic math tools. From simple arithmetic to complex fraction simplification, these calculators handle the essential mathematical operations you use daily. Whether you're managing finances, checking homework, or making quick calculations at the store, our basic calculators provide instant, accurate results without the need for pen and paper.",
+    useCases: [
+      "Quick percentage calculations for tips, discounts, and taxes",
+      "Simplifying complex fractions for recipes and measurements",
+      "Finding greatest common divisors and least common multiples",
+      "Working with geometric shapes for home projects and crafts",
+      "Rounding numbers to specified decimal places"
+    ],
+    keywords: ["basic calculator", "arithmetic", "percentage calculator", "fraction calculator", "simple math"]
+  },
+  Financial: { 
+    description: "Money calculators for loans, mortgages, investments, interest, ROI, and business metrics.",
+    icon: "💰",
+    longDescription: "Take control of your finances with powerful calculators designed for loans, investments, and business decisions. Our financial tools help you understand the true cost of borrowing, project investment returns, and make data-driven decisions about major purchases. Whether you're evaluating a mortgage, planning for retirement, or analyzing business performance, these calculators provide the clarity you need to make confident financial choices.",
+    useCases: [
+      "Calculate monthly mortgage payments and total interest costs",
+      "Compare investment returns with compound interest projections",
+      "Determine loan payoff timelines with extra payments",
+      "Evaluate business ROI and break-even points",
+      "Plan retirement savings goals and withdrawal strategies"
+    ],
+    keywords: ["loan calculator", "mortgage calculator", "compound interest", "investment calculator", "financial planning"]
+  },
+  Health: { 
+    description: "Fitness and wellness estimators — BMI, calories, macros, heart rate zones, body fat, and hydration.",
+    icon: "❤️",
+    longDescription: "Optimize your fitness and wellness journey with science-based health calculators. These tools translate medical research and exercise physiology into actionable numbers for your daily life. From calculating your ideal caloric intake to determining optimal training zones, our health calculators help you make informed decisions about nutrition, exercise, and overall wellness based on your unique body metrics and goals.",
+    useCases: [
+      "Calculate Body Mass Index (BMI) and healthy weight ranges",
+      "Determine daily caloric needs based on activity level",
+      "Find optimal heart rate zones for cardio training",
+      "Estimate body fat percentage using Navy method",
+      "Calculate daily water intake requirements"
+    ],
+    keywords: ["BMI calculator", "calorie calculator", "TDEE calculator", "body fat calculator", "fitness tracker"]
+  },
+  Conversion: { 
+    description: "Unit converters for length, mass, temperature, speed, pressure, energy, volume, and angles.",
+    icon: "🔄",
+    longDescription: "Seamlessly convert between measurement systems with our comprehensive unit conversion toolkit. Whether you're working with metric, imperial, or specialized units, these converters provide instant, accurate transformations across dozens of measurement types. Perfect for cooking, engineering, science homework, travel planning, or any situation where you need to translate between different measurement systems quickly and accurately.",
+    useCases: [
+      "Convert temperatures between Celsius, Fahrenheit, and Kelvin",
+      "Transform lengths between metric and imperial units",
+      "Convert cooking measurements for international recipes",
+      "Calculate fuel efficiency in different measurement systems",
+      "Convert speed, pressure, and energy units for engineering work"
+    ],
+    keywords: ["unit converter", "measurement converter", "metric to imperial", "temperature converter", "unit conversion"]
+  },
+  Electronics: { 
+    description: "Circuit calculators for Ohm's law, resistor dividers, LEDs, RC filters, capacitors, and battery runtime.",
+    icon: "⚡",
+    longDescription: "Accelerate your electronics projects with specialized calculators for circuit design and analysis. These tools apply fundamental electrical engineering principles to solve common design challenges instantly. Whether you're building LED circuits, designing filters, calculating component values, or estimating battery life, our electronics calculators help hobbyists and professionals alike avoid tedious manual calculations and focus on building great projects.",
+    useCases: [
+      "Calculate resistor values for LED circuits using Ohm's law",
+      "Design voltage dividers for sensor interfacing",
+      "Determine RC filter cutoff frequencies",
+      "Calculate capacitor charge and discharge times",
+      "Estimate battery runtime for portable projects"
+    ],
+    keywords: ["electronics calculator", "Ohm's law calculator", "LED resistor calculator", "circuit calculator", "voltage divider"]
+  },
+  Time: { 
+    description: "Date and timestamp utilities — difference between dates, Unix epoch conversion.",
+    icon: "⏱️",
+    longDescription: "Master date and time calculations with precision tools for developers, project managers, and anyone who needs accurate time-based computations. These utilities handle the complexity of calendar math, from calculating days between events to converting between human-readable dates and Unix timestamps. Essential for programming, project planning, age calculations, and any task requiring accurate date arithmetic.",
+    useCases: [
+      "Calculate days, weeks, or months between two dates",
+      "Convert Unix timestamps to human-readable dates",
+      "Add or subtract days from a specific date",
+      "Calculate age from birthdate",
+      "Determine project milestones and deadlines"
+    ],
+    keywords: ["date calculator", "days between dates", "Unix timestamp converter", "date difference", "time calculator"]
+  },
+  Brewing: { 
+    description: "Brewing calculators for ABV, priming, strike water, IBU, yeast pitch, gravity conversion, attenuation, grain bills, boil-off, and calories.",
+    icon: "🍺",
+    longDescription: "Brew better beer with professional-grade calculators designed for homebrewers and craft brewers. These tools handle the complex chemistry and calculations involved in every stage of the brewing process, from mashing and boiling to fermentation and bottling. Whether you're formulating recipes, calculating alcohol content, or ensuring proper carbonation, our brewing calculators help you achieve consistent, high-quality results batch after batch.",
+    useCases: [
+      "Calculate alcohol by volume (ABV) from original and final gravity",
+      "Determine strike water temperature and volume for mashing",
+      "Calculate International Bitterness Units (IBU) for hop additions",
+      "Compute priming sugar amounts for bottle carbonation",
+      "Estimate yeast pitch rates based on wort gravity and volume"
+    ],
+    keywords: ["brewing calculator", "ABV calculator", "homebrew calculator", "IBU calculator", "beer calculator"]
+  }
+};
 
 /** Lookup map for O(1) slug access */
 const SLUG_MAP = new Map(CALCULATOR_META.map((c) => [c.slug, c]));
