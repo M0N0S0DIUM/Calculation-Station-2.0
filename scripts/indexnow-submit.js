@@ -24,7 +24,7 @@ const SITE_URL = 'https://www.calculationstation.org';
  * Fetch sitemap.xml from local build or remote URL
  */
 async function fetchSitemap() {
-  const sitemapPath = path.join(__dirname, '..', '.next', 'server', 'app', 'sitemap.xml');
+  const sitemapPath = path.join(__dirname, '..', '.next', 'server', 'app', 'sitemap.xml.body');
   
   // Try local file first (after build)
   if (fs.existsSync(sitemapPath)) {
