@@ -43,5 +43,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "weekly",
   }));
 
-  return [...staticRoutes, ...calculatorRoutes, ...categoryRoutes];
+  // Topic variants (programmatic SEO)
+  const topicRoutes: MetadataRoute.Sitemap = [
+    "bmi-for-athletes",
+    "bmi-for-women-over-40",
+    "bmi-calculator-metric",
+    "tdee-calculator-for-weight-loss",
+    "calories-to-gain-muscle",
+    "tdee-for-men",
+    "bench-press-max-calculator",
+    "squat-max-calculator",
+    "deadlift-max-calculator",
+  ].map((slug) => ({
+    url: `${BASE_URL}/topic/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...calculatorRoutes, ...categoryRoutes, ...topicRoutes];
 }
