@@ -7,7 +7,7 @@ export const mortgageVariants: Record<string, CalcVariant> = {
     title: "$300,000 Mortgage Calculator — Monthly Payment & Total Interest",
     description: "Calculate the monthly payment, total interest, and PITI for a $300,000 mortgage. See income requirements and down payment options at current rates.",
     keyword: "$300000 mortgage calculator",
-    initial: { home: 300000, downPct: 20, apr: 6.75, years: 30, tax: 3600, ins: 1200, hoa: 0 },
+    initial: { home: 300000, downPct: 20, apr: 6.75, years: 30, tax: 300, ins: 100, hoa: 0 },
     intro: "Buying a $300,000 home? This calculator shows your exact monthly payment, total interest over 30 years, and true PITI cost including taxes and insurance.",
     howItWorks: [
       "A $300,000 home with 20% down ($60k) gives you a $240,000 loan. At 6.75% APR for 30 years, your principal + interest is about $1,556/month.",
@@ -30,7 +30,7 @@ export const mortgageVariants: Record<string, CalcVariant> = {
     title: "$400,000 Mortgage Calculator — Monthly Payment Breakdown",
     description: "See your monthly payment, total interest, and income requirements for a $400,000 mortgage at today's rates. Includes PITI with taxes and insurance.",
     keyword: "$400000 mortgage calculator",
-    initial: { home: 400000, downPct: 20, apr: 6.75, years: 30, tax: 4800, ins: 1500, hoa: 0 },
+    initial: { home: 400000, downPct: 20, apr: 6.75, years: 30, tax: 400, ins: 125, hoa: 0 },
     intro: "Planning to buy a $400,000 home? Use this calculator to see exactly what your monthly payment will be and how much income you'll need to qualify.",
     howItWorks: [
       "With 20% down ($80k) on a $400k home, your loan is $320,000. At 6.75% for 30 years your P+I payment is roughly $2,075/month.",
@@ -52,7 +52,7 @@ export const mortgageVariants: Record<string, CalcVariant> = {
     title: "$500,000 Mortgage Calculator — Payment & Income Requirements",
     description: "Calculate the monthly payment, total interest, and income needed to qualify for a $500,000 mortgage. See 15 vs 30-year comparisons.",
     keyword: "$500000 mortgage calculator",
-    initial: { home: 500000, downPct: 20, apr: 6.75, years: 30, tax: 6000, ins: 1800, hoa: 0 },
+    initial: { home: 500000, downPct: 20, apr: 6.75, years: 30, tax: 500, ins: 150, hoa: 0 },
     intro: "For buyers eyeing a $500,000 home, this calculator reveals your true monthly cost, qualification income, and the tradeoff between 15- and 30-year terms.",
     howItWorks: [
       "With 20% down ($100k) your loan is $400,000. At 6.75% for 30 years that's ~$2,594/month in principal + interest.",
@@ -74,7 +74,7 @@ export const mortgageVariants: Record<string, CalcVariant> = {
     title: "$200,000 Mortgage Calculator — Monthly Payment & Affordability",
     description: "Figure out the monthly payment, total interest, and income needed for a $200,000 mortgage — great for first-time buyers.",
     keyword: "$200000 mortgage calculator",
-    initial: { home: 200000, downPct: 20, apr: 6.75, years: 30, tax: 2400, ins: 900, hoa: 0 },
+    initial: { home: 200000, downPct: 20, apr: 6.75, years: 30, tax: 200, ins: 75, hoa: 0 },
     intro: "A $200,000 home is an achievable first purchase. See exactly what you'll pay monthly and what income you'll need to qualify.",
     howItWorks: [
       "20% down ($40k) puts you at a $160,000 loan. At 6.75% for 30 years your P+I is roughly $1,037/month.",
@@ -96,7 +96,7 @@ export const mortgageVariants: Record<string, CalcVariant> = {
     title: "$250,000 Mortgage Calculator — Payment & Qualification",
     description: "Calculate your monthly payment, total cost, and income requirements for a $250,000 mortgage at current rates.",
     keyword: "$250000 mortgage calculator",
-    initial: { home: 250000, downPct: 20, apr: 6.75, years: 30, tax: 3000, ins: 1080, hoa: 0 },
+    initial: { home: 250000, downPct: 20, apr: 6.75, years: 30, tax: 250, ins: 90, hoa: 0 },
     intro: "A $250,000 home sits in the starter-to-mid range. Use this calculator to see your true monthly cost and qualification requirements.",
     howItWorks: [
       "20% down ($50k) leaves a $200,000 loan. At 6.75% for 30 years that's ~$1,297/month in P+I.",
