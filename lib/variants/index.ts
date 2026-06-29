@@ -31,11 +31,17 @@ export interface VariantRegistry {
 import { bmiVariants } from "./bmi";
 import { bmrVariants } from "./bmr-tdee";
 import { oneRepMaxVariants } from "./one-rep-max";
+import { mortgageVariants } from "./mortgage";
+import { compoundInterestVariants } from "./compound-interest";
+import { percentageVariants } from "./percentage";
 
 export const ALL_VARIANTS: VariantRegistry = {
   ...bmiVariants,
   ...bmrVariants,
   ...oneRepMaxVariants,
+  ...mortgageVariants,
+  ...compoundInterestVariants,
+  ...percentageVariants,
 };
 
 export function getVariant(slug: string): CalcVariant | undefined {

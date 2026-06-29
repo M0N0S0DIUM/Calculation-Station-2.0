@@ -45,6 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Topic variants (programmatic SEO)
   const topicRoutes: MetadataRoute.Sitemap = [
+    // Health
     "bmi-for-athletes",
     "bmi-for-women-over-40",
     "bmi-calculator-metric",
@@ -54,11 +55,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "bench-press-max-calculator",
     "squat-max-calculator",
     "deadlift-max-calculator",
+    // Mortgage (high commercial intent)
+    "mortgage-calculator-200k",
+    "mortgage-calculator-250k",
+    "mortgage-calculator-300k",
+    "mortgage-calculator-400k",
+    "mortgage-calculator-500k",
+    // Compound Interest
+    "compound-interest-calculator-10-years",
+    "compound-interest-1-million",
+    "compound-interest-retirement",
+    "compound-interest-savings-account",
+    "compound-interest-monthly",
+    // Percentage
+    "percentage-calculator-discount",
+    "percentage-calculator-tip",
+    "percentage-calculator-gpa",
+    "percentage-calculator-increase",
+    "percentage-calculator-decrease",
   ].map((slug) => ({
     url: `${BASE_URL}/topic/${slug}`,
     lastModified: now,
     changeFrequency: "monthly",
-    priority: 0.7,
+    priority: slug.startsWith("mortgage") ? 0.85 : 0.75,
   }));
 
   return [...staticRoutes, ...calculatorRoutes, ...categoryRoutes, ...topicRoutes];
