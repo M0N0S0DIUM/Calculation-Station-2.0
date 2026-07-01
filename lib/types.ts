@@ -7,13 +7,32 @@ export type Category =
   | "Time"
   | "Brewing";
 
+export type CalculatorSchema = {
+  calculatorType: string;
+  formula: string;
+  inputs: {
+    name: string;
+    description: string;
+    unitText?: string;
+    minValue?: number;
+    maxValue?: number;
+    required: boolean;
+  }[];
+  outputs: {
+    name: string;
+    description: string;
+    unitText?: string;
+  }[];
+};
+
 export type CalculatorMeta = {
   slug: string;
   title: string;
   category: Category;
   description: string;
   keywords?: string[];
-};
+  schema?: CalculatorSchema;
+};;
 
 /** Shareable params for URL - flat key/value pairs */
 export type ShareParams = Record<string, string | number | boolean>;

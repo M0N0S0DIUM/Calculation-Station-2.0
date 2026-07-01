@@ -22,7 +22,6 @@ export async function generateMetadata({
   if (!calc) return { title: "Calculator Not Found" };
 
   const { title, description, category, keywords } = calc;
-  const catInfo = CATEGORY_INFO[category];
 
   return {
     title: `${title} | Calculation Station`,
@@ -47,30 +46,77 @@ export async function generateMetadata({
     },
     other: {
       "application-name": "Calculation Station",
-      "category": category,
+      category,
     },
   };
 }
 
-function CalculatorStructuredData({ calc }: { calc: { title: string; description: string; slug: string } }) {
+function CalculatorStructuredData({ calc }: { calc: { title: string; description: string; slug: string; schema?: any } }) {
+  const schema = calc.schema;
+  
+  if (!schema) {
+    // Fallback to SoftwareApplication for calculators without schema
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: calc.title,
+            description: calc.description,
+            url: `https://calculationstation.org/c/${calc.slug}`,
+            applicationCategory: "UtilitiesApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+          }),
+        }}
+      />
+    );
+  }
+
+  // Build Calculator schema for rich snippets
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "Calculator",
+    name: calc.title,
+    description: calc.description,
+    url: `https://calculationstation.org/c/${calc.slug}`,
+    calculatorType: schema.calculatorType,
+    formula: schema.formula,
+    input: schema.inputs.map((input: any) => ({
+      "@type": "PropertyValueSpecification",
+      name: input.name,
+      description: input.description,
+      unitText: input.unitText,
+      minValue: input.minValue,
+      maxValue: input.maxValue,
+      valueRequired: input.required,
+    })),
+    output: schema.outputs.map((output: any) => ({
+      "@type": "PropertyValue",
+      name: output.name,
+      description: output.description,
+      unitText: output.unitText,
+    })),
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
+
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: calc.title,
-          description: calc.description,
-          url: `https://calculationstation.org/c/${calc.slug}`,
-          applicationCategory: "UtilitiesApplication",
-          operatingSystem: "Web",
-          offers: {
-            "@type": "Offer",
-            price: "0",
-            priceCurrency: "USD",
-          },
-        }),
+        __html: JSON.stringify(calculatorSchema),
       }}
     />
   );
