@@ -10,7 +10,9 @@ export async function generateMetadata({
 }: {
   params: Promise<{ category: string }>;
 }): Promise<Metadata> {
-  const category = (await params)?.category as Category | undefined;
+  const categoryParam = (await params)?.category;
+  // Normalize to capitalized to match CATEGORY_INFO keys
+  const category = (categoryParam ? categoryParam.charAt(0).toUpperCase() + categoryParam.slice(1).toLowerCase() : undefined) as Category | undefined;
   if (!category) return { title: "Category Calculators | Calculation Station" };
 
   const info = CATEGORY_INFO[category];
@@ -46,7 +48,9 @@ export default async function CategoryPage({
 }: {
   params: Promise<{ category: string }>;
 }) {
-  const category = (await params)?.category as Category | undefined;
+  const categoryParam = (await params)?.category;
+  // Normalize to capitalized to match CATEGORY_INFO keys
+  const category = (categoryParam ? categoryParam.charAt(0).toUpperCase() + categoryParam.slice(1).toLowerCase() : undefined) as Category | undefined;
   if (!category) return <div>Category not found.</div>;
 
   const info = CATEGORY_INFO[category];
